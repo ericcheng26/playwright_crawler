@@ -1,0 +1,241 @@
+#import warnings
+# warnings.filterwarnings("ignore")
+import asyncio
+import threading
+import logging
+from urllib.request import urljoin, URLError
+from urllib.parse import urlparse, urlsplit, urlunsplit
+from requests.structures import CaseInsensitiveDict
+
+# https://github.com/erdewit/nest_asyncio
+#import nest_asyncio
+# nest_asyncio.apply()
+
+# https://github.com/borntyping/python-colorlog
+from colorlog import ColoredFormatter
+
+# https://github.com/microsoft/playwright-python
+# https://github.com/microsoft/playwright-pytest
+# https://microsoft.github.io/playwright-python/async_api.html
+# https://github.com/microsoft/playwright/blob/master/docs/api.md
+from playwright.async_api import async_playwright, Error, TimeoutError
+
+# https://github.com/scrapy/protego
+from protego import Protego
+
+# https://www.crummy.com/software/BeautifulSoup
+from bs4 import BeautifulSoup
+
+
+class PlaywrightCrawler:
+    def __init__(self, base_url: str):
+        # Load settings
+        mod = __import__('settings', {}, {}, [''])
+        self._settingsdict = vars(mod)
+
+        self.base_url = base_url
+        if isinstance(self._settingsdict['CONCURRENT_REQUESTS'], int):
+            self._max_crawlers = self._settingsdict['CONCURRENT_REQUESTS']
+        else:
+            self._max_crawlers = 1
+        self._loop = asyncio.get_event_loop()
+        self._linksToCrawl = asyncio.Queue(loop=self._loop)
+        self._crawledLinks = set()
+        self._lock = threading.Lock()
+
+        color_formatter = ColoredFormatter(
+            (
+                '%(green)s%(asctime)s%(reset)s '
+                '%(log_color)s%(levelname)-7s%(reset)s '
+                '%(log_color)s%(message)s%(reset)s'
+            ),
+            datefmt='%Y-%m-%d %H:%M:%S',
+            log_colors={
+                'DEBUG': 'blue',
+                'INFO': 'green',
+                'WARNING': 'yellow',
+                'ERROR': 'fg_bold_red',
+                'CRITICAL': 'fg_bold_red,bg_white'
+            }
+        )
+        file_formatter = logging.Formatter(
+            '%(asctime)s %(levelname)-7s %(message)s', '%Y-%m-%d %H:%M:%S')
+        handlerConsoleLog = logging.StreamHandler()
+        handlerConsoleLog.setFormatter(color_formatter)
+        handlerFileLog = logging.FileHandler(
+            "playwrightCrawler.log", encoding="utf-8", mode="w")
+        handlerFileLog.setFormatter(file_formatter)
+
+        self.crawllogger = logging.getLogger(__name__)
+        self.crawllogger.addHandler(handlerConsoleLog)
+        self.crawllogger.addHandler(handlerFileLog)
+        self.crawllogger.setLevel(logging.INFO)
+
+        self._linksToCrawl.put_nowait(self.base_url)
+
+    def crawl(self) -> None:
+        self.crawllogger.info('[000] Crawling {}'.format(self.base_url))
+        try:
+            self._loop.run_until_complete(self._run())
+        except KeyboardInterrupt:
+            pass
+
+    def _enqueueLinks(self, links) -> None:
+        for link in links:
+            # https://developer.mozilla.org/en-US/docs/Web/API/URL/href
+            hrefLink = link.get('href')
+            hrefLink = urljoin(self.base_url, hrefLink)
+            # Remove fragment & query parameter
+            hrefLink = urlunsplit(
+                urlsplit(hrefLink)._replace(query="", fragment=""))
+            link_url_parsed = urlparse(hrefLink)
+            base_url_parsed = urlparse(self.base_url)
+
+            # Check if a link is not crawled
+            if (hrefLink in self._crawledLinks):
+                continue
+
+            # Checks if a link is internal
+            if (
+                (link_url_parsed.scheme != base_url_parsed.scheme)
+                or (link_url_parsed.netloc != base_url_parsed.netloc)
+            ):
+                continue
+
+            # Check if link target is forbidden by robots.txt
+            if self._settingsdict['ROBOTSTXT_OBEY'] == True and not self._robotsTxt.can_fetch(hrefLink, "*"):
+                continue
+
+            # Check if ignore the link
+            # https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel#attr-nofollow
+            rel = link.get('rel')
+            if rel and 'nofollow' in rel:
+                continue
+
+            with self._lock:
+                self._crawledLinks.add(hrefLink)
+                self._linksToCrawl.put_nowait(hrefLink)
+
+    async def _crawl(self) -> None:
+        while True:
+            urlToCrawl = await self._linksToCrawl.get()
+
+            page = await self._context.newPage()
+
+            page.on("console", lambda m: self.crawllogger.warning("[000] {} Console message : {}".format(
+                m.location['url'], m.text)) if m.type in ['error'] else False)
+
+            try:
+                response = await page.goto(urlToCrawl)
+                if not response.ok:
+                    self.crawllogger.error('[{}] {}'.format(
+                        response.status, response.request.url))
+                elif response.request.redirectedFrom is not None:
+                    redirectedFrom = response.request.redirectedFrom
+                    redirected = await redirectedFrom.response()
+                    self.crawllogger.warning('[{}] {} Redirected to {}'.format(
+                        redirected.status, response.request.redirectedFrom.url, response.url))
+                elif urlToCrawl != response.url:
+                    self.crawllogger.warning(
+                        '[000] Browser change url {} to {}'.format(urlToCrawl, response.url))
+
+                if response.ok:
+                    self.crawllogger.info('[{}] {}'.format(
+                        response.status, response.url))
+                    # title = await page.title()
+                    body = (await page.content()).encode("utf8")
+                    soup = BeautifulSoup(body, "lxml")
+                    # This's where need to be adjusted for different website
+
+                    # X-Robots-Tag: nofollow - Do not follow the links on this page.
+                    # https://developers.google.com/search/reference/robots_meta_tag?hl=en#xrobotstag
+                    headers = CaseInsensitiveDict(response.headers)
+                    if headers.get('x-robots-tag') and 'nofollow' in headers.get('x-robots-tag'):
+                        self.crawllogger.warning(
+                            'X-Robots-Tag HTTP header: nofollow on {}'.format(response.url))
+                    else:
+                        # robots meta tag: nofollow - Do not follow the links on this page.
+                        # https://developers.google.com/search/reference/robots_meta_tag?hl=en#robotsmeta
+                        metarobots = await page.querySelector("meta[name=robots]")
+                        metacontent = ''
+                        if metarobots:
+                            metacontent = await metarobots.getAttribute('content')
+                        if 'nofollow' in metacontent:
+                            self.crawllogger.warning(
+                                'Robots meta tag: nofollow on {}'.format(response.url))
+                        else:
+                            self._enqueueLinks(soup.find_all('a'))
+
+                with self._lock:
+                    self._crawledLinks.add(response.url)
+
+            except (TimeoutError) as te:
+                self.crawllogger.error('{} {}'.format(
+                    urlToCrawl, te.message.split('.')[0]))
+            except (Error) as te:
+                self.crawllogger.error('{} {}'.format(
+                    urlToCrawl, te.message.split('.')[0]))
+            finally:
+                await page.close()
+
+            self._linksToCrawl.task_done()
+
+    async def _run(self) -> None:
+        await self._lauch_browser()
+
+        crawlers = [
+            asyncio.create_task(self._crawl()) for _ in range(self._max_crawlers)
+        ]
+
+        await self._linksToCrawl.join()
+        for c in crawlers:
+            c.cancel()
+
+        await self._close()
+
+    async def _close(self) -> None:
+        if hasattr(self, '_browser'):
+            await self._browser.close()
+        await self._pw.stop()
+        self.crawllogger.info('[000] Crawl finished')
+
+    def close(self) -> None:
+        self._loop.run_until_complete(self._close())
+
+    async def _lauch_browser(self) -> None:
+        self._pw = await async_playwright().start()
+        pwOptions = self._settingsdict['PLAYWRIGHT_LAUNCH_OPTIONS']
+        if not "".__eq__(self._settingsdict['PLAYWRIGHT_BROWSER_TYPE']):
+            if self._settingsdict['PLAYWRIGHT_BROWSER_TYPE'] not in ['chromium', 'firefox', 'webkit']:
+                raise RuntimeError(
+                    'Invalid PLAYWRIGHT_BROWSER_TYPE configuration')
+
+            if self._settingsdict['PLAYWRIGHT_BROWSER_TYPE'] == 'chromium':
+                self._browser = await self._pw.chromium.launch(**pwOptions)
+            elif self._settingsdict['PLAYWRIGHT_BROWSER_TYPE'] == 'firefox':
+                self._browser = await self._pw.firefox.launch(**pwOptions)
+            elif self._settingsdict['PLAYWRIGHT_BROWSER_TYPE'] == 'webkit':
+                self._browser = await self._pw.webkit.launch(**pwOptions)
+
+        self._context = await self._browser.newContext()
+        self._context.setDefaultNavigationTimeout(
+            self._settingsdict['PLAYWRIGHT_NAVIGATION_TIMEOUT'])
+
+        blankPage = await self._context.newPage()
+        getUA = await blankPage.evaluate('''() => {
+          return navigator.userAgent
+        }''')
+
+        # Load robots.txt file
+        response = await blankPage.goto(urlparse(self.base_url).scheme + '://' + urlparse(self.base_url).netloc + '/robots.txt')
+        if response.ok:
+            text = await blankPage.innerText('pre')
+            self._robotsTxt = Protego.parse(text)
+        else:
+            self._robotsTxt = Protego.parse("""
+          User-agent: *
+          Allow: /
+          """)
+
+        self.crawllogger.info(
+            '[000] Starting browser with User Agent: {}'.format(getUA))

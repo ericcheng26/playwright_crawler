@@ -1,0 +1,9 @@
+__pycache__/
+.pytest_cache/
+.vscode/
+docs/
+*.log
+*.old
+*.org
+Generate_requirements.cmd
+settings.py
