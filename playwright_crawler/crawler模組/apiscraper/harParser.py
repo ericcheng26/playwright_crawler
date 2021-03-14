@@ -1,16 +1,18 @@
 import os
 import codecs
-import json 
+import json
 from urllib.parse import urlparse, parse_qs
 import pprint
 from apicall import APICall
+
 
 class HarParser():
 
     def __init__(self, harPath, searchString=None, removeParams=False):
         self.harPath = harPath
         self.searchString = searchString
-        self.contentTypesRecorded = ["text/html", "application/json", "application/xml"]
+        self.contentTypesRecorded = ["text/html",
+                                     "application/json", "application/xml"]
         self.removeParams = removeParams
 
     def getAllHarFiles(self):
@@ -32,10 +34,9 @@ class HarParser():
         harFiles = self.getAllHarFiles()
         if len(harFiles) < 1:
             return None
-        #Get last harFile in the directory
+        # Get last harFile in the directory
         harFile = self.getAllHarFiles()[len(harFiles)-1]
         return self.readHarFile(harFile)
-
 
     def parseEntry(self, entry):
         url = entry["request"]["url"]
@@ -51,8 +52,9 @@ class HarParser():
             if self.searchString is not None:
                 if self.searchString not in text:
                     return None
-                #Set the search string, with some surrounding context in the apiCall 
-                start = entry["response"]["content"]["text"].index(self.searchString)
+                # Set the search string, with some surrounding context in the apiCall
+                start = entry["response"]["content"]["text"].index(
+                    self.searchString)
                 end = start + len(self.searchString) + 50
                 start = 0 if start < 50 else start-50
                 context = text[start:end]
@@ -81,17 +83,18 @@ class HarParser():
                         params[param['name']].append(param['value'])
                 elif "text" in entry["request"]["postData"]:
                     paramList = entry["request"]["postData"]["text"]
-            apiCall = APICall(url, base, urlObj.path, mimeType, method, params, responseSize, content, searchContext=context)
+            apiCall = APICall(url, base, urlObj.path, mimeType, method,
+                              params, responseSize, content, searchContext=context)
             return apiCall
 
-
-    def scanHarfile(self,harObj, apiCalls = []):
-        #Store the api call objects here
+    def scanHarfile(self, harObj, apiCalls=[]):
+        # Store the api call objects here
         entries = harObj["log"]["entries"]
         for entry in entries:
             call = self.parseEntry(entry)
             if call is not None:
-                call.addToList(apiCalls, removeUnneededParams=self.removeParams)
+                call.addToList(
+                    apiCalls, removeUnneededParams=self.removeParams)
         return apiCalls
 
     def parseMultipleHars(self):
