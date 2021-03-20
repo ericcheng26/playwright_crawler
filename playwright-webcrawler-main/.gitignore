@@ -6,4 +6,3 @@ docs/
 *.old
 *.org
 Generate_requirements.cmd
-settings.py
