@@ -103,7 +103,10 @@ class PlaywrightCrawler:
                 continue
 
             # Check if link target is forbidden by robots.txt
-            if self._settingsdict['ROBOTSTXT_OBEY'] == True and not self._robotsTxt.can_fetch(hrefLink, "*"):
+            print(hrefLink)
+            print(self._robotsTxt.can_fetch(
+                hrefLink, self._settingsdict['USER_AGENT']))
+            if self._settingsdict['ROBOTSTXT_OBEY'] == True and not self._robotsTxt.can_fetch(hrefLink, "*") and not self._robotsTxt.can_fetch(hrefLink, self._settingsdict['USER_AGENT']):
                 continue
 
             # Check if ignore the link
@@ -120,7 +123,7 @@ class PlaywrightCrawler:
         while True:
             urlToCrawl = await self._linksToCrawl.get()
 
-            page = await self._context.newPage()
+            page = await self._context.new_page()
 
             page.on("console", lambda m: self.crawllogger.warning("[000] {} Console message : {}".format(
                 m.location['url'], m.text)) if m.type in ['error'] else False)
@@ -130,11 +133,11 @@ class PlaywrightCrawler:
                 if not response.ok:
                     self.crawllogger.error('[{}] {}'.format(
                         response.status, response.request.url))
-                elif response.request.redirectedFrom is not None:
-                    redirectedFrom = response.request.redirectedFrom
-                    redirected = await redirectedFrom.response()
+                elif response.request.redirected_from is not None:
+                    redirected_from = response.request.redirected_from
+                    redirected = await redirected_from.response()
                     self.crawllogger.warning('[{}] {} Redirected to {}'.format(
-                        redirected.status, response.request.redirectedFrom.url, response.url))
+                        redirected.status, response.request.redirected_from.url, response.url))
                 elif urlToCrawl != response.url:
                     self.crawllogger.warning(
                         '[000] Browser change url {} to {}'.format(urlToCrawl, response.url))
@@ -143,27 +146,10 @@ class PlaywrightCrawler:
                     self.crawllogger.info('[{}] {}'.format(
                         response.status, response.url))
                     # title = await page.title()
-                    body = (await page.content()).encode("utf8")
-                    soup = BeautifulSoup(body, "lxml")
+                    # body = (await page.content()).encode("utf8")
+                    #soup = BeautifulSoup(body, "lxml")
                     # ^ This's where need to be adjusted for different website
-                    page.click("text=\"獸醫病理學\"")
-                    # assert page.url == "https://yamol.tw/cat.php?id=1895"
-                    list_lv0element_handle = page.query_selector_all(
-                        "text=\"私人筆記( (?!0))\"")
-                    while True:
-                        try:
-                            for lv0element_handle in list_lv0element_handle:
-                                lv0element_handle.click()
-                        except:
-                            break
-                    list_lv1element_handle = page.query_selector_all(
-                        "text=\"詳解卡解鎖\"")
-                    while True:
-                        try:
-                            for lv1element_handle in list_lv1element_handle:
-                                lv1element_handle.click()
-                        except:
-                            break
+
                     # ^ This's where need to be adjusted for different website
                     # X-Robots-Tag: nofollow - Do not follow the links on this page.
                     # https://developers.google.com/search/reference/robots_meta_tag?hl=en#xrobotstag
@@ -174,10 +160,10 @@ class PlaywrightCrawler:
                     else:
                         # robots meta tag: nofollow - Do not follow the links on this page.
                         # https://developers.google.com/search/reference/robots_meta_tag?hl=en#robotsmeta
-                        metarobots = await page.querySelector("meta[name=robots]")
+                        metarobots = await page.query_selector("meta[name=robots]")
                         metacontent = ''
                         if metarobots:
-                            metacontent = await metarobots.getAttribute('content')
+                            metacontent = await metarobots.get_attribute('content')
                         if 'nofollow' in metacontent:
                             self.crawllogger.warning(
                                 'Robots meta tag: nofollow on {}'.format(response.url))
@@ -235,11 +221,11 @@ class PlaywrightCrawler:
             elif self._settingsdict['PLAYWRIGHT_BROWSER_TYPE'] == 'webkit':
                 self._browser = await self._pw.webkit.launch(**pwOptions)
 
-        self._context = await self._browser.newContext()
-        self._context.setDefaultNavigationTimeout(
+        self._context = await self._browser.new_context(user_agent=self._settingsdict['USER_AGENT'])
+        self._context.set_default_navigation_timeout(
             self._settingsdict['PLAYWRIGHT_NAVIGATION_TIMEOUT'])
 
-        blankPage = await self._context.newPage()
+        blankPage = await self._context.new_page()
         getUA = await blankPage.evaluate('''() => {
           return navigator.userAgent
         }''')
@@ -247,8 +233,15 @@ class PlaywrightCrawler:
         # Load robots.txt file
         response = await blankPage.goto(urlparse(self.base_url).scheme + '://' + urlparse(self.base_url).netloc + '/robots.txt')
         if response.ok:
-            text = await blankPage.innerText('pre')
-            self._robotsTxt = Protego.parse(text)
+            try:
+                text = await blankPage.inner_text('pre')
+            except TimeoutError as e:
+                print('my print', e)
+                text = await blankPage.inner_text('body')
+            text = text + self._settingsdict['CUSTOM_ROBOT']
+            res = Protego.parse(text)
+
+            self._robotsTxt = res
         else:
             self._robotsTxt = Protego.parse("""
           User-agent: *
