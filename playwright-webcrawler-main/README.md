@@ -38,7 +38,7 @@ playwright-webcrawler uses configuration files `settings.py` in order to store a
 
 * CONCURRENT_REQUESTS
 
-    The maximum number of concurrent (i.e. simultaneous) requests that will be performed by the crwler.
+    The maximum number of concurrent (i.e. simultaneous) requests that will be performed by the crawler.
 
 * PLAYWRIGHT_NAVIGATION_TIMEOUT = 30000
 
@@ -56,13 +56,13 @@ playwright-webcrawler uses configuration files `settings.py` in order to store a
 ## Usage
 
 1. Once your configuration file is saved, simply launch your first crawl: `python main.py <url>`
-2. Wait it crawls the whole webiste or exit using `^C`
+2. Wait it crawls the whole website or exit using `^C`
 
 ## How is this different from Playwright?
 
 This crawler is built on top of [Playwright for Python](https://github.com/microsoft/playwright-python).
 
-Playwright for Python provides low to mid level APIs to manupulate headless browser, so you can build your own crawler with it. This way you have more controls on what features to implement in order to satisfy your needs.
+Playwright for Python provides low to mid level APIs to manipulate headless browser, so you can build your own crawler with it. This way you have more controls on what features to implement in order to satisfy your needs.
 
 However, most crawlers requires such common features as following links, obeying [robots.txt](https://developers.google.com/search/reference/robots_txt) and etc.
 
