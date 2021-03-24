@@ -1,5 +1,5 @@
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = False
+ROBOTSTXT_OBEY = True
 # Configure maximum concurrent requests performed by the crawler
 CONCURRENT_REQUESTS = 2
 # Maximum navigation time in milliseconds
@@ -8,9 +8,12 @@ PLAYWRIGHT_NAVIGATION_TIMEOUT = 30000
 PLAYWRIGHT_BROWSER_TYPE = 'chromium'
 # Set of configurable options to set on the browser.
 # See https://github.com/microsoft/playwright/blob/master/docs/api.md#browsertypelaunchoptions for description fields
+# MacOS: /Users/sn_outis/Library/Caches/ms-playwright/chromium-851527/chrome-mac/Chromium.app/Contents/MacOS/Chromium
+# Centos: /home/eric/.cache/ms-playwright/chromium-844399/chrome-linux/chrome
+# Windows:
 PLAYWRIGHT_LAUNCH_OPTIONS = {
     'headless': True,
-    'executable_path': '/Users/sn_outis/Library/Caches/ms-playwright/chromium-851527/chrome-mac/Chromium.app/Contents/MacOS/Chromium',
+    'executable_path': '/home/eric/.cache/ms-playwright/chromium-844399/chrome-linux/chrome',
 }
 USER_AGENT = 'Mozilla/5.0 (X11; CrOS i686 4319.74.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.57 Safari/537.36'
 
