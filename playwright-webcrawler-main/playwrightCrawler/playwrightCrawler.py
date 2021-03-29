@@ -84,6 +84,11 @@ class PlaywrightCrawler:
         for link in links:
             # https://developer.mozilla.org/en-US/docs/Web/API/URL/href
             hrefLink = link.get('href')
+            if link_parser(hrefLink):
+                pass
+            else:
+                continue
+
             hrefLink = urljoin(self.base_url, hrefLink)
             # Remove fragment & query parameter
             hrefLink = urlunsplit(
@@ -145,10 +150,9 @@ class PlaywrightCrawler:
                 if response.ok:
                     self.crawllogger.info('[{}] {}'.format(
                         response.status, response.url))
-                    # title = await page.title()
-                    # body = (await page.content()).encode("utf8")
-                    #soup = BeautifulSoup(body, "lxml")
-                    # ^ This's where need to be adjusted for different website
+                    html_body = (await page.content()).encode("utf8")
+                    soup = BeautifulSoup(html_body, "lxml")
+                    # ^ This's where need to be adjusted for different website(After going into url, filter contain)
 
                     # ^ This's where need to be adjusted for different website
                     # X-Robots-Tag: nofollow - Do not follow the links on this page.
