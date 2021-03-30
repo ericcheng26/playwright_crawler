@@ -1,3 +1,5 @@
+# =========Crawler setting area===============
+
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
 # Configure maximum concurrent requests performed by the crawler
@@ -10,13 +12,12 @@ PLAYWRIGHT_BROWSER_TYPE = 'chromium'
 # See https://github.com/microsoft/playwright/blob/master/docs/api.md#browsertypelaunchoptions for description fields
 # MacOS: /Users/sn_outis/Library/Caches/ms-playwright/chromium-851527/chrome-mac/Chromium.app/Contents/MacOS/Chromium
 # Centos: /home/eric/.cache/ms-playwright/chromium-844399/chrome-linux/chrome
-# Windows:
+# Windows: Unknown
 PLAYWRIGHT_LAUNCH_OPTIONS = {
     'headless': True,
     'executable_path': '/home/eric/.cache/ms-playwright/chromium-844399/chrome-linux/chrome',
 }
 USER_AGENT = 'Mozilla/5.0 (X11; CrOS i686 4319.74.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.57 Safari/537.36'
-
 
 DISALLOW_PATH = []
 
@@ -26,3 +27,10 @@ CUSTOM_ROBOT = \
 if len(DISALLOW_PATH) != 0:
     for path in DISALLOW_PATH:
         CUSTOM_ROBOT += ('\nDisallow:' + path)
+
+# =========Filter setting area===============
+# https://yamol.tw/exam.php?id=45082
+# scheme= 'https', netloc= 'yamol.tw', path= '/exam.php'
+# params='', query= 'id=45082', fragment=''
+URL_FILTER_PATH = '/exam.php'
+CONTAIN_FILTER = ''

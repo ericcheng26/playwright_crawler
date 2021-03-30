@@ -84,11 +84,8 @@ class PlaywrightCrawler:
         for link in links:
             # https://developer.mozilla.org/en-US/docs/Web/API/URL/href
             hrefLink = link.get('href')
-            if link_parser(hrefLink):
-                pass
-            else:
-                continue
-
+            # Construct full('absolute')url with href link
+            # https://docs.python.org/3/library/urllib.parse.html
             hrefLink = urljoin(self.base_url, hrefLink)
             # Remove fragment & query parameter
             hrefLink = urlunsplit(
@@ -106,7 +103,11 @@ class PlaywrightCrawler:
                 or (link_url_parsed.netloc != base_url_parsed.netloc)
             ):
                 continue
-
+            # Filter
+            if link_url_parsed.path != _settingsdict['URL_FILTER_PATH']:
+                pass
+            else:
+                continue
             # Check if link target is forbidden by robots.txt
             print(hrefLink)
             print(self._robotsTxt.can_fetch(
@@ -152,11 +153,15 @@ class PlaywrightCrawler:
                         response.status, response.url))
                     html_body = (await page.content()).encode("utf8")
                     soup = BeautifulSoup(html_body, "lxml")
-                    # ^ This's where need to be adjusted for different website(After going into url, filter contain)
+                    # ^ After going into url, filter contain
+                    # 抓('獸醫'xx'學') and 選擇:80題,非選:0題
+                    list_contain_filter = page.query_selector_all(
+                        self._settingsdict['CONTAIN_FILTER_KEYWORD'])
 
-                    # ^ This's where need to be adjusted for different website
-                    # X-Robots-Tag: nofollow - Do not follow the links on this page.
-                    # https://developers.google.com/search/reference/robots_meta_tag?hl=en#xrobotstag
+                    if len(list_contain_filter) != 0:
+
+                        # X-Robots-Tag: nofollow - Do not follow the links on this page.
+                        # https://developers.google.com/search/reference/robots_meta_tag?hl=en#xrobotstag
                     headers = CaseInsensitiveDict(response.headers)
                     if headers.get('x-robots-tag') and 'nofollow' in headers.get('x-robots-tag'):
                         self.crawllogger.warning(
