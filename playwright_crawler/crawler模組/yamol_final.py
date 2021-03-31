@@ -3,6 +3,7 @@ from playwright.async_api import async_playwright
 from bs4 import BeautifulSoup
 import re
 import time
+import random
 '''
 o)先click觸發各題號，讓每題詳解ajax載入html
 o)"查看全部n則討論"(n!=[0-3])須要click觸發
@@ -13,18 +14,9 @@ o)"詳解卡解鎖"須要click觸發，儲存*_note.html
 
 
 async def main():
-    as_pw = await async_playwright().start()
-    browser = await as_pw.chromium.launch(headless=False)
-    context = await browser.new_context(
-        storage_state="/home/eric/文件/github/crawler_eric/cookies")
-    # Doesn't effect on the timeout of actionabilities
-    # context.set_default_timeout(30000)
-    # Open new page
-    page = await context.new_page()
-
     # Go to https://yamol.tw/exam.php?id=61798
     await page.goto("https://yamol.tw/exam.php?id=61798")
-    time.sleep(5)
+    time.sleep(random.randint(5, 10))
     # right panel tab N="1-50"
     list_lv0element_handle = await page.query_selector_all(
         '#item_map_tab_0 a')
@@ -37,17 +29,17 @@ async def main():
         '#item_map_tab_1 a')
     for lv1element_handle in list_lv1element_handle:
         await lv1element_handle.click(delay=2000)
-    time.sleep(5)
+    time.sleep(random.randint(5, 10))
     list_lv3element_handle = await page.query_selector_all('text=/^查看全部\s*\d+\s*則討論$/')
 
     for lv3element_handle in list_lv3element_handle:
         await lv3element_handle.click(delay=1300)
-    time.sleep(5)
+    time.sleep(random.randint(5, 10))
     list_lv2element_handle = await page.query_selector_all('text="詳解卡解鎖"')
     print(len(list_lv2element_handle))
     for lv2element_handle in list_lv2element_handle:
         await lv2element_handle.click(delay=3000)
-    time.sleep(2)
+    time.sleep(random.randint(4, 10))
     # save html
     title = await page.title()
     # title = [101年第二次, 105年第一次, 107 年 - 第一次, 106 年 - 第二次, 106 年 - 106-1, 109-1]
@@ -74,12 +66,12 @@ async def main():
 
     for lv4element_handle in list_lv4element_handle:
         await lv4element_handle.click(delay=3000)
-    time.sleep(5)
+    time.sleep(random.randint(5, 10))
     list_lv5element_handle = await page.query_selector_all('text="詳解卡解鎖"')
     print(len(list_lv5element_handle))
     for lv5element_handle in list_lv5element_handle:
         await lv5element_handle.click(delay=3000)
-    time.sleep(5)
+    time.sleep(random.randint(5, 10))
     # save html
     if match0:
         lv1html_body = (await page.content()).encode("utf8")

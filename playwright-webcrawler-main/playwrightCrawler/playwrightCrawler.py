@@ -103,13 +103,8 @@ class PlaywrightCrawler:
                 or (link_url_parsed.netloc != base_url_parsed.netloc)
             ):
                 continue
-            # Filter
-            if link_url_parsed.path != _settingsdict['URL_FILTER_PATH']:
-                pass
-            else:
-                continue
+
             # Check if link target is forbidden by robots.txt
-            print(hrefLink)
             print(self._robotsTxt.can_fetch(
                 hrefLink, self._settingsdict['USER_AGENT']))
             if self._settingsdict['ROBOTSTXT_OBEY'] == True and not self._robotsTxt.can_fetch(hrefLink, "*") and not self._robotsTxt.can_fetch(hrefLink, self._settingsdict['USER_AGENT']):
@@ -120,6 +115,14 @@ class PlaywrightCrawler:
             rel = link.get('rel')
             if rel and 'nofollow' in rel:
                 continue
+
+            # Check if the path of link is target
+            # 對連結進行第二層過濾，聚焦爬蟲的策略
+            if len(self._settingsdict['URL_FILTER_PATH']) != 0:
+                if link_url_parsed.path != self._settingsdict['URL_FILTER_PATH']:
+                    with self._lock:
+                        self._crawledLinks.add(hrefLink)
+                    continue
 
             with self._lock:
                 self._crawledLinks.add(hrefLink)
@@ -153,15 +156,9 @@ class PlaywrightCrawler:
                         response.status, response.url))
                     html_body = (await page.content()).encode("utf8")
                     soup = BeautifulSoup(html_body, "lxml")
-                    # ^ After going into url, filter contain
-                    # 抓('獸醫'xx'學') and 選擇:80題,非選:0題
-                    list_contain_filter = page.query_selector_all(
-                        self._settingsdict['CONTAIN_FILTER_KEYWORD'])
 
-                    if len(list_contain_filter) != 0:
-
-                        # X-Robots-Tag: nofollow - Do not follow the links on this page.
-                        # https://developers.google.com/search/reference/robots_meta_tag?hl=en#xrobotstag
+                    # X-Robots-Tag: nofollow - Do not follow the links on this page.
+                    # https://developers.google.com/search/reference/robots_meta_tag?hl=en#xrobotstag
                     headers = CaseInsensitiveDict(response.headers)
                     if headers.get('x-robots-tag') and 'nofollow' in headers.get('x-robots-tag'):
                         self.crawllogger.warning(
@@ -177,6 +174,23 @@ class PlaywrightCrawler:
                             self.crawllogger.warning(
                                 'Robots meta tag: nofollow on {}'.format(response.url))
                         else:
+                            # 對內容進行第一層過濾，從寬度爬蟲轉換成聚焦爬蟲
+                            contain_filter_0 = self._settingsdict['CONTAIN_FILTER_0']
+                            contain_filter_1 = self._settingsdict['CONTAIN_FILTER_1']
+                            # 防止FILTER爲'空',還執行代碼降低效率
+                            if len(contain_filter_0) != 0 or len(contain_filter_1) != 0:
+                                list_contain_filter = page.query_selector_all(
+                                    f'text=/{contain_filter_0}/, text=/{contain_filter_1}/')
+                                # 防止網頁內容沒有'關注內容'，還執行代碼降低效率
+                                if len(list_contain_filter) != 0:
+                                    # 抓取關注內容頁面中所有連結
+                                    self._enqueueLinks(soup.find_all('a'))
+                                    # 進入互動模組
+                                    try:
+                                        # FIXME
+                                        yamol_final()
+                                    except:
+                                        pass
                             self._enqueueLinks(soup.find_all('a'))
 
                 with self._lock:
@@ -229,8 +243,9 @@ class PlaywrightCrawler:
                 self._browser = await self._pw.firefox.launch(**pwOptions)
             elif self._settingsdict['PLAYWRIGHT_BROWSER_TYPE'] == 'webkit':
                 self._browser = await self._pw.webkit.launch(**pwOptions)
+        # If no Cookies path is provided, storage state is still returned, but won't be saved to the disk
+        self._context = await self._browser.new_context(user_agent=self._settingsdict['USER_AGENT'], storage_state=self._settingsdict['COOKIES_PATH'])
 
-        self._context = await self._browser.new_context(user_agent=self._settingsdict['USER_AGENT'])
         self._context.set_default_navigation_timeout(
             self._settingsdict['PLAYWRIGHT_NAVIGATION_TIMEOUT'])
 

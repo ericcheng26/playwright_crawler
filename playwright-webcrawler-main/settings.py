@@ -1,4 +1,4 @@
-# =========Crawler setting area===============
+# =========Crawler setting===============
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
@@ -8,6 +8,8 @@ CONCURRENT_REQUESTS = 2
 PLAYWRIGHT_NAVIGATION_TIMEOUT = 30000
 # Browser type (chromium, firefox, webkit) created when Playwright connects to a browser instance
 PLAYWRIGHT_BROWSER_TYPE = 'chromium'
+# Cookies storage path
+COOKIES_PATH = '/home/eric/文件/github/crawler_eric/cookies'
 # Set of configurable options to set on the browser.
 # See https://github.com/microsoft/playwright/blob/master/docs/api.md#browsertypelaunchoptions for description fields
 # MacOS: /Users/sn_outis/Library/Caches/ms-playwright/chromium-851527/chrome-mac/Chromium.app/Contents/MacOS/Chromium
@@ -28,9 +30,12 @@ if len(DISALLOW_PATH) != 0:
     for path in DISALLOW_PATH:
         CUSTOM_ROBOT += ('\nDisallow:' + path)
 
-# =========Filter setting area===============
+# =========Filter setting===============
 # https://yamol.tw/exam.php?id=45082
 # scheme= 'https', netloc= 'yamol.tw', path= '/exam.php'
 # params='', query= 'id=45082', fragment=''
 URL_FILTER_PATH = '/exam.php'
-CONTAIN_FILTER = ''
+# html_contain, str|regex
+# [\u4e00-\u9fa5] 匹配任何中文
+CONTAIN_FILTER_0 = '獸醫[\u4e00-\u9fa5]*學'
+CONTAIN_FILTER_1 = '選擇:80題,非選:0題'
