@@ -275,3 +275,7 @@ class PlaywrightCrawler:
 
         self.crawllogger.info(
             '[000] Starting browser with User Agent: {}'.format(getUA))
+
+
+dir = dir()
+__objname__ = [o for o in dir if not '__' in o]
