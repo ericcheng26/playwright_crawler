@@ -192,6 +192,7 @@ class PlaywrightCrawler:
                                     # 無法滿足互動條件，跳出本次迴圈
                                     except:
                                         continue
+                            # 抓取沒有關注內容的頁面中所有連結
                             self._enqueueLinks(soup.find_all('a'))
 
                 with self._lock:
