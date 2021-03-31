@@ -25,6 +25,7 @@ from protego import Protego
 
 # https://www.crummy.com/software/BeautifulSoup
 from bs4 import BeautifulSoup
+from .playwright_interaction import yamol_final
 
 
 class PlaywrightCrawler:
@@ -118,7 +119,7 @@ class PlaywrightCrawler:
 
             # Check if the path of link is target
             # 對連結進行第二層過濾，聚焦爬蟲的策略
-            if len(self._settingsdict['URL_FILTER_PATH']) != 0:
+            if self._settingsdict['URL_FILTER_PATH']:
                 if link_url_parsed.path != self._settingsdict['URL_FILTER_PATH']:
                     with self._lock:
                         self._crawledLinks.add(hrefLink)
@@ -133,7 +134,6 @@ class PlaywrightCrawler:
             urlToCrawl = await self._linksToCrawl.get()
 
             page = await self._context.new_page()
-
             page.on("console", lambda m: self.crawllogger.warning("[000] {} Console message : {}".format(
                 m.location['url'], m.text)) if m.type in ['error'] else False)
 
@@ -179,16 +179,15 @@ class PlaywrightCrawler:
                             contain_filter_1 = self._settingsdict['CONTAIN_FILTER_1']
                             # 防止FILTER爲'空',還執行代碼降低效率
                             if len(contain_filter_0) != 0 or len(contain_filter_1) != 0:
-                                list_contain_filter = page.query_selector_all(
-                                    f'text=/{contain_filter_0}/, text=/{contain_filter_1}/')
+                                list_contain_filter = page.query_selector(
+                                    f'text=/{contain_filter_0}/ >> text=/{contain_filter_1}/')
                                 # 防止網頁內容沒有'關注內容'，還執行代碼降低效率
-                                if len(list_contain_filter) != 0:
+                                if list_contain_filter:
                                     # 抓取關注內容頁面中所有連結
                                     self._enqueueLinks(soup.find_all('a'))
                                     # 進入互動模組
                                     try:
-                                        # FIXME
-                                        yamol_final()
+                                        yamol_final.main(page)
                                     # 無法滿足互動條件，跳出本次迴圈
                                     except:
                                         continue

@@ -37,5 +37,7 @@ if len(DISALLOW_PATH) != 0:
 URL_FILTER_PATH = '/exam.php'
 # html_contain, str|regex
 # [\u4e00-\u9fa5] 匹配任何中文
+# 題數
 CONTAIN_FILTER_0 = '獸醫[\u4e00-\u9fa5]*學'
+# 題數
 CONTAIN_FILTER_1 = '選擇:80題,非選:0題'
