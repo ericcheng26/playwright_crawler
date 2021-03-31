@@ -106,8 +106,7 @@ class PlaywrightCrawler:
                 continue
 
             # Check if link target is forbidden by robots.txt
-            print(self._robotsTxt.can_fetch(
-                hrefLink, self._settingsdict['USER_AGENT']))
+
             if self._settingsdict['ROBOTSTXT_OBEY'] == True and not self._robotsTxt.can_fetch(hrefLink, "*") and not self._robotsTxt.can_fetch(hrefLink, self._settingsdict['USER_AGENT']):
                 continue
 
@@ -179,7 +178,7 @@ class PlaywrightCrawler:
                             contain_filter_1 = self._settingsdict['CONTAIN_FILTER_1']
                             # 防止FILTER爲'空',還執行代碼降低效率
                             if len(contain_filter_0) != 0 or len(contain_filter_1) != 0:
-                                list_contain_filter = page.query_selector(
+                                list_contain_filter = await page.query_selector(
                                     f'text=/{contain_filter_0}/ >> text=/{contain_filter_1}/')
                                 # 防止網頁內容沒有'關注內容'，還執行代碼降低效率
                                 if list_contain_filter:
