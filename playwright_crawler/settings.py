@@ -29,6 +29,10 @@ CUSTOM_ROBOT = \
 if len(DISALLOW_PATH) != 0:
     for path in DISALLOW_PATH:
         CUSTOM_ROBOT += ('\nDisallow:' + path)
+# ==============html(Soup) path=======
+# Write the directory path(Without'/'at the end)
+SOUP_PATH = '/home/eric/文件/html_soup'
+
 
 # =========Filter setting===============
 # https://yamol.tw/exam.php?id=45082

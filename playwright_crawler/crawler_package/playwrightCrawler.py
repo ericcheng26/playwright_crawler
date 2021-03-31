@@ -184,7 +184,7 @@ class PlaywrightCrawler:
                                 if list_contain_filter:
                                     # 進入互動模組
                                     try:
-                                        yamol_final.main(page)
+                                        yamol_final.main(page, mod)
                                     # 無法滿足互動條件，跳出本次迴圈
                                     except:
                                         pass
