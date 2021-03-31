@@ -2,8 +2,8 @@
 import sys
 from optparse import OptionParser
 
-from playwrightCrawler.playwrightCrawler import PlaywrightCrawler
-
+from crawler_package import PlaywrightCrawler
+# from parser_package import
 __version__ = "0.2"
 
 if __name__ == '__main__':
