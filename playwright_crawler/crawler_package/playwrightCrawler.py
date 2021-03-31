@@ -182,15 +182,13 @@ class PlaywrightCrawler:
                                     f'text=/{contain_filter_0}/ >> text=/{contain_filter_1}/')
                                 # 防止網頁內容沒有'關注內容'，還執行代碼降低效率
                                 if list_contain_filter:
-                                    # 抓取關注內容頁面中所有連結
-                                    self._enqueueLinks(soup.find_all('a'))
                                     # 進入互動模組
                                     try:
                                         yamol_final.main(page)
                                     # 無法滿足互動條件，跳出本次迴圈
                                     except:
                                         pass
-                            # 抓取沒有關注內容的頁面中所有連結
+                            # 抓取所有頁面中所有連結
                             self._enqueueLinks(soup.find_all('a'))
 
                 with self._lock:

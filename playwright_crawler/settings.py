@@ -34,7 +34,7 @@ if len(DISALLOW_PATH) != 0:
 # https://yamol.tw/exam.php?id=45082
 # scheme= 'https', netloc= 'yamol.tw', path= '/exam.php'
 # params='', query= 'id=45082', fragment=''
-URL_FILTER_PATH = '/exam.php'
+URL_FILTER_PATH = ''
 # html_contain, str|regex
 # [\u4e00-\u9fa5] 匹配任何中文
 # 題數
