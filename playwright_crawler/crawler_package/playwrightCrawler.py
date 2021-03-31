@@ -184,8 +184,9 @@ class PlaywrightCrawler:
                                 if list_contain_filter:
                                     # 進入互動模組
                                     try:
-                                        yamol_final.main(page, mod)
-                                    # 無法滿足互動條件，跳出本次迴圈
+                                        yamol_final.main(
+                                            page, self._settingsdict)
+                                    # 無法滿足互動條件，沒關係下次努力
                                     except:
                                         pass
                             # 抓取所有頁面中所有連結

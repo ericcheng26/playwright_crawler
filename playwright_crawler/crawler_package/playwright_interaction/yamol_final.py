@@ -13,8 +13,7 @@ o)"詳解卡解鎖"須要click觸發，儲存*_note.html
 '''
 
 
-async def main(page, mod):
-    _settingsdict = vars(mod)
+async def main(page, _settingsdict):
     time.sleep(random.randint(5, 10))
     # right panel tab N="1-50"
     list_lv0element_handle = await page.query_selector_all(
