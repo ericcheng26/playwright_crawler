@@ -33,7 +33,6 @@ if len(DISALLOW_PATH) != 0:
 # Write the directory path(Without'/'at the end)
 SOUP_PATH = '/home/eric/文件/html_soup'
 
-
 # =========Filter setting===============
 # https://yamol.tw/exam.php?id=45082
 # scheme= 'https', netloc= 'yamol.tw', path= '/exam.php'
