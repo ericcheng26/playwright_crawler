@@ -189,8 +189,9 @@ class PlaywrightCrawler:
                                     try:
                                         # FIXME
                                         yamol_final()
+                                    # 無法滿足互動條件，跳出本次迴圈
                                     except:
-                                        pass
+                                        continue
                             self._enqueueLinks(soup.find_all('a'))
 
                 with self._lock:
