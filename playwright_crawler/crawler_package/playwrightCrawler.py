@@ -118,11 +118,8 @@ class PlaywrightCrawler:
 
             # Check if the path of link is target
             # 對連結進行第二層過濾，聚焦爬蟲的策略
-            if self._settingsdict['URL_FILTER_PATH']:
-                if link_url_parsed.path != self._settingsdict['URL_FILTER_PATH']:
-                    with self._lock:
-                        self._crawledLinks.add(hrefLink)
-                    continue
+            # if self._settingsdict['URL_FILTER_PATH']:
+            #     if link_url_parsed.path == self._settingsdict['URL_FILTER_PATH']:
 
             with self._lock:
                 self._crawledLinks.add(hrefLink)
