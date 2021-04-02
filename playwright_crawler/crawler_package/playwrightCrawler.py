@@ -193,7 +193,8 @@ class PlaywrightCrawler:
                                             page, self._settingsdict)
                                     # 無法滿足互動條件，沒關係下次努力
                                     except:
-                                        pass
+                                        print(
+                                            'Interaction Fail! UniTest your module')
                             # 抓取所有頁面中所有連結
                             self._enqueueLinks(soup.find_all('a'))
 
