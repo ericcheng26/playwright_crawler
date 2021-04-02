@@ -46,3 +46,5 @@ URL_FILTER_PARAMS = '/\/ user -\d+.htm'
 CONTAIN_FILTER_0 = '獸醫[\u4e00-\u9fa5]*學'
 # 題數
 CONTAIN_FILTER_1 = '選擇:80題,非選:0題'
+# FIXME https://yamol.tw/fblogout.php?1617326246
+# 如何排除前往這個頁面
