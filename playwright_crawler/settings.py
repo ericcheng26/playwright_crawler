@@ -16,7 +16,7 @@ COOKIES_PATH = '/home/eric/文件/github/crawler_eric/cookies'
 # Centos: /home/eric/.cache/ms-playwright/chromium-844399/chrome-linux/chrome
 # Windows: Unknown
 PLAYWRIGHT_LAUNCH_OPTIONS = {
-    'headless': True,
+    'headless': False,
     'executable_path': '/home/eric/.cache/ms-playwright/chromium-844399/chrome-linux/chrome',
 }
 USER_AGENT = 'Mozilla/5.0 (X11; CrOS i686 4319.74.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.57 Safari/537.36'

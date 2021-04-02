@@ -7,3 +7,4 @@ docs/
 *.org
 Generate_requirements.cmd
 *.har
+settings.py
