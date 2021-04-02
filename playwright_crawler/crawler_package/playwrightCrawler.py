@@ -126,7 +126,7 @@ class PlaywrightCrawler:
                 if match_lv0:
                     continue
                     # if self._settingsdict['URL_FILTER_PATH']:
-                    #     if link_url_parsed.path == self._settingsdict['URL_FILTER_PATH']:
+                    #     if link_url_parsed.path != self._settingsdict['URL_FILTER_PATH']:
                     # continue
 
             with self._lock:
