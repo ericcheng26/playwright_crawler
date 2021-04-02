@@ -16,7 +16,7 @@ COOKIES_PATH = '/home/eric/文件/github/crawler_eric/cookies'
 # Centos: /home/eric/.cache/ms-playwright/chromium-844399/chrome-linux/chrome
 # Windows: Unknown
 PLAYWRIGHT_LAUNCH_OPTIONS = {
-    'headless': False,
+    'headless': True,
     'executable_path': '/home/eric/.cache/ms-playwright/chromium-844399/chrome-linux/chrome',
 }
 USER_AGENT = 'Mozilla/5.0 (X11; CrOS i686 4319.74.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.57 Safari/537.36'
@@ -37,7 +37,9 @@ SOUP_PATH = '/home/eric/文件/html_soup'
 # https://yamol.tw/exam.php?id=45082
 # scheme= 'https', netloc= 'yamol.tw', path= '/exam.php'
 # params='', query= 'id=45082', fragment=''
+# str|regex
 URL_FILTER_PATH = ''
+URL_FILTER_PARAMS = '/\/ user -\d+.htm'
 # html_contain, str|regex
 # [\u4e00-\u9fa5] 匹配任何中文
 # 題數

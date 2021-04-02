@@ -3,6 +3,7 @@
 import asyncio
 import threading
 import logging
+import re
 from urllib.request import urljoin, URLError
 from urllib.parse import urlparse, urlsplit, urlunsplit
 from requests.structures import CaseInsensitiveDict
@@ -118,8 +119,15 @@ class PlaywrightCrawler:
 
             # Check if the path of link is target
             # 對連結進行第二層過濾，聚焦爬蟲的策略
-            # if self._settingsdict['URL_FILTER_PATH']:
-            #     if link_url_parsed.path == self._settingsdict['URL_FILTER_PATH']:
+            if self._settingsdict['URL_FILTER_PARAMS']:
+                url_filter_params = self._settingsdict['URL_FILTER_PARAMS']
+                match_lv0 = re.search(
+                    f'{url_filter_params}', url_filter_params)
+                if match_lv0:
+                    continue
+                    # if self._settingsdict['URL_FILTER_PATH']:
+                    #     if link_url_parsed.path == self._settingsdict['URL_FILTER_PATH']:
+                    # continue
 
             with self._lock:
                 self._crawledLinks.add(hrefLink)
