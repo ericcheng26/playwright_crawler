@@ -6,3 +6,4 @@ docs/
 *.old
 *.org
 Generate_requirements.cmd
+.DS_Store
