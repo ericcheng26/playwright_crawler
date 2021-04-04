@@ -122,7 +122,7 @@ class PlaywrightCrawler:
             if self._settingsdict['URL_FILTER_PARAMS']:
                 url_filter_params = self._settingsdict['URL_FILTER_PARAMS']
                 match_lv0 = re.search(
-                    f'{url_filter_params}', url_filter_params)
+                    f'{url_filter_params}', hrefLink)
                 if match_lv0:
                     continue
                     # if self._settingsdict['URL_FILTER_PATH']:

@@ -45,7 +45,7 @@ SOUP_PATH = '/Users/sn_outis/Documents/GitHub/playwright_crawler/playwright_craw
 # params='', query= 'id=45082', fragment=''
 # str|regex
 URL_FILTER_PATH = ''
-URL_FILTER_PARAMS = '/\/ user -\d+.htm'
+URL_FILTER_PARAMS = '/\/user-\d+.htm'
 # html_contain, str|regex
 # [\u4e00-\u9fa5] 匹配任何中文
 # 題數
