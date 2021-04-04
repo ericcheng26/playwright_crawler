@@ -108,7 +108,7 @@ class PlaywrightCrawler:
 
             # Check if link target is forbidden by robots.txt
 
-            if self._settingsdict['ROBOTSTXT_OBEY'] == True and not self._robotsTxt.can_fetch(hrefLink, "*") and not self._robotsTxt.can_fetch(hrefLink, self._settingsdict['USER_AGENT']):
+            if self._settingsdict['ROBOTSTXT_OBEY'] == True and not self._robotsTxt.can_fetch(hrefLink, self._settingsdict['USER_AGENT']):
                 continue
 
             # Check if ignore the link

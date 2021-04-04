@@ -9,5 +9,6 @@ Generate_requirements.cmd
 *.har
 cookies
 .DS_store
+*.ipynb
 # *.html
 # html_soup/
