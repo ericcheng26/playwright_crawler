@@ -10,3 +10,5 @@ Generate_requirements.cmd
 settings.py
 cookies
 .DS_store
+*.html
+html_soup/
