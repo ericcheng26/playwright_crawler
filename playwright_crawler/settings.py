@@ -19,20 +19,20 @@ COOKIES_PATH = '/Users/sn_outis/Documents/GitHub/playwright_crawler/playwright_c
 # Centos: /home/eric/.cache/ms-playwright/chromium-844399/chrome-linux/chrome
 # Windows: Unknown
 PLAYWRIGHT_LAUNCH_OPTIONS = {
-    'headless': False,
+    'headless': True,
     'executable_path': '/Users/sn_outis/Library/Caches/ms-playwright/chromium-851527/chrome-mac/Chromium.app/Contents/MacOS/Chromium'
     # 'executable_path': '/home/eric/.cache/ms-playwright/chromium-844399/chrome-linux/chrome',
 }
 USER_AGENT = 'Mozilla/5.0 (X11; CrOS i686 4319.74.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.57 Safari/537.36'
 
-DISALLOW_PATH = ['/fblogout.php']
+DISALLOW_PATH = ['/fblogout*']
 
 CUSTOM_ROBOT = \
     f"\nUser-agent: {USER_AGENT}\nDisallow: "
 
 if len(DISALLOW_PATH) != 0:
     for path in DISALLOW_PATH:
-        CUSTOM_ROBOT += ('\nDisallow:' + path)
+        CUSTOM_ROBOT += ('\nDisallow: ' + path)
 # ==============html(Soup) path=======
 # Write the directory path(Without'/'at the end)
 # MacOS: '/Users/sn_outis/Documents/GitHub/playwright_crawler/playwright_crawler'
