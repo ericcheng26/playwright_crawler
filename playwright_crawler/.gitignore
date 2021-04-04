@@ -7,7 +7,6 @@ docs/
 *.org
 Generate_requirements.cmd
 *.har
-settings.py
 cookies
 .DS_store
 # *.html
