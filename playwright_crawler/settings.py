@@ -25,7 +25,8 @@ PLAYWRIGHT_LAUNCH_OPTIONS = {
 }
 USER_AGENT = 'Mozilla/5.0 (X11; CrOS i686 4319.74.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.57 Safari/537.36'
 
-DISALLOW_PATH = ['/fblogout*']
+DISALLOW_PATH = ['/fblogout', '/user*.htm']
+
 
 CUSTOM_ROBOT = \
     f"\nUser-agent: {USER_AGENT}\nDisallow: "
@@ -44,8 +45,9 @@ SOUP_PATH = '/Users/sn_outis/Documents/GitHub/playwright_crawler/playwright_craw
 # scheme= 'https', netloc= 'yamol.tw', path= '/exam.php'
 # params='', query= 'id=45082', fragment=''
 # str|regex
-URL_FILTER_PATH = ''
-URL_FILTER_PARAMS = '/\/user-\d+.htm'
+# URL_FILTER_PATH = ''
+# URL_FILTER_PARAMS = '/\/user-\d+.htm'
+
 # html_contain, str|regex
 # [\u4e00-\u9fa5] 匹配任何中文
 # 題數
