@@ -1,3 +1,5 @@
+import asyncio
+from playwright.async_api import async_playwright
 from bs4 import BeautifulSoup
 import re
 import time
@@ -12,6 +14,8 @@ o)"詳解卡解鎖"須要click觸發，儲存*_note.html
 
 
 async def main(page, _settingsdict):
+
+    print('start')
     time.sleep(random.randint(5, 10))
     # right panel tab N="1-50"
     list_lv0element_handle = await page.query_selector_all(

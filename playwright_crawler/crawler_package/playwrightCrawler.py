@@ -160,7 +160,6 @@ class PlaywrightCrawler:
                         response.status, response.url))
                     html_body = (await page.content()).encode("utf8")
                     soup = BeautifulSoup(html_body, "lxml")
-                    print('444')
                     # X-Robots-Tag: nofollow - Do not follow the links on this page.
                     # https://developers.google.com/search/reference/robots_meta_tag?hl=en#xrobotstag
                     headers = CaseInsensitiveDict(response.headers)
@@ -188,13 +187,16 @@ class PlaywrightCrawler:
                                 list_contain_filter_1 = await page.query_selector_all(f"text=/{contain_filter_1}/")
 
                                 # 防止網頁內容沒有'關注內容'，還執行代碼降低效率
-                                print(len(list_contain_filter_0))
-                                print(len(list_contain_filter_1))
+                                # print(len(list_contain_filter_0))
+                                # print(len(list_contain_filter_1))
                                 if len(list_contain_filter_0) != 0 and len(list_contain_filter_1) != 0:
                                     # 進入互動模組
                                     try:
+                                        with self._lock:
+                                            self._crawledLinks.add(
+                                                response.url)
                                         print('Into The Jungle!')
-                                        yamol_final.main(
+                                        await yamol_final.main(
                                             page, self._settingsdict)
                                     # 無法滿足互動條件，沒關係下次努力
                                     except:
@@ -255,15 +257,14 @@ class PlaywrightCrawler:
                 self._browser = await self._pw.webkit.launch(**pwOptions)
         # If no Cookies path is provided, storage state is still returned, but won't be saved to the disk
         self._context = await self._browser.new_context(user_agent=self._settingsdict['USER_AGENT'], storage_state=self._settingsdict['COOKIES_PATH'])
-
         self._context.set_default_navigation_timeout(
             self._settingsdict['PLAYWRIGHT_NAVIGATION_TIMEOUT'])
 
         blankPage = await self._context.new_page()
-        getUA = await blankPage.evaluate('''() = > {
+
+        getUA = await blankPage.evaluate('''() => {
           return navigator.userAgent
         }''')
-
         # Load robots.txt file
         response = await blankPage.goto(urlparse(self.base_url).scheme + '://' + urlparse(self.base_url).netloc + '/robots.txt')
         if response.ok:
