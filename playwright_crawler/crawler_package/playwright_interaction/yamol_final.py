@@ -1,5 +1,6 @@
 import asyncio
 from playwright.async_api import async_playwright
+from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 import re
 import time
@@ -14,8 +15,8 @@ o)"詳解卡解鎖"須要click觸發，儲存*_note.html
 
 
 async def main(page, _settingsdict):
-
     print('start')
+
     time.sleep(random.randint(5, 10))
     # right panel tab N="1-50"
     list_lv0element_handle = await page.query_selector_all(
@@ -29,7 +30,7 @@ async def main(page, _settingsdict):
         '#item_map_tab_1 a')
     for lv1element_handle in list_lv1element_handle:
         await lv1element_handle.click(delay=2000)
-    # save html
+    # prepare to save html
     title = await page.title()
     # title = [101年第二次, 105年第一次, 107 年 - 第一次, 106 年 - 第二次, 106 年 - 106-1, 109-1]
     match0 = re.search(r'(\d{2,3}\s*-\s*\d)', title)

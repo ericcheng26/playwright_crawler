@@ -43,6 +43,7 @@ class PlaywrightCrawler:
         self._loop = asyncio.get_event_loop()
         self._linksToCrawl = asyncio.Queue(loop=self._loop)
         self._crawledLinks = set()
+        self._crawledQueryID = set()
         self._lock = threading.Lock()
 
         color_formatter = ColoredFormatter(
@@ -72,7 +73,6 @@ class PlaywrightCrawler:
         self.crawllogger.addHandler(handlerConsoleLog)
         self.crawllogger.addHandler(handlerFileLog)
         self.crawllogger.setLevel(logging.INFO)
-
         self._linksToCrawl.put_nowait(self.base_url)
 
     def crawl(self) -> None:
@@ -98,7 +98,9 @@ class PlaywrightCrawler:
             # Check if a link is not crawled
             if (hrefLink in self._crawledLinks):
                 continue
-
+            # Check if a link's query id is not crawled
+            if (link_url_parsed.query in self._crawledQueryID):
+                continue
             # Checks if a link is internal
             if (
                 (link_url_parsed.scheme != base_url_parsed.scheme)
@@ -131,6 +133,7 @@ class PlaywrightCrawler:
 
             with self._lock:
                 self._crawledLinks.add(hrefLink)
+                self._crawledQueryID.add(link_url_parsed.query)
                 self._linksToCrawl.put_nowait(hrefLink)
 
     async def _crawl(self) -> None:
@@ -160,6 +163,7 @@ class PlaywrightCrawler:
                         response.status, response.url))
                     html_body = (await page.content()).encode("utf8")
                     soup = BeautifulSoup(html_body, "lxml")
+                    parsed_response_url = urlparse(response.url)
                     # X-Robots-Tag: nofollow - Do not follow the links on this page.
                     # https://developers.google.com/search/reference/robots_meta_tag?hl=en#xrobotstag
                     headers = CaseInsensitiveDict(response.headers)
@@ -195,6 +199,8 @@ class PlaywrightCrawler:
                                         with self._lock:
                                             self._crawledLinks.add(
                                                 response.url)
+                                            self._crawledQueryID.add(
+                                                parsed_response_url.query)
                                         print('Into The Jungle!')
                                         await yamol_final.main(
                                             page, self._settingsdict)
@@ -207,6 +213,7 @@ class PlaywrightCrawler:
 
                 with self._lock:
                     self._crawledLinks.add(response.url)
+                    self._crawledQueryID.add(parsed_response_url.query)
 
             except (TimeoutError) as te:
                 self.crawllogger.error('{} {}'.format(
