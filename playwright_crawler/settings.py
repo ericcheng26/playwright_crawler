@@ -24,8 +24,8 @@ PLAYWRIGHT_LAUNCH_OPTIONS = {
 }
 USER_AGENT = 'Mozilla/5.0 (X11; CrOS i686 4319.74.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.57 Safari/537.36'
 
-DISALLOW_PATH = ['/fblogout', '/user*.htm',
-                 '/setting.php', '/examinfo.php?clearall=1', '/cat.php?mycatid', '/testpaper_create.php']
+DISALLOW_PATH = ['/fblogout', '/user*.htm', '/setting.php',
+                 '/examinfo.php?clearall=1', '/cat.php?mycatid', '/testpaper_create.php', '/setting_theme.php']
 
 
 CUSTOM_ROBOT = \

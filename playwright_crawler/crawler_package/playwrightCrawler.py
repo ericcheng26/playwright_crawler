@@ -183,9 +183,9 @@ class PlaywrightCrawler:
                             contain_filter_1 = self._settingsdict['CONTAIN_FILTER_1']
                             # 防止FILTER爲'空',還執行代碼降低效率
                             if len(contain_filter_0) != 0 or len(contain_filter_1) != 0:
-                                list_contain_filter_0 = await page.query_selector_all(f'text=/{contain_filter_0}/')
-                                list_contain_filter_1 = await page.query_selector_all(f'text=/{contain_filter_1}/')
-                                # Intersection_contain_filter = await page.query_selector_all(f'text=/{contain_filter_0}/gu >> text=/{contain_filter_1}/gu')
+                                list_contain_filter_0 = await page.query_selector_all(f"text=/{contain_filter_0}/")
+                                list_contain_filter_1 = await page.query_selector_all(f"text=/{contain_filter_1}/")
+
                                 # 防止網頁內容沒有'關注內容'，還執行代碼降低效率
                                 print(len(list_contain_filter_0))
                                 print(len(list_contain_filter_1))
