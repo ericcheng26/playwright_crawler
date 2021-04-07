@@ -3,7 +3,7 @@
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
 # Configure maximum concurrent requests performed by the crawler
-CONCURRENT_REQUESTS = 2
+CONCURRENT_REQUESTS = 5
 # Maximum navigation time in milliseconds
 PLAYWRIGHT_NAVIGATION_TIMEOUT = 30000
 # Browser type (chromium, firefox, webkit) created when Playwright connects to a browser instance
@@ -12,7 +12,7 @@ PLAYWRIGHT_BROWSER_TYPE = 'chromium'
 # To create cookies 'playwright codegen -o gen_cookies.py https://yamol.tw/main.php --save-storage cookies'
 # MacOS: '/Users/sn_outis/Documents/GitHub/playwright_crawler/playwright_crawler/cookies'
 #Centos: '/home/eric/文件/github/crawler_eric/cookies'
-COOKIES_PATH = '/Users/sn_outis/Documents/GitHub/playwright_crawler/playwright_crawler/cookies'
+COOKIES_PATH = '/home/eric/文件/github/crawler_eric/cookies'
 # Set of configurable options to set on the browser.
 # See https://github.com/microsoft/playwright/blob/master/docs/api.md#browsertypelaunchoptions for description fields
 # MacOS: /Users/sn_outis/Library/Caches/ms-playwright/chromium-851527/chrome-mac/Chromium.app/Contents/MacOS/Chromium
@@ -20,12 +20,11 @@ COOKIES_PATH = '/Users/sn_outis/Documents/GitHub/playwright_crawler/playwright_c
 # Windows: Unknown
 PLAYWRIGHT_LAUNCH_OPTIONS = {
     'headless': True,
-    'executable_path': '/Users/sn_outis/Library/Caches/ms-playwright/chromium-851527/chrome-mac/Chromium.app/Contents/MacOS/Chromium'
-    # 'executable_path': '/home/eric/.cache/ms-playwright/chromium-844399/chrome-linux/chrome',
+    'executable_path': '/home/eric/.cache/ms-playwright/chromium-844399/chrome-linux/chrome'
 }
 USER_AGENT = 'Mozilla/5.0 (X11; CrOS i686 4319.74.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.57 Safari/537.36'
 
-DISALLOW_PATH = ['/fblogout', '/user*.htm']
+DISALLOW_PATH = ['/fblogout', '/user*.htm', '/setting.php']
 
 
 CUSTOM_ROBOT = \
@@ -38,7 +37,7 @@ if len(DISALLOW_PATH) != 0:
 # Write the directory path(Without'/'at the end)
 # MacOS: '/Users/sn_outis/Documents/GitHub/playwright_crawler/playwright_crawler'
 # Centos: '/home/eric/文件/html_soup'
-SOUP_PATH = '/Users/sn_outis/Documents/GitHub/playwright_crawler/playwright_crawler'
+SOUP_PATH = '/home/eric/文件/html_soup'
 
 # =========Filter setting===============
 # https://yamol.tw/exam.php?id=45082
@@ -54,5 +53,3 @@ SOUP_PATH = '/Users/sn_outis/Documents/GitHub/playwright_crawler/playwright_craw
 CONTAIN_FILTER_0 = '獸醫[\u4e00-\u9fa5]*學'
 # 題數
 CONTAIN_FILTER_1 = '選擇:80題,非選:0題'
-# FIXME https://yamol.tw/fblogout.php?1617326246
-# 如何排除前往這個頁面
