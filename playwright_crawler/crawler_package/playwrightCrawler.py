@@ -160,7 +160,7 @@ class PlaywrightCrawler:
                         response.status, response.url))
                     html_body = (await page.content()).encode("utf8")
                     soup = BeautifulSoup(html_body, "lxml")
-
+                    print('444')
                     # X-Robots-Tag: nofollow - Do not follow the links on this page.
                     # https://developers.google.com/search/reference/robots_meta_tag?hl=en#xrobotstag
                     headers = CaseInsensitiveDict(response.headers)
@@ -184,6 +184,7 @@ class PlaywrightCrawler:
                             # 防止FILTER爲'空',還執行代碼降低效率
                             if len(contain_filter_0) != 0 or len(contain_filter_1) != 0:
                                 list_contain_filter_0 = await page.query_selector_all(f"text=/{contain_filter_0}/")
+
                                 list_contain_filter_1 = await page.query_selector_all(f"text=/{contain_filter_1}/")
 
                                 # 防止網頁內容沒有'關注內容'，還執行代碼降低效率
