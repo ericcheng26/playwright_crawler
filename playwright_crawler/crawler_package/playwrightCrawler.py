@@ -183,12 +183,14 @@ class PlaywrightCrawler:
                             contain_filter_1 = self._settingsdict['CONTAIN_FILTER_1']
                             # 防止FILTER爲'空',還執行代碼降低效率
                             if len(contain_filter_0) != 0 or len(contain_filter_1) != 0:
-                                Intersection_contain_filter = await page.query_selector(
-                                    f'text=/{contain_filter_0}/ >> text=/{contain_filter_1}/')
+                                Intersection_contain_filter = await page.query_selector_all(
+                                    f'text=/{contain_filter_0}/gu >> text=/{contain_filter_1}/gu')
                                 # 防止網頁內容沒有'關注內容'，還執行代碼降低效率
+                                print(len(Intersection_contain_filter))
                                 if len(Intersection_contain_filter) != 0:
                                     # 進入互動模組
                                     try:
+                                        print('Into The Jungle!')
                                         yamol_final.main(
                                             page, self._settingsdict)
                                     # 無法滿足互動條件，沒關係下次努力

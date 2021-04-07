@@ -3,7 +3,7 @@
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
 # Configure maximum concurrent requests performed by the crawler
-CONCURRENT_REQUESTS = 5
+CONCURRENT_REQUESTS = 2
 # Maximum navigation time in milliseconds
 PLAYWRIGHT_NAVIGATION_TIMEOUT = 30000
 # Browser type (chromium, firefox, webkit) created when Playwright connects to a browser instance
@@ -19,7 +19,7 @@ COOKIES_PATH = '/home/eric/文件/github/crawler_eric/cookies'
 # Centos: /home/eric/.cache/ms-playwright/chromium-844399/chrome-linux/chrome
 # Windows: Unknown
 PLAYWRIGHT_LAUNCH_OPTIONS = {
-    'headless': True,
+    'headless': False,
     'executable_path': '/home/eric/.cache/ms-playwright/chromium-844399/chrome-linux/chrome'
 }
 USER_AGENT = 'Mozilla/5.0 (X11; CrOS i686 4319.74.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.57 Safari/537.36'
@@ -51,6 +51,6 @@ SOUP_PATH = '/home/eric/文件/html_soup'
 # html_contain, str|regex
 # [\u4e00-\u9fa5] 匹配任何中文
 # 題數
-CONTAIN_FILTER_0 = '獸醫[\u4e00-\u9fa5]*學題庫'
+CONTAIN_FILTER_0 = '獸醫[\u4e00-\u9fa5]*學'
 # 題數
-CONTAIN_FILTER_1 = '選擇:80題'
+CONTAIN_FILTER_1 = '選擇:80題,非選:0題'
