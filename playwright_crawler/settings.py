@@ -24,7 +24,8 @@ PLAYWRIGHT_LAUNCH_OPTIONS = {
 }
 USER_AGENT = 'Mozilla/5.0 (X11; CrOS i686 4319.74.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.57 Safari/537.36'
 
-DISALLOW_PATH = ['/fblogout', '/user*.htm', '/setting.php']
+DISALLOW_PATH = ['/fblogout', '/user*.htm',
+                 '/setting.php', '/examinfo.php?clearall=1', '/cat.php?mycatid', '/testpaper_create.php']
 
 
 CUSTOM_ROBOT = \
@@ -50,6 +51,6 @@ SOUP_PATH = '/home/eric/文件/html_soup'
 # html_contain, str|regex
 # [\u4e00-\u9fa5] 匹配任何中文
 # 題數
-CONTAIN_FILTER_0 = '獸醫[\u4e00-\u9fa5]*學'
+CONTAIN_FILTER_0 = '獸醫[\u4e00-\u9fa5]*學題庫'
 # 題數
-CONTAIN_FILTER_1 = '選擇:80題,非選:0題'
+CONTAIN_FILTER_1 = '選擇:80題'
