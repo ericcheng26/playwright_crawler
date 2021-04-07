@@ -46,7 +46,21 @@ async def main(page, _settingsdict):
         for lv2element_handle in list_lv2element_handle:
             await lv2element_handle.click(delay=3000)
         time.sleep(random.randint(4, 10))
-
+        if match0:
+            html_body = (await page.content()).encode("utf8")
+            soup = BeautifulSoup(html_body, "lxml")
+            with open(f"{_settingsdict['SOUP_PATH']}/{match0.group(0)}.html", "w", encoding='utf-8') as file:
+                file.write(str(soup))
+        elif match1:
+            html_body = (await page.content()).encode("utf8")
+            soup = BeautifulSoup(html_body, "lxml")
+            with open(f"{_settingsdict['SOUP_PATH']}/{match1.group(0)}.html", "w", encoding='utf-8') as file:
+                file.write(str(soup))
+        else:
+            html_body = (await page.content()).encode("utf8")
+            soup = BeautifulSoup(html_body, "lxml")
+            with open(f"{_settingsdict['SOUP_PATH']}/{title[-9:]+'_note'}.html", "w", encoding='utf-8') as file:
+                file.write(str(soup))
     except:
         if match0:
             html_body = (await page.content()).encode("utf8")
@@ -76,7 +90,21 @@ async def main(page, _settingsdict):
         for lv5element_handle in list_lv5element_handle:
             await lv5element_handle.click(delay=3000)
         time.sleep(random.randint(5, 10))
-
+        if match0:
+            lv1html_body = (await page.content()).encode("utf8")
+            lv1soup = BeautifulSoup(lv1html_body, "lxml")
+            with open(f"{_settingsdict['SOUP_PATH']}/{match0.group(0)+'_note'}.html", "w", encoding='utf-8') as file:
+                file.write(str(lv1soup))
+        elif match1:
+            lv1html_body = (await page.content()).encode("utf8")
+            lv1soup = BeautifulSoup(lv1html_body, "lxml")
+            with open(f"{_settingsdict['SOUP_PATH']}/{match1.group(0)+'_note'}.html", "w", encoding='utf-8') as file:
+                file.write(str(lv1soup))
+        else:
+            lv1html_body = (await page.content()).encode("utf8")
+            lv1soup = BeautifulSoup(lv1html_body, "lxml")
+            with open(f"{_settingsdict['SOUP_PATH']}/{title[-9:]+'_note'}.html", "w", encoding='utf-8') as file:
+                file.write(str(lv1soup))
     except:
         # save html
         if match0:
