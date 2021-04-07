@@ -1,4 +1,4 @@
-#import warnings
+# import warnings
 # warnings.filterwarnings("ignore")
 import asyncio
 import threading
@@ -9,7 +9,7 @@ from urllib.parse import urlparse, urlsplit, urlunsplit
 from requests.structures import CaseInsensitiveDict
 
 # https://github.com/erdewit/nest_asyncio
-#import nest_asyncio
+# import nest_asyncio
 # nest_asyncio.apply()
 
 # https://github.com/borntyping/python-colorlog
@@ -183,11 +183,13 @@ class PlaywrightCrawler:
                             contain_filter_1 = self._settingsdict['CONTAIN_FILTER_1']
                             # 防止FILTER爲'空',還執行代碼降低效率
                             if len(contain_filter_0) != 0 or len(contain_filter_1) != 0:
-                                Intersection_contain_filter = await page.query_selector_all(
-                                    f'text=/{contain_filter_0}/gu >> text=/{contain_filter_1}/gu')
+                                list_contain_filter_0 = await page.query_selector_all(f'text=/{contain_filter_0}/')
+                                list_contain_filter_1 = await page.query_selector_all(f'text=/{contain_filter_1}/')
+                                # Intersection_contain_filter = await page.query_selector_all(f'text=/{contain_filter_0}/gu >> text=/{contain_filter_1}/gu')
                                 # 防止網頁內容沒有'關注內容'，還執行代碼降低效率
-                                print(len(Intersection_contain_filter))
-                                if len(Intersection_contain_filter) != 0:
+                                print(len(list_contain_filter_0))
+                                print(len(list_contain_filter_1))
+                                if len(list_contain_filter_0) != 0 and len(list_contain_filter_1) != 0:
                                     # 進入互動模組
                                     try:
                                         print('Into The Jungle!')
@@ -257,7 +259,7 @@ class PlaywrightCrawler:
             self._settingsdict['PLAYWRIGHT_NAVIGATION_TIMEOUT'])
 
         blankPage = await self._context.new_page()
-        getUA = await blankPage.evaluate('''() => {
+        getUA = await blankPage.evaluate('''() = > {
           return navigator.userAgent
         }''')
 
