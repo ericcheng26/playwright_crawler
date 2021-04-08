@@ -3,7 +3,7 @@
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
 # Configure maximum concurrent requests performed by the crawler
-CONCURRENT_REQUESTS = 5
+CONCURRENT_REQUESTS = 10
 # Maximum navigation time in milliseconds
 PLAYWRIGHT_NAVIGATION_TIMEOUT = 30000
 # Browser type (chromium, firefox, webkit) created when Playwright connects to a browser instance

@@ -201,7 +201,7 @@ class PlaywrightCrawler:
                                     # 無法滿足互動條件，沒關係下次努力
                                     except:
                                         with open("/home/eric/文件/html_soup/failed_soup/failed_url.txt", "a", encoding='utf-8') as file:
-                                            file.write(response.url)
+                                            file.write(response.url + '\n')
                 # 抓取所有頁面中所有連結
                 self._enqueueLinks(soup.find_all('a'))
 
