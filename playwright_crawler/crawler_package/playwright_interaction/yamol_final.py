@@ -34,7 +34,7 @@ async def main(page, _settingsdict):
 
     # prepare to save html
     title = await page.title()
-    str_subject_name = await (await page.query_selector('text=/獸醫[\u4e00-\u9fa5]*學/')).text_content()[3:-4]
+    str_subject_name = (await (await page.query_selector('text=/獸醫[\u4e00-\u9fa5]*學/')).text_content())[3:-4]
 
     # ready for file name
     # title = [101年第二次, 105年第一次, 107 年 - 第一次, 106 年 - 第二次, 106 年 - 106-1, 109-1]
