@@ -15,9 +15,7 @@ o)"詳解卡解鎖"須要click觸發，儲存*_note.html
 
 
 async def main(page, _settingsdict):
-    print('start')
-
-    time.sleep(random.randint(5, 10))
+    time.sleep(random.randint(5, 8))
     # right panel tab N="1-50"
     list_lv0element_handle = await page.query_selector_all(
         '#item_map_tab_0 a')
@@ -35,57 +33,58 @@ async def main(page, _settingsdict):
     # title = [101年第二次, 105年第一次, 107 年 - 第一次, 106 年 - 第二次, 106 年 - 106-1, 109-1]
     match0 = re.search(r'(\d{2,3}\s*-\s*\d)', title)
     match1 = re.search(r'([1-9][0-9][0-9]?|第一?二?次)', title)
+    match2 = re.search(r'獸醫[\u4e00-\u9fa5]*學', title)
 
     try:
-        time.sleep(random.randint(5, 10))
+        time.sleep(random.randint(5, 8))
 
         list_lv3element_handle = await page.query_selector_all('text=/^查看全部\s*\d+\s*則討論$/')
         for lv3element_handle in list_lv3element_handle:
             await lv3element_handle.click(delay=1300)
-        time.sleep(random.randint(5, 10))
+        time.sleep(random.randint(5, 8))
 
         list_lv2element_handle = await page.query_selector_all('text="詳解卡解鎖"')
         print(len(list_lv2element_handle))
         for lv2element_handle in list_lv2element_handle:
             await lv2element_handle.click(delay=3000)
-        time.sleep(random.randint(4, 10))
+        time.sleep(random.randint(4, 8))
         if match0:
             html_body = (await page.content()).encode("utf8")
             soup = BeautifulSoup(html_body, "lxml")
-            with open(f"{_settingsdict['SOUP_PATH']}/{match0.group(0)}.html", "w", encoding='utf-8') as file:
+            with open(f"{_settingsdict['SOUP_PATH']}/{match0.group(0)}{match2.group(0)}.html", "w", encoding='utf-8') as file:
                 file.write(str(soup))
         elif match1:
             html_body = (await page.content()).encode("utf8")
             soup = BeautifulSoup(html_body, "lxml")
-            with open(f"{_settingsdict['SOUP_PATH']}/{match1.group(0)}.html", "w", encoding='utf-8') as file:
+            with open(f"{_settingsdict['SOUP_PATH']}/{match1.group(0)}{match2.group(0)}.html", "w", encoding='utf-8') as file:
                 file.write(str(soup))
         else:
             html_body = (await page.content()).encode("utf8")
             soup = BeautifulSoup(html_body, "lxml")
-            with open(f"{_settingsdict['SOUP_PATH']}/{title[-9:]+'_note'}.html", "w", encoding='utf-8') as file:
+            with open(f"{_settingsdict['SOUP_PATH']}/{title[-9:]}{match2.group(0)}.html", "w", encoding='utf-8') as file:
                 file.write(str(soup))
     except:
         if match0:
             html_body = (await page.content()).encode("utf8")
             soup = BeautifulSoup(html_body, "lxml")
-            with open(f"{_settingsdict['SOUP_PATH']}/{match0.group(0)}.html", "w", encoding='utf-8') as file:
+            with open(f"{_settingsdict['SOUP_PATH']}/{match0.group(0)}{match2.group(0)}.html", "w", encoding='utf-8') as file:
                 file.write(str(soup))
         elif match1:
             html_body = (await page.content()).encode("utf8")
             soup = BeautifulSoup(html_body, "lxml")
-            with open(f"{_settingsdict['SOUP_PATH']}/{match1.group(0)}.html", "w", encoding='utf-8') as file:
+            with open(f"{_settingsdict['SOUP_PATH']}/{match1.group(0)}{match2.group(0)}.html", "w", encoding='utf-8') as file:
                 file.write(str(soup))
         else:
             html_body = (await page.content()).encode("utf8")
             soup = BeautifulSoup(html_body, "lxml")
-            with open(f"{_settingsdict['SOUP_PATH']}/{title[-9:]+'_note'}.html", "w", encoding='utf-8') as file:
+            with open(f"{_settingsdict['SOUP_PATH']}/{title[-9:]}{match2.group(0)}.html", "w", encoding='utf-8') as file:
                 file.write(str(soup))
 
     # 點擊私人筆記>>詳解卡解鎖>>save html
     list_lv4element_handle = await page.query_selector_all('text=/^私人筆記\(\s*\d+\s*\)$/')
     for lv4element_handle in list_lv4element_handle:
         await lv4element_handle.click(delay=3000)
-    time.sleep(random.randint(5, 10))
+    time.sleep(random.randint(5, 8))
 
     try:
         list_lv5element_handle = await page.query_selector_all('text="詳解卡解鎖"')
@@ -96,32 +95,32 @@ async def main(page, _settingsdict):
         if match0:
             lv1html_body = (await page.content()).encode("utf8")
             lv1soup = BeautifulSoup(lv1html_body, "lxml")
-            with open(f"{_settingsdict['SOUP_PATH']}/{match0.group(0)+'_note'}.html", "w", encoding='utf-8') as file:
+            with open(f"{_settingsdict['SOUP_PATH']}/{match0.group(0)+'_note'}{match2.group(0)}.html", "w", encoding='utf-8') as file:
                 file.write(str(lv1soup))
         elif match1:
             lv1html_body = (await page.content()).encode("utf8")
             lv1soup = BeautifulSoup(lv1html_body, "lxml")
-            with open(f"{_settingsdict['SOUP_PATH']}/{match1.group(0)+'_note'}.html", "w", encoding='utf-8') as file:
+            with open(f"{_settingsdict['SOUP_PATH']}/{match1.group(0)+'_note'}{match2.group(0)}.html", "w", encoding='utf-8') as file:
                 file.write(str(lv1soup))
         else:
             lv1html_body = (await page.content()).encode("utf8")
             lv1soup = BeautifulSoup(lv1html_body, "lxml")
-            with open(f"{_settingsdict['SOUP_PATH']}/{title[-9:]+'_note'}.html", "w", encoding='utf-8') as file:
+            with open(f"{_settingsdict['SOUP_PATH']}/{title[-9:]+'_note'}{match2.group(0)}.html", "w", encoding='utf-8') as file:
                 file.write(str(lv1soup))
     except:
         # save html
         if match0:
             lv1html_body = (await page.content()).encode("utf8")
             lv1soup = BeautifulSoup(lv1html_body, "lxml")
-            with open(f"{_settingsdict['SOUP_PATH']}/{match0.group(0)+'_note'}.html", "w", encoding='utf-8') as file:
+            with open(f"{_settingsdict['SOUP_PATH']}/{match0.group(0)+'_note'}{match2.group(0)}.html", "w", encoding='utf-8') as file:
                 file.write(str(lv1soup))
         elif match1:
             lv1html_body = (await page.content()).encode("utf8")
             lv1soup = BeautifulSoup(lv1html_body, "lxml")
-            with open(f"{_settingsdict['SOUP_PATH']}/{match1.group(0)+'_note'}.html", "w", encoding='utf-8') as file:
+            with open(f"{_settingsdict['SOUP_PATH']}/{match1.group(0)+'_note'}{match2.group(0)}.html", "w", encoding='utf-8') as file:
                 file.write(str(lv1soup))
         else:
             lv1html_body = (await page.content()).encode("utf8")
             lv1soup = BeautifulSoup(lv1html_body, "lxml")
-            with open(f"{_settingsdict['SOUP_PATH']}/{title[-9:]+'_note'}.html", "w", encoding='utf-8') as file:
+            with open(f"{_settingsdict['SOUP_PATH']}/{title[-9:]+'_note'}{match2.group(0)}.html", "w", encoding='utf-8') as file:
                 file.write(str(lv1soup))
