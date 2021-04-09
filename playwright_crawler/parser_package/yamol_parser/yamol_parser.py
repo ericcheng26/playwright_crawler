@@ -13,6 +13,12 @@
   result_path = parser()
 ------------------------
   
+quick parse in a dir: 
+
+              quick_yamol_parser(html_dir, parsed_dir)
+  
+------------------------
+  
 ========================
     關於檔案路徑
 ========================
@@ -23,7 +29,7 @@
 '''
 
 from os.path import isabs, isfile, isdir, basename, dirname, join
-from os import makedirs
+from os import makedirs, listdir
 from json import load, dump
 from bs4 import BeautifulSoup as BS
 import requests, re
@@ -49,6 +55,7 @@ class Vet_yamol_parser():
   # 萃取所求資料，並序列化
   def __call__(self):
     # domlist loop
+    #print(len(self.domlist))
     for bstag in self.domlist:
 
       # 取得題目與選項
@@ -162,7 +169,8 @@ class Vet_yamol_parser():
       raise TypeError('The 1st arg. must be a dictionary.')
   
     if isfile(path):
-      with open(path, 'r') as f:
+      with open(path, 'r', encoding="utf-8") as f:
+        print(path)
         data = load(f)
     else:    
       if (not isdir(dirname(path))) and (dirname(path) != ''):
@@ -171,7 +179,7 @@ class Vet_yamol_parser():
 
     data.update(container)
 
-    with open(path, 'w') as f:
+    with open(path, 'w', encoding="utf-8") as f:
       dump(data, f, ensure_ascii = False)
     if dirname(path) != '':
       print(f'已建立 {basename(path)} 於 {dirname(path)}')
@@ -196,6 +204,7 @@ class Vet_yamol_parser():
     div_open = r'<div style="border: 2px solid red; border-radius: 5px; border-color: gray; padding: 25px 25px 25px 25px; margin-top: 25px;width: 1000px;">'
     
     discussion_list = bstag.select('[class="well itemcomment"] div[style*="min-height"]')
+    #print(discussion_list)
 
     with open(doc_path, 'a') as f:
       f.write(img_size_control)
@@ -207,5 +216,28 @@ class Vet_yamol_parser():
 
       result = div_open + f'<h1>{qid}-{i+1}</h1>' + target + '</div>'*2
 
-      with open(doc_path, 'a') as f:
-        f.write(result)
+      with open(doc_path, 'ab') as f:
+        f.write(result.encode('utf-8'))
+
+
+def quick_yamol_parser(html_dir, parsed_dir):
+  # 取出所有 html 檔，轉成 .json
+  parsed_path_list = [
+      join(
+        join(parsed_dir, 
+            basename(p).replace('.html', '') 
+        ), 
+        basename(p).replace('.html', '.json')
+      )
+      for p in listdir(html_dir) if '.html' in basename(p)
+  ]
+  
+  html_path_list = [join(html_dir, p) for p in listdir(html_dir) if 'html' in basename(p)]
+  
+  #print(html_path_list)
+  #print(parsed_path_list)
+  
+  for rp, pp in zip(html_path_list, parsed_path_list):
+    with open(rp, 'rb') as f:
+      Vet_yamol_parser(f.read().decode('utf-8'), pp)()
+  
