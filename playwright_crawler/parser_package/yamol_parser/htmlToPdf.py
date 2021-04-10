@@ -5,33 +5,33 @@ import glob
 import argparse
 
 '''
-pdf convert only work in chromium headless mode
-須提供Html資料夾所在位置(html_folder_path)
-    和Pdf需要存放的位置(pdf_folder_path)
+pdf creation only work in chromium headless mode
+須提供Html資料夾所在位置(htmlpath)
+    和Pdf需要存放的位置(pdfpath)
 '''
 parser = argparse.ArgumentParser(description='Process Html To Pdf.')
-parser.add_argument('--sum', dest='accumulate', action='store_const',
-                    const=sum, default=max,
-                    help='')
-parser.add_argument('--sum', dest='accumulate', action='store_const',
-                    const=sum, default=max,
-                    help='')
+parser.add_argument('-hp', dest='htmlpath',
+                    help='Fill the html directory')
+parser.add_argument('-pp', dest='pdfpath',
+                    help='Fill the pdf directory')
 args = parser.parse_args()
+htmlpath = args.htmlpath
+pdfpath = args.pdfpath
 
 
-async def main(html_folder_path, pdf_folder_path):
+async def main(htmlpath, pdfpath):
     _pw = await async_playwright().start()
-    # pdf convert only work in chromium headless mode
+    # pdf creation only work in chromium headless mode
     _browser = await _pw.chromium.launch(headless=True)
     _context = await _browser.new_context()
     page = await _context.new_page()
-    html_folder_path = '/home/eric/文件/html_soup'
-    for filename in glob.glob(os.path.join(html_folder_path, '*.html')):
-        with open(os.path.join(html_folder_path, filename), 'r') as f:
+    # 對資料夾內的檔案，讀取和產生pdf
+    for filename in glob.glob(os.path.join(htmlpath, '*.html')):
+        with open(os.path.join(htmlpath, filename), 'r') as f:
             await page.setContent(f)
             await page.emulate_media(media="screen", color_scheme="dark")
             await page.pdf(
-                path=f'{pdf_folder_path}/{filename}.pdf',
+                path=f'{pdfpath}/{filename}.pdf',
                 format='A4'
             )
 # margin = {
