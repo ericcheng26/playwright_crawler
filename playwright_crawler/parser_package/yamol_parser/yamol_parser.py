@@ -45,7 +45,9 @@ class Vet_yamol_parser():
 
     self.static_dir = join(dirname(path), 'static')
 
-    self.discussion_path = join(self.static_dir, basename(path).replace('.json', '') + '_discussion.html')
+    self.discussion_path = join(self.static_dir, 'discussion.html')
+
+    self.note_path = join(self.static_dir, 'note.html')
 
 
     # 建立 json 檔的佔存容器
@@ -55,7 +57,6 @@ class Vet_yamol_parser():
   # 萃取所求資料，並序列化
   def __call__(self):
     # domlist loop
-    #print(len(self.domlist))
     for bstag in self.domlist:
 
       # 取得題目與選項
@@ -69,6 +70,9 @@ class Vet_yamol_parser():
 
       # 儲存詳解討論
       self._extract_discussion(bstag, qid, self.discussion_path)
+
+      # 儲存私人筆記
+      self._extract_note(bstag, qid, self.note_path)
 
       # 打包成字典
       result = self._todict(qid, question, choices, ans, img_path_list)
@@ -169,8 +173,7 @@ class Vet_yamol_parser():
       raise TypeError('The 1st arg. must be a dictionary.')
   
     if isfile(path):
-      with open(path, 'r', encoding="utf-8") as f:
-        print(path)
+      with open(path, 'r', encoding='utf-8') as f:
         data = load(f)
     else:    
       if (not isdir(dirname(path))) and (dirname(path) != ''):
@@ -179,7 +182,7 @@ class Vet_yamol_parser():
 
     data.update(container)
 
-    with open(path, 'w', encoding="utf-8") as f:
+    with open(path, 'w', encoding='utf-8') as f:
       dump(data, f, ensure_ascii = False)
     if dirname(path) != '':
       print(f'已建立 {basename(path)} 於 {dirname(path)}')
@@ -187,6 +190,68 @@ class Vet_yamol_parser():
     else:
       print(f'已建立 {path} 於當前工作資料夾')
       return path
+
+  def _extract_discussion(self, bstag, qid, doc_path):
+    if (not isdir(dirname(doc_path))) and (dirname(doc_path) != ''):
+      makedirs(dirname(doc_path))
+
+    img_size_control = r'''
+        <style type="text/css">
+          img{max-width:80%; height: auto;}
+        </style>
+    '''
+    re_pattern = r'<span class="comment">(.*)<a href="support_open.php\?extra_type'
+    addition_filter = r'<label class="badge badge-danger">已解鎖</label>'
+    addition_filter2 = r'style="display:none"'
+    re_pattern2 = r'查看完整內容</a></div>(.*div style="text-align:right"><i>)'
+    div_open = r'<div style="border: 2px solid red; border-radius: 5px; border-color: gray; padding: 25px 25px 25px 25px; margin-top: 25px;width: 1000px;">'
+    
+    discussion_list = bstag.select('[class="well itemcomment"] div[style*="min-height"]')
+
+    with open(doc_path, 'a', encoding = 'utf-8') as f:
+      f.write(img_size_control)
+
+
+    for i, e in enumerate(discussion_list):
+      if '查看完整' in str(e):
+        re_result = re.search(re_pattern2 ,str(e), re.DOTALL)
+        target = re_result.group(1).replace(addition_filter2, '')
+      else:
+        re_result = re.search(re_pattern ,str(e), re.DOTALL)
+        target = re_result.group(1).replace(addition_filter, '')
+
+      result = div_open + f'<h1>{qid}-{i+1}</h1>' + target + '</div>'*2
+
+      with open(doc_path, 'a', encoding = 'utf-8') as f:
+        f.write(result)
+
+
+  def _extract_note(self, bstag, qid, doc_path):
+
+    img_size_control = r'''
+        <style type="text/css">
+          img{max-width:80%; height: auto;}
+        </style>
+    '''
+    css_selector = r'li[class*="list-group-item well itemcomment"]'
+    re_pattern = r'已解鎖</label><br/>(.*)\n<center>'
+    div_open = r'<div style="border: 2px solid red; border-radius: 5px; border-color: gray; padding: 25px 25px 25px 25px; margin-top: 25px;width: 1000px;">'
+    
+
+    note_list = bstag.select(css_selector)
+
+    if not note_list: return None
+
+    with open(doc_path, 'a', encoding = 'utf-8') as f:
+      f.write(img_size_control)
+
+    for i, e in enumerate(note_list):
+      re_result = re.search(re_pattern ,str(e), re.DOTALL)
+      target = re_result.group(1)
+      result = div_open + f'<h1>{qid}-{i+1}</h1>' + target + '</div>'*2
+
+      with open(doc_path, 'a', encoding = 'utf-8') as f:
+        f.write(result)
 
         
   def _extract_discussion(self, bstag, qid, doc_path):
