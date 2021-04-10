@@ -206,7 +206,7 @@ class Vet_yamol_parser():
     
     discussion_list = bstag.select('[class="well itemcomment"] div[style*="min-height"]')
 
-    with open(doc_path, 'a') as f:
+    with open(doc_path, 'a', encoding='UTF-8') as f:
       f.write(img_size_control)
 
 
@@ -220,7 +220,7 @@ class Vet_yamol_parser():
 
       result = div_open + f'<h1>{qid}-{i+1}</h1>' + target + '</div>'*2
 
-      with open(doc_path, 'a') as f:
+      with open(doc_path, 'a', encoding='UTF-8') as f:
         f.write(result)
 
 
