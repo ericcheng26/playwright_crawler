@@ -33,7 +33,7 @@ async def main():
     _browser = await _pw.chromium.launch(headless=True)
     _context = await _browser.new_context()
     page = await _context.new_page()
-    # 對資料夾內的檔案，讀取和產生pdf
+    # 對資料夾內的檔案，讀取檔名，用瀏覽器開啟檔案後產生pdf
     for filename in glob.glob(os.path.join(args.htmlpath, '*.html')):
 
         await page.goto(f'file://{os.path.join(args.htmlpath, filename)}')
