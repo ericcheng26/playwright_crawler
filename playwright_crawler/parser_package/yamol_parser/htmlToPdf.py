@@ -27,13 +27,13 @@ async def main():
     page = await _context.new_page()
     # 對資料夾內的檔案，讀取和產生pdf
     for filename in glob.glob(os.path.join(args.htmlpath, '*.html')):
-        with open(os.path.join(args.htmlpath, filename), 'r') as f:
-            await page.setContent(f)
-            await page.emulate_media(media="screen", color_scheme="dark")
-            await page.pdf(
-                path=f'{args.pdfpath}/{filename}.pdf',
-                format=f'{args.papersize}'
-            )
+
+        await page.goto(os.path.join(args.htmlpath, filename))
+        await page.emulate_media(media="screen", color_scheme="dark")
+        await page.pdf(
+            path=f'{args.pdfpath}/{filename}.pdf',
+            format=f'{args.papersize}'
+        )
 # margin = {
 #     top: "20px",
 #     left: "20px",
