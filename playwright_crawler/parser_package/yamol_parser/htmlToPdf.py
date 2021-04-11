@@ -8,14 +8,22 @@ import argparse
 pdf creation only work in chromium headless mode
 須提供Html資料夾所在位置(htmlpath)
     和Pdf需要存放的位置(pdfpath)
+
+預設擷取html在螢幕上的顯示成果，並轉換成Pdf。
+不是擷取html的列印結果，轉換成pdf。
+如有列印結果轉換成pdf需求，請指定引數。
 '''
 parser = argparse.ArgumentParser(description='Process Html To Pdf.')
 parser.add_argument('--htmlpath', type=str, default='',
                     help='The html directory')
 parser.add_argument('--pdfpath', type=str, default='',
                     help='The pdf directory')
-parser.add_argument('--papersize', type=str, default='',
+parser.add_argument('--papersize', type=str, default='A4',
                     help='paper format: A4,B5...')
+parser.add_argument('--convertmode', type=str, default='screen',
+                    help="mode: screen, print; Print mode: Using the style of CSS '@media print'. Screen mode: Using what's showing on the screen ")
+parser.add_argument('--schemecolor', type=str, default='dark',
+                    help="Default = 'dark'[ 'light', 'no-preference'] | None")
 
 
 async def main():
@@ -28,15 +36,18 @@ async def main():
     # 對資料夾內的檔案，讀取和產生pdf
     for filename in glob.glob(os.path.join(args.htmlpath, '*.html')):
 
-        await page.goto(os.path.join(args.htmlpath, filename))
-        await page.emulate_media(media="screen", color_scheme="dark")
+        await page.goto(f'file://{os.path.join(args.htmlpath, filename)}')
+        await page.emulate_media(media=f"{args.convertmode}", color_scheme=f"{args.schemecolor}")
         await page.pdf(
             path=f'{args.pdfpath}/{filename}.pdf',
             format=f'{args.papersize}'
         )
+        print(f"{filename}'s Pdf is done...")
+
 # margin = {
 #     top: "20px",
 #     left: "20px",
 #     right: "20px",
 #     bottom: "20px"
 # }
+    await browser.close()
