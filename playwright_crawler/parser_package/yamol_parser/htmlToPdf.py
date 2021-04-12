@@ -20,7 +20,7 @@ parser.add_argument('--pdfpath', type=str, default='',
                     help='The pdf directory')
 parser.add_argument('--papersize', type=str, default='A4',
                     help='paper format: A4,B5...')
-parser.add_argument('--convertmode', type=str, default='screen',
+parser.add_argument('--convertmode', type=str, default='print',
                     help="mode: screen, print; Print mode: Using the style of CSS '@media print'. Screen mode: Using what's showing on the screen ")
 parser.add_argument('--schemecolor', type=str, default='dark',
                     help="Default = 'dark'[ 'light', 'no-preference'] | None")
