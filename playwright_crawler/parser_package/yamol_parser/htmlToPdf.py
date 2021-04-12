@@ -9,9 +9,9 @@ pdf creation only work in chromium headless mode
 須提供Html資料夾所在位置(htmlpath)
     和Pdf需要存放的位置(pdfpath)
 
-預設擷取html在螢幕上的顯示成果，並轉換成Pdf。
-不是擷取html的列印結果，轉換成pdf。
-如有列印結果轉換成pdf需求，請指定引數。
+預設擷取html的列印結果，並轉換成Pdf。
+不是html在螢幕上的顯示成果。
+有可選模式，請指定引數。
 '''
 parser = argparse.ArgumentParser(description='Process Html To Pdf.')
 parser.add_argument('--htmlpath', type=str, default='',
