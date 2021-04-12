@@ -12,7 +12,7 @@ PLAYWRIGHT_BROWSER_TYPE = 'chromium'
 # To create cookies 'playwright codegen -o gen_cookies.py https://yamol.tw/main.php --save-storage cookies'
 # MacOS: '/Users/sn_outis/Documents/GitHub/playwright_crawler/playwright_crawler/cookies'
 #Centos: '/home/eric/文件/github/crawler_eric/cookies'
-COOKIES_PATH = '/home/eric/文件/github/crawler_eric/cookies'
+COOKIES_PATH = '/home/eric/文件/github/cookies_pack/yamol_cookies'
 # Set of configurable options to set on the browser.
 # See https://github.com/microsoft/playwright/blob/master/docs/api.md#browsertypelaunchoptions for description fields
 # MacOS: /Users/sn_outis/Library/Caches/ms-playwright/chromium-851527/chrome-mac/Chromium.app/Contents/MacOS/Chromium

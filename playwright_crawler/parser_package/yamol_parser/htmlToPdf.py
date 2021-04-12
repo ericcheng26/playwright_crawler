@@ -50,4 +50,4 @@ async def main():
 #     right: "20px",
 #     bottom: "20px"
 # }
-    await browser.close()
+    await _browser.close()
