@@ -1,73 +1,85 @@
-from playwright.sync_api import sync_playwright
+import asyncio
+from playwright.async_api import async_playwright
 
-def run(playwright):
-    browser = playwright.chromium.launch(headless=False)
-    context = browser.new_context(storage_state="/home/eric/文件/github/cookies_pack/learningbar_cookies")
+
+async def main(playwright):
+    browser = await playwright.chromium.launch(headless=False)
+    context = await browser.new_context(
+        storage_state="/home/eric/文件/github/cookies_pack/learningbar_cookies")
 
     # Open new page
-    page = context.new_page()
+    page = await context.new_page()
 
     # Go to https://www.learningbar.tw/
-    page.goto("https://www.learningbar.tw/")
+    await page.goto("https://www.learningbar.tw/")
 
     # Click text=登入學Bar
-    page.frame(name="LBR_Banner").click("text=登入學Bar")
+    await page.frame(name="LBR_Banner").click("text=登入學Bar")
 
     # Click [placeholder="E-mail"]
-    page.frame(name="LBR_Body").click("[placeholder=\"E-mail\"]")
+    await page.frame(name="LBR_Body").click("[placeholder=\"E-mail\"]")
 
     # Fill [placeholder="E-mail"]
-    page.frame(name="LBR_Body").fill("[placeholder=\"E-mail\"]", "ericcheng26@gmail.com")
+    await page.frame(name="LBR_Body").fill(
+        "[placeholder=\"E-mail\"]", "ericcheng26@gmail.com")
 
     # Press Tab
-    page.frame(name="LBR_Body").press("[placeholder=\"E-mail\"]", "Tab")
+    await page.frame(name="LBR_Body").press("[placeholder=\"E-mail\"]", "Tab")
 
     # Fill [placeholder="Password"]
-    page.frame(name="LBR_Body").fill("[placeholder=\"Password\"]", "HACKER26")
+    await page.frame(name="LBR_Body").fill(
+        "[placeholder=\"Password\"]", "HACKER26")
 
     # Check [placeholder="Password tabindex="]
-    page.frame(name="LBR_Body").check("[placeholder=\"Password tabindex=\"]")
+    await page.frame(name="LBR_Body").check(
+        "[placeholder=\"Password tabindex=\"]")
 
     # Click input:has-text("登入")
-    page.frame(name="LBR_Body").click("input:has-text(\"登入\")")
+    await page.frame(name="LBR_Body").click("input:has-text(\"登入\")")
 
     # Click text=分類瀏覽
-    page.frame(name="LBR_Body").click("text=分類瀏覽")
+    await page.frame(name="LBR_Body").click("text=分類瀏覽")
 
     # Select SUB-044
-    page.frame(name="LBR_Body").select_option("select[name=\"s_Question_Subject\"]", "SUB-044")
+    await page.frame(name="LBR_Body").select_option(
+        "select[name=\"s_Question_Subject\"]", "SUB-044")
 
     # Click text=送出
-    page.frame(name="LBR_Body").click("text=送出")
-
+    await page.frame(name="LBR_Body").click("text=送出")
+    # 找出含有"出處: 民國xxxxx" 的element並用list裝起來
+    lst_ = page.frame(name="LBR_Body").query_selector_all(
+        'text=/出處: 民國 \d{2,3} 年-寒?暑?期 獸醫[\u4e00-\u9fa5]*學 第 \d{1,2} 題/')
+    # 從上面的element list 取出element內部文字
+    for x in lst_:
+        str_ = x.text_content()
     # Click img
-    page.frame(name="LBR_Body").click("img")
+    await page.frame(name="LBR_Body").click("img")
 
     # Select SUB-045
-    page.frame(name="LBR_Body").select_option("select[name=\"s_Question_Subject\"]", "SUB-045")
+    await page.frame(name="LBR_Body").select_option(
+        "select[name=\"s_Question_Subject\"]", "SUB-045")
 
     # Click text=送出
-    page.frame(name="LBR_Body").click("text=送出")
+    await page.frame(name="LBR_Body").click("text=送出")
 
     # Click img
-    page.frame(name="LBR_Body").click("img")
+    await page.frame(name="LBR_Body").click("img")
 
     # Select SUB-097
-    page.frame(name="LBR_Body").select_option("select[name=\"s_Question_Subject\"]", "SUB-097")
+    await page.frame(name="LBR_Body").select_option(
+        "select[name=\"s_Question_Subject\"]", "SUB-097")
 
     # Click text=送出
-    page.frame(name="LBR_Body").click("text=送出")
+    await page.frame(name="LBR_Body").click("text=送出")
 
     # Click img
-    page.frame(name="LBR_Body").click("img")
-
+    await page.frame(name="LBR_Body").click("img")
 
     # Close page
-    page.close()
+    await page.close()
 
     # ---------------------
-    context.close()
-    browser.close()
+    await context.close()
+    await browser.close()
 
-with sync_playwright() as playwright:
-    run(playwright)
+asyncio.run(main())

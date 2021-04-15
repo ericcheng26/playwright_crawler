@@ -50,4 +50,9 @@ async def main():
 #     right: "20px",
 #     bottom: "20px"
 # }
+# ---------------------
+    await page.close()
+    await _context.close()
     await _browser.close()
+
+asyncio.run(main())

@@ -119,18 +119,6 @@ class PlaywrightCrawler:
             if rel and 'nofollow' in rel:
                 continue
 
-            # Check if the path of link is target
-            # 對連結進行第二層過濾，聚焦爬蟲的策略
-            # if self._settingsdict['URL_FILTER_PARAMS']:
-            #     url_filter_params = self._settingsdict['URL_FILTER_PARAMS']
-            #     match_lv0 = re.search(
-            #         f'{url_filter_params}', hrefLink)
-            #     if match_lv0:
-            #         continue
-                # if self._settingsdict['URL_FILTER_PATH']:
-                #     if link_url_parsed.path != self._settingsdict['URL_FILTER_PATH']:
-                # continue
-
             with self._lock:
                 self._crawledLinks.add(hrefLink)
                 self._crawledQueryID.add(link_url_parsed.query)
