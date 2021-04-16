@@ -205,7 +205,7 @@ class Vet_yamol_parser():
     discussion_list = bstag.select(
         '[class="well itemcomment"] div[style*="min-height"]')
 
-      discussion_list = bstag.select(
+        discussion_list = bstag.select(
            '[class="well itemcomment"] div[style*="min-height"]')
 
        with open(doc_path, 'a', encoding='utf-8') as f:
