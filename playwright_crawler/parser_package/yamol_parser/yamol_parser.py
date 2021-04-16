@@ -12,13 +12,13 @@
 2. 執行分析並回傳路徑
   result_path = parser()
 ------------------------
-  
-quick parse in a dir: 
+
+quick parse in a dir:
 
               quick_yamol_parser(html_dir, parsed_dir)
-  
+
 ------------------------
-  
+
 ========================
     關於檔案路徑
 ========================
@@ -196,16 +196,19 @@ class Vet_yamol_parser():
           img{max-width:80%; height: auto;}
         </style>
     '''
-        re_pattern = r'<span class="comment">(.*)<a href="support_open.php\?extra_type'
-        addition_filter = r'<label class="badge badge-danger">已解鎖</label>'
-        addition_filter2 = r'style="display:none"'
-        re_pattern2 = r'查看完整內容</a></div>(.*div style="text-align:right"><i>)'
-        div_open = r'<div style="border: 2px solid red; border-radius: 5px; border-color: gray; padding: 25px 25px 25px 25px; margin-top: 25px;width: 1000px;">'
+    re_pattern = r'<span class="comment">(.*)<a href="support_open.php\?extra_type'
+    addition_filter = r'<label class="badge badge-danger">已解鎖</label>'
+    addition_filter2 = r'style="display:none"'
+    re_pattern2 = r'查看完整內容</a></div>(.*div style="text-align:right"><i>)'
+    div_open = r'<div style="border: 2px solid red; border-radius: 5px; border-color: gray; padding: 25px 25px 25px 25px; margin-top: 25px;" class=<class>>'
 
-        discussion_list = bstag.select(
-            '[class="well itemcomment"] div[style*="min-height"]')
+    discussion_list = bstag.select(
+        '[class="well itemcomment"] div[style*="min-height"]')
 
-        with open(doc_path, 'a', encoding='utf-8') as f:
+      discussion_list = bstag.select(
+           '[class="well itemcomment"] div[style*="min-height"]')
+
+       with open(doc_path, 'a', encoding='utf-8') as f:
             f.write(img_size_control)
 
         for i, e in enumerate(discussion_list):
@@ -228,25 +231,26 @@ class Vet_yamol_parser():
           img{max-width:80%; height: auto;}
         </style>
     '''
-        css_selector = r'li[class*="list-group-item well itemcomment"]'
-        re_pattern = r'已解鎖</label><br/>(.*)\n<center>'
-        div_open = r'<div style="border: 2px solid red; border-radius: 5px; border-color: gray; padding: 25px 25px 25px 25px; margin-top: 25px;width: 1000px;">'
+    css_selector = r'li[class*="list-group-item well itemcomment"]'
+    re_pattern = r'已解鎖</label><br/>(.*)\n<center>'
+    div_open = r'<div style="border: 2px solid red; border-radius: 5px; border-color: gray; padding: 25px 25px 25px 25px; margin-top: 25px;" class=<class>>'
 
-        note_list = bstag.select(css_selector)
+      note_list = bstag.select(css_selector)
 
-        if not note_list:
+       if not note_list:
             return None
 
         with open(doc_path, 'a', encoding='utf-8') as f:
             f.write(img_size_control)
 
-        for i, e in enumerate(note_list):
-            re_result = re.search(re_pattern, str(e), re.DOTALL)
-            target = re_result.group(1)
-            result = div_open + f'<h1>{qid}-{i+1}</h1>' + target + '</div>'*2
+    for i, e in enumerate(note_list):
+        re_result = re.search(re_pattern, str(e), re.DOTALL)
+        target = re_result.group(1)
+        result = div_open.replace('<class>', str(
+            qid) + '-' + str(i+1)) + f'<h1>{qid}-{i+1}</h1>' + target + '</div>'*2
 
-            with open(doc_path, 'a', encoding='utf-8') as f:
-                f.write(result)
+          with open(doc_path, 'a', encoding='utf-8') as f:
+               f.write(result)
 
     def _extract_discussion(self, bstag, qid, doc_path):
         if (not isdir(dirname(doc_path))) and (dirname(doc_path) != ''):
@@ -257,29 +261,30 @@ class Vet_yamol_parser():
           img{max-width:80%; height: auto;}
         </style>
     '''
-        re_pattern = r'<span class="comment">(.*)<a href="support_open.php\?extra_type'
-        addition_filter = r'<label class="badge badge-danger">已解鎖</label>'
-        addition_filter2 = r'style="display:none"'
-        re_pattern2 = r'查看完整內容</a></div>(.*div style="text-align:right"><i>)'
-        div_open = r'<div style="border: 2px solid red; border-radius: 5px; border-color: gray; padding: 25px 25px 25px 25px; margin-top: 25px;width: 1000px;">'
+    re_pattern = r'<span class="comment">(.*)<a href="support_open.php\?extra_type'
+    addition_filter = r'<label class="badge badge-danger">已解鎖</label>'
+    addition_filter2 = r'style="display:none"'
+    re_pattern2 = r'查看完整內容</a></div>(.*div style="text-align:right"><i>)'
+    div_open = r'<div style="border: 2px solid red; border-radius: 5px; border-color: gray; padding: 25px 25px 25px 25px; margin-top: 25px;" class=<class>>'
 
-        discussion_list = bstag.select(
-            '[class="well itemcomment"] div[style*="min-height"]')
+    discussion_list = bstag.select(
+        '[class="well itemcomment"] div[style*="min-height"]')
 
-        with open(doc_path, 'a', encoding='UTF-8') as f:
-            f.write(img_size_control)
+    with open(doc_path, 'a', encoding='UTF-8') as f:
+        f.write(img_size_control)
 
-        for i, e in enumerate(discussion_list):
-            if '查看完整' in str(e):
-                re_result = re.search(re_pattern2, str(e), re.DOTALL)
-                target = re_result.group(1).replace(addition_filter2, '')
-            else:
-                re_result = re.search(re_pattern, str(e), re.DOTALL)
-                target = re_result.group(1).replace(addition_filter, '')
+          discussion_list = bstag.select(
+               '[class="well itemcomment"] div[style*="min-height"]')
 
-            result = div_open + f'<h1>{qid}-{i+1}</h1>' + target + '</div>'*2
+           with open(doc_path, 'a', encoding='UTF-8') as f:
+                f.write(img_size_control)
 
-            with open(doc_path, 'a', encoding='UTF-8') as f:
+        result = div_open.replace('<class>', str(
+            qid) + '-' + str(i+1)) + f'<h1>{qid}-{i+1}</h1>' + target + '</div>'*2
+
+          result = div_open + f'<h1>{qid}-{i+1}</h1>' + target + '</div>'*2
+
+           with open(doc_path, 'a', encoding='UTF-8') as f:
                 f.write(result)
 
 
