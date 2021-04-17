@@ -40,8 +40,9 @@ async def main(playwright):
 
     # Click text=分類瀏覽
     await page.frame(name="LBR_Body").click("text=分類瀏覽")
-    # 用一個迴圈將每次選擇後的行為包裝起來，因為每次選擇後做的行爲都一樣
-    # 每次選擇不同類別，進行相同行爲
+    # 每次先選擇不同類別，再做相同行爲
+    # 行爲=抓取所有"出處xxxx"的element，然後將文字取出
+    # 嘗試：取出文字後下一頁，並執行"行爲"，直到
     for x in range(44, 98):
         await page.frame(name="LBR_Body").select_option("select[name=\"s_Question_Subject\"]", f"SUB-0{x}")
         await page.frame(name="LBR_Body").click("text=送出")
