@@ -23,14 +23,14 @@ async def main(page, _settingsdict):
 
     # print(len(list_lv0element_handle))
     for lv0element_handle in list_lv0element_handle:
-        await lv0element_handle.click(delay=3000)
+        await lv0element_handle.click(delay=4000)
 
     # right panel tab N="51-100"
     await page.click('a[href="#item_map_tab_1"]')
     list_lv1element_handle = await page.query_selector_all(
         '#item_map_tab_1 a')
     for lv1element_handle in list_lv1element_handle:
-        await lv1element_handle.click(delay=3000)
+        await lv1element_handle.click(delay=4000)
 
     # prepare to save html
     title = await page.title()
