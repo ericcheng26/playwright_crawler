@@ -32,7 +32,7 @@ async def main(page, _settingsdict):
     for lv1element_handle in list_lv1element_handle:
         await lv1element_handle.click(delay=4000)
 
-    # prepare to save html
+    # prepare to save html's file name
     title = await page.title()
     str_subject_name = (await (await page.query_selector('text=/獸醫[\u4e00-\u9fa5]*學/')).text_content())[3:-4]
 
@@ -54,17 +54,17 @@ async def main(page, _settingsdict):
 
         list_lv3element_handle = await page.query_selector_all('text=/^查看全部\s*\d+\s*則討論$/')
         for lv3element_handle in list_lv3element_handle:
-            await lv3element_handle.click(delay=3000)
+            await lv3element_handle.click(delay=5000)
         time.sleep(random.randint(4, 6))
 
         list_lv2element_handle = await page.query_selector_all('text="詳解卡解鎖"')
         print(len(list_lv2element_handle))
         for lv2element_handle in list_lv2element_handle:
-            await lv2element_handle.click(delay=3000)
+            await lv2element_handle.click(delay=5000)
         time.sleep(random.randint(4, 8))
     except:
         print('查看全部n則討論|詳解卡解鎖無按鈕可按')
-
+    time.sleep(random.randint(5, 8))
     # save html file, file name depend on match result
     with open(html_file_name + '.html', "w", encoding='utf-8') as file:
         file.write(str(BeautifulSoup((await page.content()).encode("utf8"), "lxml")))
@@ -72,7 +72,7 @@ async def main(page, _settingsdict):
     # 點擊私人筆記>>詳解卡解鎖>>save html
     list_lv4element_handle = await page.query_selector_all('text=/^私人筆記\(\s*\d+\s*\)$/')
     for lv4element_handle in list_lv4element_handle:
-        await lv4element_handle.click(delay=3000)
+        await lv4element_handle.click(delay=5000)
     time.sleep(random.randint(5, 8))
 
     # 私人筆記中的詳解卡解鎖可能無東西可按
@@ -80,11 +80,11 @@ async def main(page, _settingsdict):
         list_lv5element_handle = await page.query_selector_all('text="詳解卡解鎖"')
         print(len(list_lv5element_handle))
         for lv5element_handle in list_lv5element_handle:
-            await lv5element_handle.click(delay=3000)
+            await lv5element_handle.click(delay=5000)
         time.sleep(random.randint(5, 10))
     except:
         print('私人筆記中的詳解卡解鎖無按鈕可按')
-
+    time.sleep(random.randint(5, 8))
     # save html file, file name depend on match result
     with open(html_file_name + '_note.html', "w", encoding='utf-8') as file:
         file.write(str(BeautifulSoup((await page.content()).encode("utf8"), "lxml")))
