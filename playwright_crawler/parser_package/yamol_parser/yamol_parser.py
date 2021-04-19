@@ -104,6 +104,14 @@ class Vet_yamol_parser():
       temp_choices = temp_choices[i:]
     choices.append(temp_choices)
     qid = question[:question.find('.')]
+    
+    #若 choices 全空，則代表選項全是圖片
+    if not all(choices):
+      re_pattern_choice = r'\(A\) <span(.*)<span></span></span>'
+      re_pattern_img = r'(<img src=.*?/>)'
+      raw_choice = re.search(re_pattern_choice, str(content[0]), re.DOTALL).group(1)
+      choices = re.findall(re_pattern_img, raw_choice, re.DOTALL)
+    
     return qid, question, choices
 
 
