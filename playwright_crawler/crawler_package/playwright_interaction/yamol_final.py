@@ -22,9 +22,10 @@ async def main(page, _settingsdict):
         '#item_map_tab_0 a')
     for lv0element_handle in list_lv0element_handle:
         await lv0element_handle.click(delay=3000)
+        time.sleep(random.randint(1, 2))
         # Press PageDown
         await page.press(
-            "body:has-text(\"× 載入中..請稍候.. 關閉 通知 Mark as Read Templates Synced 20 Templates have been synced t\")", "PageDown")
+            "body:has-text(\"× 載入中..請稍候.. 關閉 通知 Mark as Read Templates Synced 20 Templates have been synced t\")", "PageDown", delay=15)
 
     # right panel tab N="51-100"
     await page.click('a[href="#item_map_tab_1"]')
@@ -32,6 +33,7 @@ async def main(page, _settingsdict):
         '#item_map_tab_1 a')
     for lv1element_handle in list_lv1element_handle:
         await lv1element_handle.click(delay=3000)
+        time.sleep(random.randint(1, 2))
         # Press PageDown
         await page.press(
             "body:has-text(\"× 載入中..請稍候.. 關閉 通知 Mark as Read Templates Synced 20 Templates have been synced t\")", "PageDown", delay=15)
