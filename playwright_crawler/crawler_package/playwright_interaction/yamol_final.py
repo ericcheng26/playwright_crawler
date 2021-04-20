@@ -34,7 +34,7 @@ async def main(page, _settingsdict):
         await lv1element_handle.click(delay=3000)
         # Press PageDown
         await page.press(
-            "body:has-text(\"× 載入中..請稍候.. 關閉 通知 Mark as Read Templates Synced 20 Templates have been synced t\")", "PageDown")
+            "body:has-text(\"× 載入中..請稍候.. 關閉 通知 Mark as Read Templates Synced 20 Templates have been synced t\")", "PageDown", delay=15)
     # prepare to save html's file name
     title = await page.title()
     str_subject_name = (await (await page.query_selector('text=/獸醫[\u4e00-\u9fa5]*學/')).text_content())[3:-4]

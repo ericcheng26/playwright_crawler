@@ -47,12 +47,12 @@ async def main(playwright):
         await page.frame(name="LBR_Body").select_option("select[name=\"s_Question_Subject\"]", f"SUB-0{x}")
         await page.frame(name="LBR_Body").click("text=送出")
     # 找出含有"出處: 民國xxxxx" 的element並用list裝起來
-        lst_ = page.frame(name="LBR_Body").query_selector_all(
+        list_lv0element_handle = page.frame(name="LBR_Body").query_selector_all(
             'text=/出處: 民國 \d{2,3} 年-寒?暑?期 獸醫[\u4e00-\u9fa5]*學 第 \d{1,2} 題/')
         # 從element list 逐個取出element內部文字
         # 並存進json
-        for x in lst_:
-            str_ = x.text_content()
+        for x in list_lv0element_handle:
+            str_lv0element = x.text_content()
             json_container.join()
         # 返回分類瀏覽
         await page.frame(name="LBR_Body").click("img")
