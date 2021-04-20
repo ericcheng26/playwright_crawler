@@ -22,6 +22,9 @@ async def main(page, _settingsdict):
         '#item_map_tab_0 a')
     for lv0element_handle in list_lv0element_handle:
         await lv0element_handle.click(delay=3000)
+        # Press PageDown
+        await page.press(
+            "body:has-text(\"× 載入中..請稍候.. 關閉 通知 Mark as Read Templates Synced 20 Templates have been synced t\")", "PageDown")
 
     # right panel tab N="51-100"
     await page.click('a[href="#item_map_tab_1"]')
@@ -29,7 +32,9 @@ async def main(page, _settingsdict):
         '#item_map_tab_1 a')
     for lv1element_handle in list_lv1element_handle:
         await lv1element_handle.click(delay=3000)
-
+        # Press PageDown
+        await page.press(
+            "body:has-text(\"× 載入中..請稍候.. 關閉 通知 Mark as Read Templates Synced 20 Templates have been synced t\")", "PageDown")
     # prepare to save html's file name
     title = await page.title()
     str_subject_name = (await (await page.query_selector('text=/獸醫[\u4e00-\u9fa5]*學/')).text_content())[3:-4]
