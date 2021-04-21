@@ -85,7 +85,6 @@ async def main(page, _settingsdict):
         print(len(list_lv5element_handle))
         for lv5element_handle in list_lv5element_handle:
             await lv5element_handle.click(delay=3000)
-        time.sleep(random.randint(2, 3))
     except:
         print('私人筆記中的詳解卡解鎖無按鈕可按')
     # save html file, file name depend on match result
