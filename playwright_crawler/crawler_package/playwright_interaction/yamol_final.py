@@ -15,28 +15,26 @@ o)"詳解卡解鎖"須要click觸發，儲存*_note.html
 
 
 async def main(page, _settingsdict):
-    time.sleep(random.randint(3, 4))
+    time.sleep(random.randint(1, 2))
 
     # right panel tab N="1-50"
     list_lv0element_handle = await page.query_selector_all(
         '#item_map_tab_0 a')
     for lv0element_handle in list_lv0element_handle:
-        await lv0element_handle.click(delay=3000)
+        await lv0element_handle.click(delay=1500)
         time.sleep(random.randint(1, 2))
         # Press PageDown
-        await page.press(
-            "body:has-text(\"× 載入中..請稍候.. 關閉 通知 Mark as Read Templates Synced 20 Templates have been synced t\")", "PageDown", delay=15)
+        await page.press("body", "PageDown", delay=15)
 
     # right panel tab N="51-100"
     await page.click('a[href="#item_map_tab_1"]')
     list_lv1element_handle = await page.query_selector_all(
         '#item_map_tab_1 a')
     for lv1element_handle in list_lv1element_handle:
-        await lv1element_handle.click(delay=3000)
+        await lv1element_handle.click(delay=1500)
         time.sleep(random.randint(1, 2))
         # Press PageDown
-        await page.press(
-            "body:has-text(\"× 載入中..請稍候.. 關閉 通知 Mark as Read Templates Synced 20 Templates have been synced t\")", "PageDown", delay=15)
+        await page.press("body", "PageDown", delay=15)
     # prepare to save html's file name
     title = await page.title()
     str_subject_name = (await (await page.query_selector('text=/獸醫[\u4e00-\u9fa5]*學/')).text_content())[3:-4]
@@ -58,13 +56,13 @@ async def main(page, _settingsdict):
         list_lv3element_handle = await page.query_selector_all('text=/^查看全部\s*\d+\s*則討論$/')
         for lv3element_handle in list_lv3element_handle:
             await lv3element_handle.click(delay=3000)
-        time.sleep(random.randint(3, 5))
+        time.sleep(random.randint(2, 3))
 
         list_lv2element_handle = await page.query_selector_all('text="詳解卡解鎖"')
         print(len(list_lv2element_handle))
         for lv2element_handle in list_lv2element_handle:
             await lv2element_handle.click(delay=3000)
-        time.sleep(random.randint(3, 5))
+        time.sleep(random.randint(2, 3))
     except:
         print('查看全部n則討論|詳解卡解鎖無按鈕可按')
     # save html file, file name depend on match result
@@ -82,7 +80,7 @@ async def main(page, _settingsdict):
         print(len(list_lv5element_handle))
         for lv5element_handle in list_lv5element_handle:
             await lv5element_handle.click(delay=3000)
-        time.sleep(random.randint(3, 5))
+        time.sleep(random.randint(2, 3))
     except:
         print('私人筆記中的詳解卡解鎖無按鈕可按')
     # save html file, file name depend on match result
