@@ -72,7 +72,10 @@ class Vet_yamol_parser():
       img_path_list = self._img_extract(bstag, qid, self.static_dir)
 
       # 儲存詳解討論
-      self._extract_discussion(bstag, qid, self.discussion_path)
+      try:
+        self._extract_discussion(bstag, qid, self.discussion_path)
+      except:
+        print(f'分析第{qid}題討論時發生問題')
 
       # 儲存私人筆記
       self._extract_note(bstag, qid, self.note_path)
