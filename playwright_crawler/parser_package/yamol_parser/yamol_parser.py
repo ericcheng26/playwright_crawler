@@ -109,7 +109,7 @@ class Vet_yamol_parser():
     if not all(choices):
       re_pattern_choice = r'\(A\) <span(.*)<span></span></span>'
       re_pattern_img = r'(<img src=.*?/>)'
-      raw_choice = re.search(re_pattern_choice, str(content[0]), re.DOTALL).group(1)
+      raw_choice = re.search(re_pattern_choice, str(itemcontent[0]), re.DOTALL).group(1)
       choices = re.findall(re_pattern_img, raw_choice, re.DOTALL)
     
     return qid, question, choices
