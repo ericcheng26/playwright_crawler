@@ -67,7 +67,7 @@ async def main(page, _settingsdict):
         list_lv3element_handle = await page.query_selector_all('text=/^查看全部\s*\d+\s*則討論$/')
         for lv3element_handle in list_lv3element_handle:
             await lv3element_handle.click(delay=3000)
-            time.sleep(2)
+            time.sleep(1)
     except:
         print('沒有(查看全部n則討論)')
     time.sleep(3)
@@ -75,7 +75,7 @@ async def main(page, _settingsdict):
         list_lv4element_handle = await page.query_selector_all('text="全部討論"')
         for lv4element_handle in list_lv4element_handle:
             await lv4element_handle.click(delay=3000)
-            time.sleep(2)
+            time.sleep(1)
     except:
         print('沒有(全部討論)')
     time.sleep(3)
@@ -105,6 +105,7 @@ async def main(page, _settingsdict):
             await lv5element_handle.click(delay=3500)
     except:
         print('私人筆記中的詳解卡解鎖無按鈕可按')
+    time.sleep(2)
     # save html file, file name depend on match result
     with open(html_file_name + '_note.html', "w", encoding='utf-8') as file:
         file.write(str(BeautifulSoup((await page.content()).encode("utf8"), "lxml")))
