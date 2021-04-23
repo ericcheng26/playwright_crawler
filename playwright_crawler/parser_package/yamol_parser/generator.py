@@ -2,91 +2,89 @@ from os.path import isabs, isfile, isdir, basename, dirname, join
 from os import makedirs, listdir
 from json import load
 from bs4 import BeautifulSoup as BS
-import requests, re, base64
-
+import requests
+import re
+import base64
 
 
 def url_to_base64(url):
-  raw = requests.get('http://www.chemspider.com/ImagesHandler.ashx?id=8894&w=250&h=250').content
-  b64data = base64.b64encode(raw)[2:-1]
-  return '<img src="data:image/jpeg;base64, ' + b64data + '>'
+    raw = requests.get(
+        'http://www.chemspider.com/ImagesHandler.ashx?id=8894&w=250&h=250').content
+    b64data = base64.b64encode(raw)[2:-1]
+    return '<img src="data:image/jpeg;base64, ' + b64data + '>'
 
 
 def img_to_base64(img_path):
-  with open(path, 'rb') as f:
-    raw = f.read()
-  b64data = base64.b64encode(raw)[2:-1]
-  return '<img src="data:image/jpeg;base64, ' + b64data + '>'
-
+    with open(path, 'rb') as f:
+        raw = f.read()
+    b64data = base64.b64encode(raw)[2:-1]
+    return '<img src="data:image/jpeg;base64, ' + b64data + '>'
 
 
 def q_part_generator(q_list):
-  result = '''    <table class="main_block">
+    result = '''    <table class="main_block">
     <tr>
       <td class="q_and_c">'''
-  result+=q_list[0]
-  
-  for c in q_list[1]:
-    result+=('<br>' + c)
-    
-  result+='</td>'
-  
-  try:
-    for img_path in q_list[3]:
-      image = img_to_base64(img_path)
-      result+=('<td class="q_image">' + image + '</td>')
-  except: pass
-  
-  result+='</tr></table>'
-  
-  result+='<table class="ans_block"><tr><td class="ans_head">答案</td><td class="ans_val">%s</td></tr></table>'%q_list[2]
-  return result
-  
+    result += q_list[0]
+
+    for c in q_list[1]:
+        result += ('<br>' + c)
+
+    result += '</td>'
+
+    try:
+        for img_path in q_list[3]:
+            image = img_to_base64(img_path)
+            result += ('<td class="q_image">' + image + '</td>')
+    except:
+        pass
+
+    result += '</tr></table>'
+
+    result += '<table class="ans_block"><tr><td class="ans_head">答案</td><td class="ans_val">%s</td></tr></table>' % q_list[2]
+    return result
 
 
-def d_part_generator(d_tag_list = None, n_tag_list = None):
-  result = '<div class="note_and_discussion">'
-  if d_tag_list!=None and d_tag_list!=[]:
-    result+='<h2>詳解</h2>\n'
-    
-    for tag in d_tag_list:
-      result+=str(tag)
-    
-    
-  if n_tag_list!=None and n_tag_list!=[]:
-    result+='<h2>筆記</h2>'
-    
-    for tag in n_tag_list:
-      result+=str(tag)
-    
-  result+='</div>'
-  return result
-  
-  
-    
-    
- 
+def d_part_generator(d_tag_list=None, n_tag_list=None):
+    result = '<div class="note_and_discussion">'
+    if d_tag_list != None and d_tag_list != []:
+        result += '<h2>詳解</h2>\n'
+
+        for tag in d_tag_list:
+            result += str(tag)
+
+    if n_tag_list != None and n_tag_list != []:
+        result += '<h2>筆記</h2>'
+
+        for tag in n_tag_list:
+            result += str(tag)
+
+    result += '</div>'
+    return result
+
 
 def generator(json_path):
 
-  file_name = basename(json_path).replace('.json', '_易讀版.html')
-  title = basename(json_path).replace('.json', '')
-  dir_path = dirname(json_path)
-  static_path = join(dir_path, 'static')
-  discussion_path = join(static_path, 'discussion.html')
-  note_path = join(static_path, 'note.html')
-  
-  if isfile(discussion_path):
-    with open(discussion_path, 'r', encoding='utf-8') as f:
-      d_soup = BS(f.read(), 'lxml')
-  else: d_soup = None
-  
-  if isfile(note_path):
-    with open(note_path, 'r', encoding='utf-8') as f:
-      n_soup = BS(f.read(), 'lxml')
-  else: n_soup = None
+    file_name = basename(json_path).replace('.json', '_易讀版.html')
+    title = basename(json_path).replace('.json', '')
+    dir_path = dirname(json_path)
+    static_path = join(dir_path, 'static')
+    discussion_path = join(static_path, 'discussion.html')
+    note_path = join(static_path, 'note.html')
 
-  result = '''\
+    if isfile(discussion_path):
+        with open(discussion_path, 'r', encoding='utf-8') as f:
+            d_soup = BS(f.read(), 'lxml')
+    else:
+        d_soup = None
+
+    if isfile(note_path):
+        with open(note_path, 'r', encoding='utf-8') as f:
+            n_soup = BS(f.read(), 'lxml')
+    else:
+        n_soup = None
+
+    result = '''\
     <style>
     body {
       margin: 0;
@@ -226,46 +224,47 @@ def generator(json_path):
     <tr>\
   '''.replace('我是標題', title)
 
-  for i in range(1, 81):
-  
-    result += '<td class=inner_contents><a href=#%d>%d</a></td>'%(i, i)
-  
-    if (i%20==0) and i!=80:
-      result+='''
+    for i in range(1, 81):
+
+        result += '<td class=inner_contents><a href=#%d>%d</a></td>' % (i, i)
+
+        if (i % 20 == 0) and i != 80:
+            result += '''
       </tr>
       <tr>
       '''
-    elif i==80:
-      result+='''
+        elif i == 80:
+            result += '''
       </tr>
     </table>
       '''
 
-  with open(json_path, 'r', encoding='utf-8') as f:
-    json_dict = load(f)
-  
-  for i in range(1, 81):
-    i = str(i)
-    
-    result+='''
+    with open(json_path, 'r', encoding='utf-8') as f:
+        json_dict = load(f)
+
+    for i in range(1, 81):
+        i = str(i)
+
+        result += '''
     <div class="q_block %s">
     <hr></hr>
     <h2 class="qid"><a name=%s  href=#contents>%s.</a></h2>
-    '''%(i, i, i)
-    
-    q_list = json_dict[i]
-    result+=q_part_generator(q_list)
-    
-    d_tag_list = d_soup.select(f'div[class^="{i}-"]') if d_soup!=None else None
-    n_tag_list = n_soup.select(f'div[class^="{i}-"]') if d_soup!=None else None
-    
-    result+=d_part_generator(d_tag_list, n_tag_list)
-    
-    result+='\n</div>\n'
-    
-  result+='</div></body>'
-  return result
-  
+    ''' % (i, i, i)
 
-  
-  
+        q_list = json_dict[i]
+        result += q_part_generator(q_list)
+
+        d_tag_list = d_soup.select(
+            f'div[class^="{i}-"]') if d_soup != None else None
+        n_tag_list = n_soup.select(
+            f'div[class^="{i}-"]') if d_soup != None else None
+
+        result += d_part_generator(d_tag_list, n_tag_list)
+
+        result += '\n</div>\n'
+
+    result += '</div></body>'
+    return result
+
+
+def quick_generator(json_path):
