@@ -345,3 +345,6 @@ def quick_yamol_parser(html_dir, parsed_dir):
         with open(rp, 'rb') as f:
             print(f'開始分析 {basename(rp)}')
             Vet_yamol_parser(f.read().decode('utf-8'), pp)()
+
+
+quick_yamol_parser('/home/eric/文件/html_soup', '/home/eric/文件/json_soup')
