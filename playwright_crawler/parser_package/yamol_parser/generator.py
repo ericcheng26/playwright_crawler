@@ -1,5 +1,5 @@
 from os.path import isabs, isfile, isdir, basename, dirname, join
-from os import makedirs, listdir
+from os import makedirs, listdir, walk
 from json import load
 from bs4 import BeautifulSoup as BS
 import requests
@@ -63,11 +63,11 @@ def d_part_generator(d_tag_list=None, n_tag_list=None):
     return result
 
 
-def generator(json_path):
+def generator(single_json_path):
 
-    file_name = basename(json_path).replace('.json', '_易讀版.html')
-    title = basename(json_path).replace('.json', '')
-    dir_path = dirname(json_path)
+    file_name = basename(single_json_path).replace('.json', '_易讀版.html')
+    title = basename(single_json_path).replace('.json', '')
+    dir_path = dirname(single_json_path)
     static_path = join(dir_path, 'static')
     discussion_path = join(static_path, 'discussion.html')
     note_path = join(static_path, 'note.html')
@@ -239,7 +239,7 @@ def generator(json_path):
     </table>
       '''
 
-    with open(json_path, 'r', encoding='utf-8') as f:
+    with open(single_json_path, 'r', encoding='utf-8') as f:
         json_dict = load(f)
 
     for i in range(1, 81):
@@ -267,4 +267,11 @@ def generator(json_path):
     return result
 
 
-def quick_generator(json_path):
+def quick_generator(json_path, html_combined_path):
+    # 取出最上層的資料夾絕對路徑
+    dirpaths, dirnames, _ = next(walk(json_path))
+    for d in dirnames:
+        join(dirpaths, d)
+
+
+quick_generator('/home/eric/文件/json_soup', '/home/eric/文件/html_combined_soup')
