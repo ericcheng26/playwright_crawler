@@ -274,8 +274,8 @@ def quick_generator(json_path, html_combined_path):
     # 從資料夾名稱中取出預用的名稱，作為檔案名稱
     lv1_dirnames = [d for d in dirnames if not d.endswith('note')]
     # 開始批次存檔
-    for dirname in lv1_dirnames:
-        with open(f'{html_combined_path}/{dirname}.html', 'w', encoding='utf-8') as f:
+    for dirname, lv1_dirname in zip(dirnames, lv1_dirnames):
+        with open(f'{html_combined_path}/{lv1_dirname}.html', 'w', encoding='utf-8') as f:
             f.write(generator(join(dirpath, join(dirname, dirname + '.json'))))
 
 
