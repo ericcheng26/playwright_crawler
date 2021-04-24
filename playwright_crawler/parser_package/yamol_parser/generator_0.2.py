@@ -276,6 +276,7 @@ def quick_generator(json_path, html_combined_path):
     # 開始批次存檔
     for dirname, lv1_dirname in zip(dirnames, lv1_dirnames):
         with open(f'{html_combined_path}/{lv1_dirname}.html', 'w', encoding='utf-8') as f:
+            print(join(dirpath, join(dirname, dirname + '.json')))
             f.write(generator(join(dirpath, join(dirname, dirname + '.json'))))
 
 
