@@ -184,10 +184,12 @@ class PlaywrightCrawler:
                                 if len(list_contain_filter_0) != 0 and len(list_contain_filter_1) != 0:
                                     # 進入互動模組
                                     try:
+                                        # TODO 須要隨著互動模組更改名稱
                                         await yamol_final.main(
                                             page, self._settingsdict)
                                     # 無法滿足互動條件，沒關係下次努力
                                     except:
+                                        # TODO 須要隨著資料夾更改儲存位置
                                         with open("/home/eric/文件/html_soup/failed_soup/failed_url.txt", "a", encoding='utf-8') as file:
                                             file.write(response.url + '\n')
                 # 抓取所有頁面中所有連結

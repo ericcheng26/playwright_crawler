@@ -267,11 +267,16 @@ def generator(single_json_path):
     return result
 
 
+# 把str儲存成html檔
 def quick_generator(json_path, html_combined_path):
-    # 取出最上層的資料夾絕對路徑
-    dirpaths, dirnames, _ = next(walk(json_path))
-    for d in dirnames:
-        join(dirpaths, d)
+    # 取出json_path中最上層資料夾的絕對路徑(dirpath)和資料夾名稱(dirnames)
+    dirpath, dirnames, _ = next(walk(json_path))
+    # 從資料夾名稱中取出預用的名稱，作為檔案名稱
+    lv1_dirnames = [d for d in dirnames if not d.endswith('note')]
+    # 開始批次存檔
+    for dirname in lv1_dirnames:
+        with open(f'{html_combined_path}/{dirname}.html', 'w', encoding='utf-8') as f:
+            f.write(generator(join(dirpath, dirname)))
 
 
 quick_generator('/home/eric/文件/json_soup', '/home/eric/文件/html_combined_soup')
