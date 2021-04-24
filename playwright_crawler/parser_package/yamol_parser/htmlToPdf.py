@@ -1,7 +1,7 @@
 import asyncio
 from playwright.async_api import async_playwright
-import os
-import glob
+from os.path import join
+from os import walk
 import argparse
 
 '''
@@ -34,15 +34,18 @@ async def main():
     _context = await _browser.new_context()
     page = await _context.new_page()
     # 對資料夾內的檔案，讀取檔名，用瀏覽器開啟檔案後產生pdf
-    for filename in glob.glob(os.path.join(args.htmlpath, '*.html')):
-
-        await page.goto(f'file://{os.path.join(args.htmlpath, filename)}')
+    dir_path, _, filenames = next(walk(args.htmlpath))
+    for filename in filenames:
+        print(f"{filename}")
+        file_path = join(dir_path, filename)
+        await page.goto(f'file://{join(dir_path, filename)}', timeout=240000)
+        print(file_path)
         await page.emulate_media(media=f"{args.convertmode}", color_scheme=f"{args.schemecolor}")
         await page.pdf(
             path=f'{args.pdfpath}/{filename}.pdf',
             format=f'{args.papersize}'
         )
-        print(f"{filename}'s Pdf is done...")
+        print(f"The Pdf of {filename} is done...")
 
 # margin = {
 #     top: "20px",
