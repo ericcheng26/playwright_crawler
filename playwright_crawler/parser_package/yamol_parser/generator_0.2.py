@@ -255,9 +255,9 @@ def generator(single_json_path):
         result += q_part_generator(q_list)
 
         d_tag_list = d_soup.select(
-            f'div[class^="{i}-"]') if n_soup != None else None
-        n_tag_list = n_soup.select(
             f'div[class^="{i}-"]') if d_soup != None else None
+        n_tag_list = n_soup.select(
+            f'div[class^="{i}-"]') if n_soup != None else None
 
         result += d_part_generator(d_tag_list, n_tag_list)
 
