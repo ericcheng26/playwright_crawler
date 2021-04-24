@@ -36,16 +36,17 @@ async def main():
     # 對資料夾內的檔案，讀取檔名，用瀏覽器開啟檔案後產生pdf
     dir_path, _, filenames = next(walk(args.htmlpath))
     for filename in filenames:
-        print(f"{filename}")
-        file_path = join(dir_path, filename)
+        print(
+            f"======================\n開始轉換{filename}爲Pdf\n======================")
+
         await page.goto(f'file://{join(dir_path, filename)}', timeout=240000)
-        print(file_path)
+
         await page.emulate_media(media=f"{args.convertmode}", color_scheme=f"{args.schemecolor}")
         await page.pdf(
             path=f'{args.pdfpath}/{filename}.pdf',
             format=f'{args.papersize}'
         )
-        print(f"The Pdf of {filename} is done...")
+        print(f"===========\nThe Pdf of {filename} is done...\n===========")
 
 # margin = {
 #     top: "20px",
