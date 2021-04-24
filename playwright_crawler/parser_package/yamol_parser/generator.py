@@ -276,7 +276,7 @@ def quick_generator(json_path, html_combined_path):
     # 開始批次存檔
     for dirname in lv1_dirnames:
         with open(f'{html_combined_path}/{dirname}.html', 'w', encoding='utf-8') as f:
-            f.write(generator(join(dirpath, dirname)))
+            f.write(generator(join(dirpath, join(dirname, dirname + '.json'))))
 
 
 quick_generator('/home/eric/文件/json_soup', '/home/eric/文件/html_combined_soup')
