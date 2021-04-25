@@ -320,7 +320,7 @@ def quick_generator(json_path, html_combined_path):
         with open(f'{html_combined_path}/{combined_filename}.html', 'w', encoding='utf-8') as f:
             f.write(str_combined_html)
             print(
-                f"===========\nThe Combination of {str_combined_html} is done.\n===========")
+                f"===========\nThe Combination of \"{str_combined_html}\" is done.\n===========")
 
 
 quick_generator('/home/eric/文件/json_soup', '/home/eric/文件/html_combined_soup')
