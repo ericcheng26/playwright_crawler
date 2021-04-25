@@ -92,7 +92,7 @@ def generator(single_json_path):
       background-color: gray;
     }
     
-        div.block{
+    div.block{
       margin: auto;
       background-color: white;
       width: 21cm;
