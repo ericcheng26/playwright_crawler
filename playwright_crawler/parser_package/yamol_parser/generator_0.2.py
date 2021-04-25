@@ -18,7 +18,7 @@ def img_to_base64(img_path):
     with open(img_path, 'rb') as f:
         raw = f.read()
     b64data = base64.b64encode(raw)[2:-1]
-    return '<img src="data:image/jpeg;base64, ' + b64data + '>'
+    return '<img src="data:image/jpeg/gif;base64, ' + b64data + '>'
 
 
 def q_part_generator(q_list):
