@@ -62,10 +62,11 @@ def d_part_generator(d_tag_list=None, n_tag_list=None):
     result += '</div>'
     return result
 
+# 給定單獨的json路徑
+
 
 def generator(single_json_path):
 
-    file_name = basename(single_json_path).replace('.json', '_易讀版.html')
     title = basename(single_json_path).replace('.json', '')
     dir_path = dirname(single_json_path)
     static_path = join(dir_path, 'static')
@@ -303,20 +304,23 @@ def generator(single_json_path):
         result += '\n</div>\n'
 
     result += '</div></body>'
-    return result
+    return result, title
 
 
 # 把str儲存成html檔
 def quick_generator(json_path, html_combined_path):
     # 取出json_path中最上層資料夾的絕對路徑(dirpath)和資料夾名稱(dirnames)
     dirpath, dirnames, _ = next(walk(json_path))
-    # 從資料夾名稱中取出預用的名稱，作為檔案名稱
-    lv1_dirnames = [d for d in dirnames if not d.endswith('note')]
+    # 只須放入"*note"的資料夾
+    lv1_dirnames = [dname for dname in dirnames if dname.endswith('note')]
     # 開始批次存檔
-    for dirname, lv1_dirname in zip(dirnames, lv1_dirnames):
-        with open(f'{html_combined_path}/{lv1_dirname}.html', 'w', encoding='utf-8') as f:
-            print(join(dirpath, join(dirname, dirname + '.json')))
-            f.write(generator(join(dirpath, join(dirname, dirname + '.json'))))
+    for dirname in lv1_dirnames:
+        str_combined_html, combined_filename = generator(
+            join(dirpath, join(dirname, dirname + '.json')))
+        with open(f'{html_combined_path}/{combined_filename}.html', 'w', encoding='utf-8') as f:
+            f.write(str_combined_html)
+            print(
+                f"===========\nThe Combination of {str_combined_html} is done.\n===========")
 
 
 quick_generator('/home/eric/文件/json_soup', '/home/eric/文件/html_combined_soup')
