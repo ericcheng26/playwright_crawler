@@ -317,10 +317,14 @@ def quick_generator(json_path, html_combined_path):
     for dirname in lv1_dirnames:
         str_combined_html, combined_filename = generator(
             join(dirpath, join(dirname, dirname + '.json')))
-        with open(f'{html_combined_path}/{combined_filename}.html', 'x', encoding='utf-8') as f:
-            f.write(str_combined_html)
+        try:
+            with open(f'{html_combined_path}/{combined_filename}.html', 'x', encoding='utf-8') as f:
+                f.write(str_combined_html)
+                print(
+                    f"===========\nThe Combination of \"{str_combined_html}\" is done.\n===========")
+        except FileExistsError:
             print(
-                f"===========\nThe Combination of \"{str_combined_html}\" is done.\n===========")
+                f"===========\nThe path \"{html_combined_path}\" already exist {combined_filename}.html.\n===========")
 
 
 quick_generator('/home/eric/文件/json_soup', '/home/eric/文件/html_combined_soup')
