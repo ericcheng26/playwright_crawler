@@ -99,19 +99,14 @@ def generator(single_json_path):
       padding: 1cm;
     }
     
-    
     h1.main_head{
-      
       background-color: cyan;
       padding: 0.5cm;
-      
       border-style: double;
       border-width: 0.25cm;
-      
       text-align: center;
       font-weight: bold;
       font-family: DFKai-sb;
-      
     }
     
     table.contents{
@@ -121,7 +116,6 @@ def generator(single_json_path):
     a.head_contents{
       font-size:0.7cm;
       padding:0.3cm;
-       
       border-radius: 5px;
       background-color:LightGray;
     }
@@ -132,7 +126,6 @@ def generator(single_json_path):
       border: 1.5px solid black;
       width: 1cm;
       background-color: LightYellow;
-      
       text-align: center;
     }
     
@@ -140,28 +133,76 @@ def generator(single_json_path):
       margin: 2cm 0 0 0;
       border-top: 5px solid black;
       border-bottom: 5px double black;
-      
       padding:0cm;
     }
     
     h2.qid{
       border-radius: 5px;
       background-color:LightGray;
-      
       padding:0.5cm;
       margin:0.1cm 0 0.2cm 0;
     }
-    
+    .alert {
+      border: 1px solid rgb(232 232 232);
+      border-top-color: rgb(232, 232, 232);
+      border-top-style: solid;
+      border-top-width: 1px;
+      border-right-color: rgb(232, 232, 232);
+      border-right-style: solid;
+      border-right-width: 1px;
+      border-bottom-color: rgb(232, 232, 232);
+      border-bottom-style: solid;
+      border-bottom-width: 1px;
+      border-left-color: rgb(232, 232, 232);
+      border-left-style: solid;
+      border-left-width: 1px;
+      border-image-source: initial;
+      border-image-slice: initial;
+      border-image-width: initial;
+      border-image-outset: initial;
+      border-image-repeat: initial;
+    }
+    table {
+      border-collapse:collapse;
+      width: 100%;
+    }
+    .table-bordered {
+      border: 1px solid #b3b3b3;
+      border-top-color: rgb(179, 179, 179);
+      border-top-style: solid;
+      border-top-width: 1px;
+      border-right-color: rgb(179, 179, 179);
+      border-right-style: solid;
+      border-right-width: 1px;
+      border-bottom-color: rgb(179, 179, 179);
+      border-bottom-style: solid;
+      border-bottom-width: 1px;
+      border-left-color: rgb(179, 179, 179);
+      border-left-style: solid;
+      border-left-width: 1px;
+      border-image-source: initial;
+      border-image-slice: initial;
+      border-image-width: initial;
+      border-image-outset: initial;
+      border-image-repeat: initial;
+    }
     table.main_block{
       border-radius: 5px;
       width:100%;
       background-color: LightYellow;
       margin:0.1cm 0 0.3cm 0;
     }
-    
-    img{
-      width:11cm;
-      height:auto;
+    td {
+      border-collapse:collapse;
+      border-top: 1px solid #a9a9a9;
+      border-top-width: 1px;
+      border-top-style: solid;
+      border-top-color: rgb(165 165 165);
+    }
+    img {
+      min-width: -webkit-fill-available;
+      max-width: -webkit-fill-available;
+      max-height: fit-content;
     }
     
     table.ans_block{
@@ -175,19 +216,19 @@ def generator(single_json_path):
       padding:0.2cm;
       font-weight: bold;
       font-family: DFKai-sb;
+      border:hidden;
     }
     
     td.ans_val{
       padding:0.2cm;
       text-align: right;
+      border:hidden;
     }
     
     div.note_and_discussion{
       border-radius: 5px;
       background-color:AliceBlue;
-      
       width:100%;
-      
       margin-bottom: 0.5cm;
     }
     
@@ -202,10 +243,8 @@ def generator(single_json_path):
       }
       h1.main_head{
         background-color: white;
-        
         padding: 15cm 0 0 0;
         border-style: none;
-        
         height: 17cm;
       }
     }
