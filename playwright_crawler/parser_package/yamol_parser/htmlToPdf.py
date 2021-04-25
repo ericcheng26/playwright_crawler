@@ -33,7 +33,7 @@ async def main():
     # pdf creation only work in chromium headless mode
     _browser = await _pw.chromium.launch(headless=True)
     _context = await _browser.new_context(color_scheme=f"{args.schemecolor}")
-    page = await _context.new_page(color_scheme=f"{args.schemecolor}")
+    page = await _context.new_page()
     # 對資料夾內的檔案，讀取檔名，用瀏覽器開啟檔案後產生pdf
     dir_path, _, filenames = next(walk(args.htmlpath))
     for filename in filenames:
@@ -45,7 +45,8 @@ async def main():
         await page.emulate_media(media=f"{args.convertmode}", color_scheme=f"{args.schemecolor}")
         await page.pdf(
             path=f'{args.pdfpath}/{filename}.pdf',
-            format=f'{args.papersize}'
+            format=f'{args.papersize}',
+            print_background=True
         )
         print(f"===========\nThe Pdf of {filename} is done...\n===========")
 
