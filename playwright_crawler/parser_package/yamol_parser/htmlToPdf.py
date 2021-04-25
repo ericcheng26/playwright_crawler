@@ -44,7 +44,7 @@ async def main():
 
         await page.emulate_media(media=f"{args.convertmode}", color_scheme=f"{args.schemecolor}")
         await page.pdf(
-            path=f'{args.pdfpath}/{filename}.pdf',
+            path=f"{args.pdfpath}/{filename.split('.')[0]}.pdf",
             format=f'{args.papersize}',
             print_background=True
         )
