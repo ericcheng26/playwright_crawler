@@ -15,7 +15,7 @@ def url_to_base64(url):
 
 
 def img_to_base64(img_path):
-    with open(path, 'rb') as f:
+    with open(img_path, 'rb') as f:
         raw = f.read()
     b64data = base64.b64encode(raw)[2:-1]
     return '<img src="data:image/jpeg;base64, ' + b64data + '>'

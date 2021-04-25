@@ -24,7 +24,7 @@ parser.add_argument('--papersize', type=str, default='A4',
 parser.add_argument('--convertmode', type=str, default='screen',
                     help="mode: screen, print; Print mode: Using the style of CSS '@media print'. Screen mode: Using what's showing on the screen ")
 parser.add_argument('--schemecolor', type=str, default='light',
-                    help="Default = 'dark'[ 'light', 'no-preference'] | None")
+                    help="Default = 'light'[ 'dark', 'no-preference'] | None")
 
 
 async def main():
@@ -32,8 +32,8 @@ async def main():
     _pw = await async_playwright().start()
     # pdf creation only work in chromium headless mode
     _browser = await _pw.chromium.launch(headless=True)
-    _context = await _browser.new_context()
-    page = await _context.new_page()
+    _context = await _browser.new_context(color_scheme=f"{args.schemecolor}")
+    page = await _context.new_page(color_scheme=f"{args.schemecolor}")
     # 對資料夾內的檔案，讀取檔名，用瀏覽器開啟檔案後產生pdf
     dir_path, _, filenames = next(walk(args.htmlpath))
     for filename in filenames:
