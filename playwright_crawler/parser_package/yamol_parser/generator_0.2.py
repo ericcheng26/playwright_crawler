@@ -200,6 +200,13 @@ def generator(single_json_path):
       border-top-style: solid;
       border-top-color: rgb(165 165 165);
     }
+    tr{
+      border-collapse: collapse;
+      border-top: 1px solid #a9a9a9;
+      border-top-width: 1px;
+      border-top-style: solid;
+      border-top-color: rgb(165 165 165)
+    }
     img {
       min-width: -webkit-fill-available;
       max-width: -webkit-fill-available;
@@ -318,13 +325,13 @@ def quick_generator(json_path, html_combined_path):
         str_combined_html, combined_filename = generator(
             join(dirpath, join(dirname, dirname + '.json')))
         try:
-            with open(f'{html_combined_path}/{combined_filename}.html', 'x', encoding='utf-8') as f:
+            with open(f"{html_combined_path}/{combined_filename.removesuffix('_note')}.html", 'x', encoding='utf-8') as f:
                 f.write(str_combined_html)
                 print(
-                    f"===========\nThe Combination of \"{combined_filename}\" is done.\n===========")
+                    f"===========\nThe Combination of \"{combined_filename.removesuffix('_note')}\" is done.\n===========")
         except FileExistsError:
             print(
-                f"===========\nThe path \"{html_combined_path}\" already exist {combined_filename}.html.\n===========")
+                f"===========\nThe path \"{html_combined_path}\" already exist {combined_filename.removesuffix('_note')}.html.\n===========")
 
 
 quick_generator('/home/eric/文件/json_soup', '/home/eric/文件/html_combined_soup')
