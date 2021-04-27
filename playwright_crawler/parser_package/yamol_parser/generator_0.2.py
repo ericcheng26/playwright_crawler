@@ -83,7 +83,7 @@ def generator(single_json_path):
             n_soup = BS(f.read(), 'lxml')
     else:
         n_soup = None
-# 生成html內style和body區塊
+# 生成html內head和body區塊
     result = '''\
     <style>
     body {
@@ -311,11 +311,15 @@ def generator(single_json_path):
 
     result += '</div></body>'
     result = result.replace(
+        '<p><span><br></span></p>', '').replace(
+        '<p><span><br/></span></p>', '').replace(
         '<p><br></p>', '').replace('<p><br/></p>', '').replace('&nbsp;', '').replace('n ', '').strip()
     return result, title
 
-
+# <p><span><br/></span></p>
 # 批量把str儲存成html檔
+
+
 def quick_generator(json_path, html_combined_path):
     # 取出json_path中最上層資料夾的絕對路徑(dirpath)和資料夾名稱(dirnames)
     dirpath, dirnames, _ = next(walk(json_path))
