@@ -94,8 +94,8 @@ def generator(single_json_path):
     
     div.block{
       margin: auto;
-      background-color: white;
-      width: 21cm;
+      background-color: #f7f7e6;
+      width: 21.5cm;
       padding: 1cm;
     }
     
@@ -130,7 +130,7 @@ def generator(single_json_path):
     }
     
     div.q_block{
-      margin: 2cm 0 0 0;
+      margin: 0.5cm 0 0 0;
       border-top: 5px solid black;
       border-bottom: 5px double black;
       padding:0cm;
@@ -238,7 +238,13 @@ def generator(single_json_path):
       width:100%;
       margin-bottom: 0.5cm;
     }
-    
+    element.style {
+      border: 2px solid #00ecff;
+      border-radius: 30px;
+      border-color: gray;
+      padding: 10px 15px 10px 15px;
+      margin-top: 5px;
+    }
     *{
     word-break: break-all;
     }
@@ -310,12 +316,14 @@ def generator(single_json_path):
         result += '\n</div>\n'
 
     result += '</div></body>'
-    result = result.replace(
+    result = result.replace('<p><spastyle><br><br></spastyle></p>', '').replace(
+        '<p><span><br/></span><br/></p>', '').replace(
         '<p><span><br></span></p>', '').replace(
         '<p><span><br/></span></p>', '').replace(
-        '<p><br></p>', '').replace('<p><br/></p>', '').replace('&nbsp;', '').replace('n ', '').strip()
+        '<p><br></p>', '').replace('<p><br/></p>', '').replace('&nbsp;', '').strip()
     return result, title
-
+# <p><spastyle><br><br></spastyle></p>
+# <p><span><br/></span><br/></p>
 # <p><span><br/></span></p>
 # 批量把str儲存成html檔
 
