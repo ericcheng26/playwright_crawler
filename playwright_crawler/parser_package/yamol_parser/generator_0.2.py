@@ -62,9 +62,8 @@ def d_part_generator(d_tag_list=None, n_tag_list=None):
     result += '</div>'
     return result
 
+
 # 給定單獨的json路徑
-
-
 def generator(single_json_path):
 
     title = basename(single_json_path).replace('.json', '')
@@ -84,7 +83,7 @@ def generator(single_json_path):
             n_soup = BS(f.read(), 'lxml')
     else:
         n_soup = None
-
+# 生成html內style和body區塊
     result = '''\
     <style>
     body {
@@ -270,7 +269,7 @@ def generator(single_json_path):
     <table class=contents >
     <tr>\
   '''.replace('我是標題', title)
-
+# 生成html內目錄區塊
     for i in range(1, 81):
 
         result += '<td class=inner_contents><a href=#%d>%d</a></td>' % (i, i)
@@ -285,7 +284,7 @@ def generator(single_json_path):
       </tr>
     </table>
       '''
-
+# 生成詳解討論和筆記區塊
     with open(single_json_path, 'r', encoding='utf-8') as f:
         json_dict = load(f)
 
@@ -311,10 +310,11 @@ def generator(single_json_path):
         result += '\n</div>\n'
 
     result += '</div></body>'
+    result = result.replace('<p><br></p>', '').replace('<p><br/></p>', '')
     return result, title
 
 
-# 把str儲存成html檔
+# 批量把str儲存成html檔
 def quick_generator(json_path, html_combined_path):
     # 取出json_path中最上層資料夾的絕對路徑(dirpath)和資料夾名稱(dirnames)
     dirpath, dirnames, _ = next(walk(json_path))
@@ -334,4 +334,24 @@ def quick_generator(json_path, html_combined_path):
                 f"===========\nThe path \"{html_combined_path}\" already exist {combined_filename.removesuffix('_note')}.html.\n===========")
 
 
+# '<p></p>',
+# '<p>&nbsp;</p>',
+# '<p><br/></p>',
+# 'n ',
+def RemoveRedundantTag(html_soup_path):
+    dirpath, _, filenames = next(walk(html_soup_path))
+    #tag_whitelist = ['head', 'img', 'br', 'tr', 'td']
+    for filename in filenames:
+        with open(join(dirpath, filename), 'r+', encoding='utf-8') as f:
+            soup = BS(f.read(), 'lxml')
+            [x.decompose() for x in soup.findAll(lambda tag: (not tag.contents or not tag.get_text(
+                strip=True)) and tag.name != 'head', 'img', 'br', 'tr', 'td')]
+            f.seek(0)
+            f.write(str(soup))
+            f.truncate()
+        print(
+            f"===========\nRemove Redundant Tag \"{filename}\" Complete.\n===========")
+
+
 quick_generator('/home/eric/文件/json_soup', '/home/eric/文件/html_combined_soup')
+RemoveRedundantTag('/home/eric/文件/html_combined_soup')
