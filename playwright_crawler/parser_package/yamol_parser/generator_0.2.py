@@ -310,7 +310,8 @@ def generator(single_json_path):
         result += '\n</div>\n'
 
     result += '</div></body>'
-    result = result.replace('<p><br></p>', '').replace('<p><br/></p>', '')
+    result = result.replace(
+        '<p><br></p>', '').replace('<p><br/></p>', '').replace('&nbsp;', '').replace('n ', '').strip()
     return result, title
 
 
