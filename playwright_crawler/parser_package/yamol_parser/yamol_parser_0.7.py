@@ -1,4 +1,4 @@
-# path: <dir_patth>/<file_name>.json
+# path: <dir_path>/<file_name>.json
 # static_dir_path: <dir_path>/<static_dir>
 # discussion_path: <dir_path>/<static_dir>/discussion.html
 
