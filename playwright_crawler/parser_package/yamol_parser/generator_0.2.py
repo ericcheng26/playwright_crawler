@@ -100,10 +100,15 @@ def generator(single_json_path):
       padding: 1cm;
     }
     h1{
+      display: inline-flex;
+      text-align-last: center;
       border-radius: 18px;
       background-color: LightGray;
       padding: 0.2cm;
-      margin: 0cm 0 0.2cm 0;
+      margin-block-start: 0em;
+      margin-block-end: 0.1em;
+      margin-inline-start: 0px;
+      margin-inline-end: 0px;
     }
     h1.main_head{
       display: block;
