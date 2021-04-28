@@ -101,7 +101,7 @@ def generator(single_json_path):
     }
 
     h1.d_number {
-      display: flex;
+      display: inline-block;
       border-radius: 18px;
       background-color: LightGray;
       padding: 0.2cm;
@@ -180,8 +180,7 @@ def generator(single_json_path):
     }
 
     .alert {
-      display: flex;
-      flex-direction: column;
+      display: inline-block;
       border: 1px solid rgb(232 232 232);
       border-top-color: rgb(232, 232, 232);
       border-top-style: solid;
@@ -402,13 +401,24 @@ def RemoveRedundantTag(html_soup_path):
             f"===========\nRemove Redundant Tag \"{filename}\" Complete.\n===========")
 
 
-def RemoveRedundantSpace(html_soup_path):
+def RemoveRedundantString(html_soup_path):
     dirpath, _, filenames = next(walk(html_soup_path))
 
     for filename in filenames:
         with open(join(dirpath, filename), 'r+', encoding='utf-8') as f:
-            space_free_html = f.read().replace('&nbsp;', '')
-            space_free_html = " ".join(space_free_html.split())
+            bad_string_free_html = f.read().replace(
+                '<p><span style="background-color:rgb(255,255,0);"><br/></span></p>', '').replace(
+                '<p style="color:rgb(51,51,51);"><br/></p>', '').replace(
+                '<p><font color="#222222"><b><br/></b></font></p>', '').replace(
+                '<p><span style="color:rgb(51,51,51);font-size:14.4px;"><br/></span></p>', '').replace(
+                '<p><span style="color:rgb(34,34,34);"><br/></span></p>', '').replace(
+                '<p> </p>', '').replace(
+                '<p><span style="background-color:rgb(245,245,245);"><br/></span></p>', '').replace(
+                '<p><span style="color:rgb(34,34,34);"><br/></span><br/></p>', '').replace(
+                '<p><span style="color:rgb(51,51,51);"><br/></span></p>', '').replace(
+                '<p style="color:rgb(34,34,34);"><br/></p>', '').replace('<p><font color="#3152a9"><span style="background-color:rgb(255,255,255);font-size:11.7px;"><br/></span></font></p>', '').replace('<p><span style="color:rgb(34,34,34);"><br/></span></p>', '').replace('<p><spastyle><br/><br/></spastyle></p>', '').replace('<p><font><br/></font></p>', '').replace('<p><span style="font-size:20px;"><br/></span></p>', '').replace('<p style="color:rgb(68,68,68);"><br/></p>', '').replace('<p><span style="color:rgb(68,68,68);"><br/></span></p>', '').replace('<p><span style="font-size:1.1em;"><br/></span></p>', '').replace('<p><span style="color:rgb(51,51,51);font-size:14pt;"><br/></span></p>', '').replace('<span style="font-size:1.1em;"><br/></span>', '').replace('<span style="font-size:16.94px;"><br/></span>', '').replace('<p><b><span style="font-size:14px;"><br/></span></b></p>', '').replace('<p style="font-size:12pt;"> </p>', '').replace('<p><span style="font-size:15.4px;"><br/></span></p>', '').replace('<p><span style="font-size:15.4px;"><br/></span><br/></p>', '').replace('<p><span style="font-size:15.6px;"><br/></span><br/></p>', '').replace('<div><br/></div>', '').replace('<p><span style="color:rgb(17,17,17);"><br/></span></p>', '').replace('<span><br/></span>', '').replace('<p> <br/></p>', '').replace('<h4><br/></h4>', '').replace('<p style="color:rgb(0,0,0);"><br/></p>', '').replace('<p><br/><br/><br/></p>', '').replace("<p><span style=\"font-family:'微軟正黑體';\"><br/></span><br/></p>", '').replace("<p style=\"font-family:'微軟正黑體';font-size:12pt;\"><span style=\"font-weight:bold;color:rgb(91,155,213);\"><br/></span></p>", '').replace('<p><span style="color:rgb(85,85,85);"><br/></span></p>', '')
+
+            space_free_html = " ".join(bad_string_free_html.split())
             f.seek(0)
             f.write(space_free_html)
             f.truncate()
@@ -416,6 +426,6 @@ def RemoveRedundantSpace(html_soup_path):
             f"===========\nRemove Redundant space(&nbsp;) \"{filename}\" Complete.\n===========")
 
 
-quick_generator('/home/eric/文件/json_soup', '/home/eric/文件/html_combined_soup')
-RemoveRedundantTag('/home/eric/文件/html_combined_soup')
-# RemoveRedundantSpace('/home/eric/文件/html_combined_soup')
+# quick_generator('/home/eric/文件/json_soup', '/home/eric/文件/html_combined_soup')
+# RemoveRedundantTag('/home/eric/文件/html_combined_soup')
+RemoveRedundantString('/home/eric/文件/html_combined_soup')
