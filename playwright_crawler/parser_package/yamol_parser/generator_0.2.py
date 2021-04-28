@@ -48,13 +48,13 @@ def q_part_generator(q_list):
 def d_part_generator(d_tag_list=None, n_tag_list=None):
     result = '<div class="note_and_discussion">'
     if d_tag_list != None and d_tag_list != []:
-        result += '<h2>詳解</h2>\n'
+        result += '<h2 class="d_n_title">詳 解</h2>'
 
         for tag in d_tag_list:
             result += str(tag)
 
     if n_tag_list != None and n_tag_list != []:
-        result += '<h2>筆記</h2>'
+        result += '<h2 class="d_n_title">筆 記</h2>'
 
         for tag in n_tag_list:
             result += str(tag)
@@ -92,16 +92,16 @@ def generator(single_json_path):
       background-color: gray;
       font-family: arial,"Microsoft JhengHei","微軟正黑體",sans-serif !important;
     }
-    
+
     div.block{
       margin: auto;
       background-color: #f7f7e6;
       width: 21.5cm;
       padding: 1cm;
     }
-    h1{
-      display: inline-flex;
-      text-align-last: center;
+
+    h1.d_number {
+      display: flex;
       border-radius: 18px;
       background-color: LightGray;
       padding: 0.2cm;
@@ -120,11 +120,11 @@ def generator(single_json_path):
       font-weight: bold;
       font-family: DFKai-sb;
     }
-    
+
     table.contents{
       border: 1px solid black;
       }
-    
+
     a.head_contents{
       font-size:0.7cm;
       border-radius: 18px;
@@ -134,16 +134,16 @@ def generator(single_json_path):
       justify-content: space-evenly;
       font-weight: bold;
     }
-    
+
     thead{height:2cm;}
-    
+
     td.inner_contents{
       border: 1.5px solid black;
       width: 1cm;
       background-color: LightYellow;
       text-align: center;
     }
-    
+
     div.q_block{
       margin: 0.5cm 0 0 0;
       border-top: 5px solid black;
@@ -162,22 +162,26 @@ def generator(single_json_path):
       border-width: 0.1px;
     }
     h2{
-      display: flex;
-      flex-direction: row;
-      justify-content: space-evenly;
       margin-block-start: 0.001em;
       margin-block-end: 0.001em;
       margin-inline-start: 0px;
       margin-inline-end: 0px;
+    }
+    h2.d_n_title {
+      display: flex;
+      justify-content: space-evenly;
     }
     h2.qid{
       border-radius: 18px;
       background-color: LightGray;
       padding: 0.1cm;
       margin: 0cm 0 0.1cm 0;
+      text-align-last: center;
     }
-    
+
     .alert {
+      display: flex;
+      flex-direction: column;
       border: 1px solid rgb(232 232 232);
       border-top-color: rgb(232, 232, 232);
       border-top-style: solid;
@@ -228,37 +232,43 @@ def generator(single_json_path):
     }
     td {
       border-collapse:collapse;
+      border: 1px solid;
+      border-color: darkslategrey;
     }
 
     tr{
       border-collapse: collapse;
+      border: 1px solid;
+      border-color: darkslategrey;
     }
     img {
       min-width: -webkit-fill-available;
       max-width: 100%;
       height: auto;
     }
-    
+
     table.ans_block{
       border-radius: 20px;
       background-color:LightGray;
       margin:0.1cm 0 0.3cm 0;
       width:100%;
     }
-    
+    td.q_and_c{
+      border: hidden;
+    }
     td.ans_head{
       padding:0.2cm;
       font-weight: bold;
       font-family: DFKai-sb;
       border:hidden;
     }
-    
+
     td.ans_val{
       padding:0.2cm;
       text-align: right;
       border:hidden;
     }
-    
+
     div.note_and_discussion{
       width: 100%;
       margin-bottom: 0.2cm;
@@ -267,9 +277,9 @@ def generator(single_json_path):
     *{
     word-break: break-all;
     }
-    
+
     @media print{
-    
+
       body{
         background-color: white;
       }
@@ -281,7 +291,7 @@ def generator(single_json_path):
       }
     }
   </style>
-  
+
   <body>
 
   <div class=block>
@@ -289,8 +299,8 @@ def generator(single_json_path):
   <h1 class=main_head>
     我是標題
   </h1>
-  
-  <div style="margin:0 0 0.3cm 0;"><a name=contents class=head_contents>目   錄</a></div>
+
+  <div style="margin:0 0 0.3cm 0;"><a name=contents class=head_contents>目 錄</a></div>
     <table class=contents >
     <tr>\
   '''.replace('我是標題', title)
@@ -335,12 +345,21 @@ def generator(single_json_path):
         result += '\n</div>\n'
 
     result += '</div></body>'
-    result = result.replace('<p><b></b></p>', '').replace('<p><spastyle><br><br></spastyle></p>', '').replace(
+    # TODO replace a list of substring in string
+    result = result.replace('<p><font color="#3152a9"><span style="background-color:rgb(255,255,255);font-size:11.7px;"><br></span></font></p>', '').replace('<p></p>', '').replace('<p><span style="color:rgb(34,34,34);"><br></span></p>', '').replace('<p><span></span></p>', '').replace('<p><b></b></p>', '').replace('<p><spastyle><br><br></spastyle></p>', '').replace(
         '<p><span><br/></span><br/></p>', '').replace(
         '<p><span><br></span></p>', '').replace(
         '<p><span><br/></span></p>', '').replace(
-        '<p><br></p>', '').replace('<p><br/></p>', '').replace('&nbsp;', '').strip()
+        '<p><br></p>', '').replace('<p><br/></p>', '').replace('&nbsp;', '').replace('<p><span style="color:rgb(80,78,78);"><br></span></p>', '').replace('<p><font color="#222222"><b><br></b></font></p>', '').replace('<p><font><br></font></p>', '').replace('<p><span style="font-size:20px;"><br></span></p>', '').strip()
     return result, title
+# <p><span style="font-size:20px;"><br></span></p>
+# <p><font><br></font></p>
+# <p><font color="#222222"><b><br></b></font></p>
+# <p><span style="color:rgb(80,78,78);"><br></span></p>
+# <p><font color="#3152a9"><span style="background-color:rgb(255,255,255);font-size:11.7px;"><br></span></font></p>
+# <p></p>
+# <p><span style="color:rgb(34,34,34);"><br></span></p>
+# <p><span></span></p>
 # <p><b></b></p>
 # <p><spastyle><br><br></spastyle></p>
 # <p><span><br/></span><br/></p>
@@ -367,24 +386,36 @@ def quick_generator(json_path, html_combined_path):
                 f"===========\nThe path \"{html_combined_path}\" already exist {combined_filename.removesuffix('_note')}.html.\n===========")
 
 
-# '<p></p>',
-# '<p>&nbsp;</p>',
-# '<p><br/></p>',
-# 'n ',
 def RemoveRedundantTag(html_soup_path):
     dirpath, _, filenames = next(walk(html_soup_path))
-    #tag_whitelist = ['head', 'img', 'br', 'tr', 'td']
+    # tag_whitelist = ['head', 'img', 'br', 'tr', 'td']
     for filename in filenames:
         with open(join(dirpath, filename), 'r+', encoding='utf-8') as f:
             soup = BS(f.read(), 'lxml')
             [x.decompose() for x in soup.findAll(lambda tag: (not tag.contents or not tag.get_text(
                 strip=True)) and tag.name != 'head', 'img', 'br', 'tr', 'td')]
             f.seek(0)
-            f.write(str(soup))
+            f.write(" ".join(str(soup).split()))
+
             f.truncate()
         print(
             f"===========\nRemove Redundant Tag \"{filename}\" Complete.\n===========")
 
 
-quick_generator('/home/eric/文件/json_soup', '/home/eric/文件/html_combined_soup')
-RemoveRedundantTag('/home/eric/文件/html_combined_soup')
+def RemoveRedundantSpace(html_soup_path):
+    dirpath, _, filenames = next(walk(html_soup_path))
+
+    for filename in filenames:
+        with open(join(dirpath, filename), 'r+', encoding='utf-8') as f:
+            space_free_html = f.read().replace('&nbsp;', '')
+            space_free_html = " ".join(space_free_html.split())
+            f.seek(0)
+            f.write(space_free_html)
+            f.truncate()
+        print(
+            f"===========\nRemove Redundant space(&nbsp;) \"{filename}\" Complete.\n===========")
+
+
+# quick_generator('/home/eric/文件/json_soup', '/home/eric/文件/html_combined_soup')
+# RemoveRedundantTag('/home/eric/文件/html_combined_soup')
+# RemoveRedundantSpace('/home/eric/文件/html_combined_soup')

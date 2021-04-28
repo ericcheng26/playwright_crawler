@@ -250,7 +250,8 @@ class Vet_yamol_parser():
                 re_result = re.search(re_pattern, str(e), re.DOTALL)
                 target = re_result.group(1).replace(addition_filter, '')
 
-            result = div_open + f'<h1>{qid}-{i+1}</h1>' + target + '</div>'*2
+            result = div_open + \
+                f'<h1 class="d_number">{qid}-{i+1}</h1>' + target + '</div>'*2
 
             with open(doc_path, 'a', encoding='utf-8') as f:
                 f.write(result)
