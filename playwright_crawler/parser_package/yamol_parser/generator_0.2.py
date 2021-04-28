@@ -90,6 +90,7 @@ def generator(single_json_path):
       margin: 0;
       padding: 0;
       background-color: gray;
+      font-family: arial,"Microsoft JhengHei","微軟正黑體",sans-serif !important;
     }
     
     div.block{
@@ -105,6 +106,7 @@ def generator(single_json_path):
       margin: 0cm 0 0.2cm 0;
     }
     h1.main_head{
+      display: block;
       background-color: cyan;
       padding: 0.5cm;
       border-style: double;
@@ -120,9 +122,12 @@ def generator(single_json_path):
     
     a.head_contents{
       font-size:0.7cm;
-      padding:0.3cm;
-      border-radius: 5px;
+      border-radius: 18px;
       background-color:LightGray;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+      font-weight: bold;
     }
     
     thead{height:2cm;}
@@ -151,11 +156,20 @@ def generator(single_json_path):
       border-style: inherit;
       border-width: 0.1px;
     }
+    h2{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+      margin-block-start: 0.001em;
+      margin-block-end: 0.001em;
+      margin-inline-start: 0px;
+      margin-inline-end: 0px;
+    }
     h2.qid{
       border-radius: 18px;
       background-color: LightGray;
-      padding: 0.2cm;
-      margin: 0cm 0 0.2cm 0;
+      padding: 0.1cm;
+      margin: 0cm 0 0.1cm 0;
     }
     
     .alert {
@@ -216,8 +230,8 @@ def generator(single_json_path):
     }
     img {
       min-width: -webkit-fill-available;
-      max-width: -webkit-fill-available;
-      max-height: fit-content;
+      max-width: 100%;
+      height: auto;
     }
     
     table.ans_block{
@@ -241,10 +255,8 @@ def generator(single_json_path):
     }
     
     div.note_and_discussion{
-      border-radius: 20px;
-      background-color:AliceBlue;
-      width:100%;
-      margin-bottom: 0.5cm;
+      width: 100%;
+      margin-bottom: 0.2cm;
     }
 
     *{
@@ -273,7 +285,7 @@ def generator(single_json_path):
     我是標題
   </h1>
   
-  <div style="margin:0 0 0.5cm 0;"><a name=contents class=head_contents>目錄</a></div>
+  <div style="margin:0 0 0.3cm 0;"><a name=contents class=head_contents>目   錄</a></div>
     <table class=contents >
     <tr>\
   '''.replace('我是標題', title)
