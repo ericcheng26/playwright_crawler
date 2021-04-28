@@ -98,7 +98,12 @@ def generator(single_json_path):
       width: 21.5cm;
       padding: 1cm;
     }
-    
+    h1{
+      border-radius: 18px;
+      background-color: LightGray;
+      padding: 0.2cm;
+      margin: 0cm 0 0.2cm 0;
+    }
     h1.main_head{
       background-color: cyan;
       padding: 0.5cm;
@@ -135,18 +140,28 @@ def generator(single_json_path):
       border-bottom: 5px double black;
       padding:0cm;
     }
-    
-    h2.qid{
-      border-radius: 5px;
-      background-color:LightGray;
-      padding:0.5cm;
-      margin:0.1cm 0 0.2cm 0;
+    hr{
+      display: table-cell;
+      unicode-bidi: isolate;
+      margin-block-start: 0.1em;
+      margin-block-end: 0.5em;
+      margin-inline-start: auto;
+      margin-inline-end: auto;
+      overflow: hidden;
+      border-style: inherit;
+      border-width: 0.1px;
     }
+    h2.qid{
+      border-radius: 18px;
+      background-color: LightGray;
+      padding: 0.2cm;
+      margin: 0cm 0 0.2cm 0;
+    }
+    
     .alert {
       border: 1px solid rgb(232 232 232);
       border-top-color: rgb(232, 232, 232);
       border-top-style: solid;
-      border-top-width: 1px;
       border-right-color: rgb(232, 232, 232);
       border-right-style: solid;
       border-right-width: 1px;
@@ -187,24 +202,17 @@ def generator(single_json_path):
       border-image-repeat: initial;
     }
     table.main_block{
-      border-radius: 5px;
+      border-radius: 20px;
       width:100%;
       background-color: LightYellow;
       margin:0.1cm 0 0.3cm 0;
     }
     td {
       border-collapse:collapse;
-      border-top: 1px solid #a9a9a9;
-      border-top-width: 1px;
-      border-top-style: solid;
-      border-top-color: rgb(165 165 165);
     }
+
     tr{
       border-collapse: collapse;
-      border-top: 1px solid #a9a9a9;
-      border-top-width: 1px;
-      border-top-style: solid;
-      border-top-color: rgb(165 165 165)
     }
     img {
       min-width: -webkit-fill-available;
@@ -213,7 +221,7 @@ def generator(single_json_path):
     }
     
     table.ans_block{
-      border-radius: 5px;
+      border-radius: 20px;
       background-color:LightGray;
       margin:0.1cm 0 0.3cm 0;
       width:100%;
@@ -233,18 +241,12 @@ def generator(single_json_path):
     }
     
     div.note_and_discussion{
-      border-radius: 5px;
+      border-radius: 20px;
       background-color:AliceBlue;
       width:100%;
       margin-bottom: 0.5cm;
     }
-    element.style {
-      border: 2px solid #00ecff;
-      border-radius: 30px;
-      border-color: gray;
-      padding: 10px 15px 10px 15px;
-      margin-top: 5px;
-    }
+
     *{
     word-break: break-all;
     }
@@ -316,12 +318,13 @@ def generator(single_json_path):
         result += '\n</div>\n'
 
     result += '</div></body>'
-    result = result.replace('<p><spastyle><br><br></spastyle></p>', '').replace(
+    result = result.replace('<p><b></b></p>', '').replace('<p><spastyle><br><br></spastyle></p>', '').replace(
         '<p><span><br/></span><br/></p>', '').replace(
         '<p><span><br></span></p>', '').replace(
         '<p><span><br/></span></p>', '').replace(
         '<p><br></p>', '').replace('<p><br/></p>', '').replace('&nbsp;', '').strip()
     return result, title
+# <p><b></b></p>
 # <p><spastyle><br><br></spastyle></p>
 # <p><span><br/></span><br/></p>
 # <p><span><br/></span></p>

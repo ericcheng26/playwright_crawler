@@ -229,7 +229,7 @@ class Vet_yamol_parser():
         addition_filter = r'<label class="badge badge-danger">已解鎖</label>'
         addition_filter2 = r'style="display:none"'
         re_pattern2 = r'查看完整內容</a></div>(.*div style="text-align:right"><i>)'
-        div_open = r'<div style="border: 2px solid red; border-radius: 5px; border-color: gray; padding: 25px 25px 25px 25px; margin-top: 25px;" class=<class>>'
+        div_open = r'<div style="border: 2px solid; border-radius: 40px; border-color:  # b58097; padding: 8px 8px 8px 8px; margin-top: 8px;" class=<class>>'
         if str(qid) == '61':
             print(bstag)
         discussion_list = bstag.select(
@@ -264,7 +264,8 @@ class Vet_yamol_parser():
     '''
         css_selector = r'li[class*="list-group-item well itemcomment"]'
         re_pattern = r'已解鎖</label><br/>(.*)\n<center>'
-        div_open = r'<div style="border: 2px solid red; border-radius: 5px; border-color: gray; padding: 25px 25px 25px 25px; margin-top: 25px;" class=<class>>'
+        div_open = r'<div style="border: 2px solid; border-radius: 40px; border-color:  # b58097; padding: 8px 8px 8px 8px; margin-top: 8px;" class=<class>>'
+# border: 2px solid; border-radius: 500px; border-color: #b58097; padding: 8px 100px 8px 100px; margin-top: 8px;
 
         note_list = bstag.select(css_selector)
 
@@ -299,7 +300,7 @@ class Vet_yamol_parser():
         addition_filter = r'<label class="badge badge-danger">已解鎖</label>'
         addition_filter2 = r'style="display:none"'
         re_pattern2 = r'查看完整內容</a></div>(.*div style="text-align:right"><i>)'
-        div_open = r'<div style="border: 2px solid red; border-radius: 5px; border-color: gray; padding: 25px 25px 25px 25px; margin-top: 25px;" class=<class>>'
+        div_open = r'<div style="border: 2px solid; border-radius: 40px; border-color:  # b58097; padding: 8px 8px 8px 8px; margin-top: 8px;" class=<class>>'
 
         discussion_list = bstag.select(
             '[class="well itemcomment"] div[style*="min-height"]')
