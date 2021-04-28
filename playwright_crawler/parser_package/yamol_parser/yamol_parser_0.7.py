@@ -216,46 +216,6 @@ class Vet_yamol_parser():
             print(f'已建立 {path} 於當前工作資料夾')
             return path
 
-    def _extract_discussion(self, bstag, qid, doc_path):
-        if (not isdir(dirname(doc_path))) and (dirname(doc_path) != ''):
-            makedirs(dirname(doc_path))
-
-        img_size_control = r'''
-        <style type="text/css">
-          img{max-width:80%; height: auto;}
-        </style>
-    '''
-        re_pattern = r'<span class="comment">(.*)<a href="support_open.php\?extra_type'
-        addition_filter = r'<label class="badge badge-danger">已解鎖</label>'
-        addition_filter2 = r'style="display:none"'
-        re_pattern2 = r'查看完整內容</a></div>(.*div style="text-align:right"><i>)'
-        div_open = r'<div style="border: 1px solid; border-radius: 40px; border-color: #b58097; padding: 8px 8px 11px 20px; margin-top: 7px; background-color:AliceBlue; display: flex; align-items: baseline; justify-content: flex-start; flex-direction: column;" class=<class>>'
-        if str(qid) == '61':
-            print(bstag)
-        discussion_list = bstag.select(
-            '[class="well itemcomment"] div[style*="min-height"]')
-
-        with open(doc_path, 'a', encoding='utf-8') as f:
-            f.write(img_size_control)
-
-        if str(qid) == '61':
-            print(discussion_list)
-        for i, e in enumerate(discussion_list):
-            if '查看完整' in str(e):
-                re_result = re.search(re_pattern2, str(e), re.DOTALL)
-                target = re_result.group(1).replace(addition_filter2, '')
-            else:
-                if str(qid) == '61':
-                    print(str(e))
-                re_result = re.search(re_pattern, str(e), re.DOTALL)
-                target = re_result.group(1).replace(addition_filter, '')
-
-            result = div_open + \
-                f'<h1 class="d_number">{qid}-{i+1}</h1>' + target + '</div>'*2
-
-            with open(doc_path, 'a', encoding='utf-8') as f:
-                f.write(result)
-
     def _extract_note(self, bstag, qid, doc_path):
 
         img_size_control = r'''
@@ -266,7 +226,6 @@ class Vet_yamol_parser():
         css_selector = r'li[class*="list-group-item well itemcomment"]'
         re_pattern = r'已解鎖</label><br/>(.*)\n<center>'
         div_open = r'<div style="border: 1px solid; border-radius: 40px; border-color: #b58097; padding: 8px 8px 11px 20px; margin-top: 7px; background-color:AliceBlue; display: flex; align-items: baseline; justify-content: flex-start; flex-direction: column;" class=<class>>'
-# border: 2px solid; border-radius: 500px; border-color: #b58097; padding: 8px 100px 8px 100px; margin-top: 8px;
 
         note_list = bstag.select(css_selector)
 
@@ -281,7 +240,7 @@ class Vet_yamol_parser():
                 re_result = re.search(re_pattern, str(e), re.DOTALL)
                 target = re_result.group(1)
                 result = div_open.replace('<class>', str(
-                    qid) + '-' + str(i+1)) + f'<h1>{qid}-{i+1}</h1>' + target + '</div>'*2
+                    qid) + '-' + str(i+1)) + f'<h1 class="d_number">{qid}-{i+1}</h1>' + target + '</div>'*2
             except:
                 print(f'分析 note 第 {str(qid)}-{str(i+1)} 出問題')
 
@@ -302,7 +261,7 @@ class Vet_yamol_parser():
         addition_filter2 = r'style="display:none"'
         re_pattern2 = r'查看完整內容</a></div>(.*div style="text-align:right"><i>)'
         div_open = r'<div style="border: 1px solid; border-radius: 40px; border-color: #b58097; padding: 8px 8px 11px 20px; margin-top: 7px; background-color:AliceBlue; display: flex; align-items: baseline; justify-content: flex-start; flex-direction: column;" class=<class>>'
-# display: flex; align-items: baseline; justify-content: flex-start; flex-direction: row;
+
         discussion_list = bstag.select(
             '[class="well itemcomment"] div[style*="min-height"]')
 
@@ -318,7 +277,7 @@ class Vet_yamol_parser():
                 target = re_result.group(1).replace(addition_filter, '')
 
             result = div_open.replace('<class>', str(
-                qid) + '-' + str(i+1)) + f'<h1>{qid}-{i+1}</h1>' + target + '</div>'*2
+                qid) + '-' + str(i+1)) + f'<h1 class="d_number">{qid}-{i+1}</h1>' + target + '</div>'*2
 
             with open(doc_path, 'a', encoding='UTF-8') as f:
                 f.write(result)

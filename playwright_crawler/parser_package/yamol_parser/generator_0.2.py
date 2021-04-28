@@ -395,7 +395,7 @@ def RemoveRedundantTag(html_soup_path):
             [x.decompose() for x in soup.findAll(lambda tag: (not tag.contents or not tag.get_text(
                 strip=True)) and tag.name != 'head', 'img', 'br', 'tr', 'td')]
             f.seek(0)
-            f.write(" ".join(str(soup).split()))
+            f.write(" ".join(str(soup).replace('&nbsp;', '').split()))
 
             f.truncate()
         print(
@@ -416,6 +416,6 @@ def RemoveRedundantSpace(html_soup_path):
             f"===========\nRemove Redundant space(&nbsp;) \"{filename}\" Complete.\n===========")
 
 
-# quick_generator('/home/eric/文件/json_soup', '/home/eric/文件/html_combined_soup')
-# RemoveRedundantTag('/home/eric/文件/html_combined_soup')
+quick_generator('/home/eric/文件/json_soup', '/home/eric/文件/html_combined_soup')
+RemoveRedundantTag('/home/eric/文件/html_combined_soup')
 # RemoveRedundantSpace('/home/eric/文件/html_combined_soup')
