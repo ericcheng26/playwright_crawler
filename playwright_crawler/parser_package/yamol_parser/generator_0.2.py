@@ -118,7 +118,6 @@ def generator(single_json_path):
       border-width: 0.25cm;
       text-align: center;
       font-weight: bold;
-      font-family: DFKai-sb;
     }
 
     table.contents{
@@ -135,7 +134,9 @@ def generator(single_json_path):
       font-weight: bold;
     }
 
-    thead{height:2cm;}
+    thead{
+      height:2cm;
+    }
 
     td.inner_contents{
       border: 1.5px solid black;
@@ -273,20 +274,73 @@ def generator(single_json_path):
       margin-bottom: 0.2cm;
     }
 
-    *{
-    word-break: break-all;
+    h1, h2, h3, h4, h5, h6 {
+      page-break-after:avoid;
+      page-break-inside:avoid
     }
-
+    h1+p, h2+p, h3+p {
+      page-break-before: avoid;
+    }
+    a {
+      page-break-inside:avoid
+    }
+    img{
+      page-break-after: avoid;
+      page-break-inside: avoid;
+    }
+    table, blockquote{
+      page-break-inside: avoid;
+    }
+    ul, ol, dl {
+      page-break-before:avoid;
+    }
+    /* 如架構本身用一組一組的 DIV 包住，也可強制設定每組 DIV 會各自切成一頁 */
+    div.pageBlock{
+      page-break-before: auto;
+    }
+    @page{
+      size: A4 portrait;
+      margin: 0.5cm;
+      widows:2;
+      orphans:4;
+    }
     @media print{
-
+      header nav, footer, video, audio, object, embed {
+        display: none;
+      }
       body{
-        background-color: white;
+        -webkit-print-color-adjust: exact;
+        background-color: #f7f7e6;
+        width: 100%;
+        margin: 0;
+        float: none;
+        line-height: 1.5;
+        font-size: 12pt;
       }
       h1.main_head{
         background-color: white;
         padding: 15cm 0 0 0;
         border-style: none;
         height: 17cm;
+      }
+      img {
+        min-width: -webkit-fill-available;
+        max-width: 100%;
+        height: auto;
+      }
+      a:link, a:visited, a {
+        background: transparent;
+        color: #222;
+        font-weight: bold;
+        text-decoration: underline;
+        text-align: left;
+        word-wrap: break-word; /*避免網址過長超出頁面*/
+      }
+      a[href^="http://"]:after, a[href^="https://"]:after {
+        content: " (" attr(href) ") ";
+      }
+      thead{
+        display: table-header-group; /* 表格即使分頁也會顯示表頭 */
       }
     }
   </style>
@@ -345,11 +399,8 @@ def generator(single_json_path):
 
     result += '</div></body>'
     # TODO replace a list of substring in string
-    result = result.replace('<p><font color="#3152a9"><span style="background-color:rgb(255,255,255);font-size:11.7px;"><br></span></font></p>', '').replace('<p></p>', '').replace('<p><span style="color:rgb(34,34,34);"><br></span></p>', '').replace('<p><span></span></p>', '').replace('<p><b></b></p>', '').replace('<p><spastyle><br><br></spastyle></p>', '').replace(
-        '<p><span><br/></span><br/></p>', '').replace(
-        '<p><span><br></span></p>', '').replace(
-        '<p><span><br/></span></p>', '').replace(
-        '<p><br></p>', '').replace('<p><br/></p>', '').replace('&nbsp;', '').replace('<p><span style="color:rgb(80,78,78);"><br></span></p>', '').replace('<p><font color="#222222"><b><br></b></font></p>', '').replace('<p><font><br></font></p>', '').replace('<p><span style="font-size:20px;"><br></span></p>', '').strip()
+    result = result.replace('<p></p>', '').replace('<p><span></span></p>', '').replace('<p><b></b></p>', '').replace(
+        '<p><span><br/></span><br/></p>', '').replace('<p><span><br/></span></p>', '').replace('&nbsp;', '').strip()
     return result, title
 # <p><span style="font-size:20px;"><br></span></p>
 # <p><font><br></font></p>
@@ -416,14 +467,14 @@ def RemoveRedundantString(html_soup_path):
                 '<p><span style="background-color:rgb(245,245,245);"><br/></span></p>', '').replace(
                 '<p><span style="color:rgb(34,34,34);"><br/></span><br/></p>', '').replace(
                 '<p><span style="color:rgb(51,51,51);"><br/></span></p>', '').replace(
-                '<p style="color:rgb(34,34,34);"><br/></p>', '').replace('<p><font color="#3152a9"><span style="background-color:rgb(255,255,255);font-size:11.7px;"><br/></span></font></p>', '').replace('<p><span style="color:rgb(34,34,34);"><br/></span></p>', '').replace('<p><spastyle><br/><br/></spastyle></p>', '').replace('<p><font><br/></font></p>', '').replace('<p><span style="font-size:20px;"><br/></span></p>', '').replace('<p style="color:rgb(68,68,68);"><br/></p>', '').replace('<p><span style="color:rgb(68,68,68);"><br/></span></p>', '').replace('<p><span style="font-size:1.1em;"><br/></span></p>', '').replace('<p><span style="color:rgb(51,51,51);font-size:14pt;"><br/></span></p>', '').replace('<span style="font-size:1.1em;"><br/></span>', '').replace('<span style="font-size:16.94px;"><br/></span>', '').replace('<p><b><span style="font-size:14px;"><br/></span></b></p>', '').replace('<p style="font-size:12pt;"> </p>', '').replace('<p><span style="font-size:15.4px;"><br/></span></p>', '').replace('<p><span style="font-size:15.4px;"><br/></span><br/></p>', '').replace('<p><span style="font-size:15.6px;"><br/></span><br/></p>', '').replace('<div><br/></div>', '').replace('<p><span style="color:rgb(17,17,17);"><br/></span></p>', '').replace('<span><br/></span>', '').replace('<p> <br/></p>', '').replace('<h4><br/></h4>', '').replace('<p style="color:rgb(0,0,0);"><br/></p>', '').replace('<p><br/><br/><br/></p>', '').replace("<p><span style=\"font-family:'微軟正黑體';\"><br/></span><br/></p>", '').replace("<p style=\"font-family:'微軟正黑體';font-size:12pt;\"><span style=\"font-weight:bold;color:rgb(91,155,213);\"><br/></span></p>", '').replace('<p><span style="color:rgb(85,85,85);"><br/></span></p>', '')
+                '<p style="color:rgb(34,34,34);"><br/></p>', '').replace('<p><font color="#3152a9"><span style="background-color:rgb(255,255,255);font-size:11.7px;"><br/></span></font></p>', '').replace('<p><span style="color:rgb(34,34,34);"><br/></span></p>', '').replace('<p><spastyle><br/><br/></spastyle></p>', '').replace('<p><font><br/></font></p>', '').replace('<p><span style="font-size:20px;"><br/></span></p>', '').replace('<p style="color:rgb(68,68,68);"><br/></p>', '').replace('<p><span style="color:rgb(68,68,68);"><br/></span></p>', '').replace('<p><span style="font-size:1.1em;"><br/></span></p>', '').replace('<p><span style="color:rgb(51,51,51);font-size:14pt;"><br/></span></p>', '').replace('<span style="font-size:1.1em;"><br/></span>', '').replace('<span style="font-size:16.94px;"><br/></span>', '').replace('<p><b><span style="font-size:14px;"><br/></span></b></p>', '').replace('<p style="font-size:12pt;"> </p>', '').replace('<p><span style="font-size:15.4px;"><br/></span></p>', '').replace('<p><span style="font-size:15.4px;"><br/></span><br/></p>', '').replace('<p><span style="font-size:15.6px;"><br/></span><br/></p>', '').replace('<div><br/></div>', '').replace('<p><span style="color:rgb(17,17,17);"><br/></span></p>', '').replace('<span><br/></span>', '').replace('<p> <br/></p>', '').replace('<h4><br/></h4>', '').replace('<p style="color:rgb(0,0,0);"><br/></p>', '').replace('<p><br/><br/><br/></p>', '').replace("<p><span style=\"font-family:'微軟正黑體';\"><br/></span><br/></p>", '').replace("<p style=\"font-family:'微軟正黑體';font-size:12pt;\"><span style=\"font-weight:bold;color:rgb(91,155,213);\"><br/></span></p>", '').replace('<p><span style="color:rgb(85,85,85);"><br/></span></p>', '').replace('<p><br/></p>', '').replace('<p><span style="color:rgb(80,78,78);"><br/></span></p>', '').replace('<p><span style="color:rgb(80,78,78);background-color:rgb(247,247,247);"><br/></span><br/></p>', '').replace('<span style="color:rgb(34,34,34);"><br/></span>', '').replace('<p><font color="#222222"><br/></font></p>', '').replace('<br/><br/>', '<br/>').replace('<p><font><font></font><br/></font><br/></p>', '').replace('<p><span><br/></span><br/></p>', '').replace('<p><span style="color:rgb(255,0,0);font-size:16px;"><br/></span></p>', '').replace('<p><span style="font-size:12pt;"><br/></span></p>', '').replace('<p><font style="background-color:rgb(255,255,0);"><br/></font><br/></p>', '').replace('<p><span style="font-size:20px;"><br/></span><br/></p>', '').replace('<p style="background-color:rgb(252,253,253);"><span style="background-color:rgb(255,255,255);"><br/></span></p>', '').replace('<br/><span style="background-color:rgb(255,253,247);"> </span><br/>', '')
 
             space_free_html = " ".join(bad_string_free_html.split())
             f.seek(0)
             f.write(space_free_html)
             f.truncate()
         print(
-            f"===========\nRemove Redundant space(&nbsp;) \"{filename}\" Complete.\n===========")
+            f"===========\nRemove Redundant String \"{filename}\" Complete.\n===========")
 
 
 # quick_generator('/home/eric/文件/json_soup', '/home/eric/文件/html_combined_soup')
