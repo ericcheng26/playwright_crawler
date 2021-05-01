@@ -102,6 +102,9 @@ def generator(single_json_path):
 
     h1.d_number {
       display: inline-block;
+      font-family: serif;
+      font-style: italic;
+      font-size: 14pt;
       border-radius: 18px;
       background-color: LightGray;
       padding: 0.2cm;
@@ -110,6 +113,7 @@ def generator(single_json_path):
       margin-inline-start: 0px;
       margin-inline-end: 0px;
     }
+
     h1.main_head{
       display: block;
       background-color: cyan;
@@ -151,6 +155,7 @@ def generator(single_json_path):
       border-bottom: 5px double black;
       padding:0cm;
     }
+
     hr{
       display: table-cell;
       unicode-bidi: isolate;
@@ -162,26 +167,34 @@ def generator(single_json_path):
       border-style: inherit;
       border-width: 0.1px;
     }
+
     h2{
-      margin-block-start: 0.001em;
-      margin-block-end: 0.001em;
+      margin-block-start: 0.1em;
+      margin-block-end: 0.1em;
       margin-inline-start: 0px;
       margin-inline-end: 0px;
     }
+
     h2.d_n_title {
-      display: flex;
-      justify-content: space-evenly;
-    }
-    h2.qid{
-      border-radius: 18px;
-      background-color: LightGray;
-      padding: 0.1cm;
-      margin: 0cm 0 0.1cm 0;
+      display: block;
+      font-size: 15pt;
       text-align-last: center;
     }
 
+    h2.qid{
+      border-radius: 18px;
+      background-color: LightGray;
+      margin: 0cm 0 0.1cm 0;
+      text-align-last: center;
+      font-size: xx-large;
+    }
+
     .alert {
-      display: inline-block;
+      display: table;
+      table-layout: fixed;
+      width: -webkit-fill-available;
+      font-family: serif;
+      font-size: 12pt;
       border: 1px solid rgb(232 232 232);
       border-top-color: rgb(232, 232, 232);
       border-top-style: solid;
@@ -200,10 +213,12 @@ def generator(single_json_path):
       border-image-outset: initial;
       border-image-repeat: initial;
     }
+
     table {
       border-collapse:collapse;
       width: 100%;
     }
+
     .table-bordered {
       border: 1px solid #b3b3b3;
       border-top-color: rgb(179, 179, 179);
@@ -224,6 +239,7 @@ def generator(single_json_path):
       border-image-outset: initial;
       border-image-repeat: initial;
     }
+
     table.main_block{
       border-radius: 20px;
       width:100%;
@@ -241,6 +257,7 @@ def generator(single_json_path):
       border: 1px solid;
       border-color: darkslategrey;
     }
+
     img {
       min-width: -webkit-fill-available;
       max-width: 100%;
@@ -253,19 +270,21 @@ def generator(single_json_path):
       margin:0.1cm 0 0.3cm 0;
       width:100%;
     }
+
     td.q_and_c{
       border: hidden;
     }
+
     td.ans_head{
-      padding:0.2cm;
+      
       font-weight: bold;
-      font-family: DFKai-sb;
       border:hidden;
+      text-align: center;
     }
 
     td.ans_val{
-      padding:0.2cm;
-      text-align: right;
+      
+      text-align: left;
       border:hidden;
     }
 
@@ -274,60 +293,76 @@ def generator(single_json_path):
       margin-bottom: 0.2cm;
     }
 
-    h1, h2, h3, h4, h5, h6 {
-      page-break-after:avoid;
-      page-break-inside:avoid
-    }
-    h1+p, h2+p, h3+p {
-      page-break-before: avoid;
-    }
-    a {
-      page-break-inside:avoid
-    }
-    img{
-      page-break-after: avoid;
-      page-break-inside: avoid;
-    }
-    table, blockquote{
-      page-break-inside: avoid;
-    }
-    ul, ol, dl {
-      page-break-before:avoid;
-    }
-    /* 如架構本身用一組一組的 DIV 包住，也可強制設定每組 DIV 會各自切成一頁 */
-    div.pageBlock{
-      page-break-before: auto;
-    }
     @page{
       size: A4 portrait;
-      margin: 0.5cm;
-      widows:2;
-      orphans:4;
+      margin: 0.3cm;
+      widows:1;
+      orphans:3;
     }
+
     @media print{
+
       header nav, footer, video, audio, object, embed {
         display: none;
       }
+      *{
+        background-color: #fff ;
+
+      }
+      a.head_contents{
+        display:none;
+      }
+
+      td.inner_contents{
+        display:none;
+      }
+
+      h2.qid{
+        background-color:LightGray !important;
+      }
+
       body{
-        -webkit-print-color-adjust: exact;
-        background-color: #f7f7e6;
+        background-color: #fff;
         width: 100%;
         margin: 0;
         float: none;
         line-height: 1.5;
         font-size: 12pt;
+        font-family:serif;
       }
+
+      div,div.*{
+        background-color: #fff;
+        border-color: #000000;
+        -webkit-box-decoration-break: clone;
+      }
+      table.mainblock{
+        background-color: LightGray !important;
+      }
+
+      table.ans_block{
+        background-color: LightGray !important;
+      }
+
       h1.main_head{
-        background-color: white;
-        padding: 15cm 0 0 0;
-        border-style: none;
-        height: 17cm;
+        padding: 0cm;
+        text-align: center;
+        font-weight: bold;
       }
+
+      h1.d_number{
+        background-color: LightGray !important;
+      }
+
       img {
         min-width: -webkit-fill-available;
         max-width: 100%;
         height: auto;
+        filter: url(inverse.svg#negative);
+        -webkit-filter: invert(100%);
+        filter: invert(100%);
       }
+
       a:link, a:visited, a {
         background: transparent;
         color: #222;
@@ -336,12 +371,50 @@ def generator(single_json_path):
         text-align: left;
         word-wrap: break-word; /*避免網址過長超出頁面*/
       }
+
       a[href^="http://"]:after, a[href^="https://"]:after {
         content: " (" attr(href) ") ";
       }
+
       thead{
         display: table-header-group; /* 表格即使分頁也會顯示表頭 */
       }
+
+      h2, h3, h4, h5, h6 {
+        page-break-before:auto;
+        page-break-inside:avoid;
+      }
+
+      h2.d_n_title {
+        page-break-after:avoid;
+      }
+
+      h2+p, h3+p {
+        page-break-before: avoid;
+      }
+
+      a {
+        page-break-inside:avoid;
+      }
+
+      img{
+        page-break-inside: avoid;
+      }
+
+      table, blockquote{
+        page-break-before: avoid;
+      }
+
+      ul, ol, dl {
+        page-break-before:avoid;
+      }
+
+      div.note_and_discussion{
+        page-break-before: auto;
+        -webkit-box-decoration-break: clone;
+      }
+
+
     }
   </style>
 
@@ -467,7 +540,7 @@ def RemoveRedundantString(html_soup_path):
                 '<p><span style="background-color:rgb(245,245,245);"><br/></span></p>', '').replace(
                 '<p><span style="color:rgb(34,34,34);"><br/></span><br/></p>', '').replace(
                 '<p><span style="color:rgb(51,51,51);"><br/></span></p>', '').replace(
-                '<p style="color:rgb(34,34,34);"><br/></p>', '').replace('<p><font color="#3152a9"><span style="background-color:rgb(255,255,255);font-size:11.7px;"><br/></span></font></p>', '').replace('<p><span style="color:rgb(34,34,34);"><br/></span></p>', '').replace('<p><spastyle><br/><br/></spastyle></p>', '').replace('<p><font><br/></font></p>', '').replace('<p><span style="font-size:20px;"><br/></span></p>', '').replace('<p style="color:rgb(68,68,68);"><br/></p>', '').replace('<p><span style="color:rgb(68,68,68);"><br/></span></p>', '').replace('<p><span style="font-size:1.1em;"><br/></span></p>', '').replace('<p><span style="color:rgb(51,51,51);font-size:14pt;"><br/></span></p>', '').replace('<span style="font-size:1.1em;"><br/></span>', '').replace('<span style="font-size:16.94px;"><br/></span>', '').replace('<p><b><span style="font-size:14px;"><br/></span></b></p>', '').replace('<p style="font-size:12pt;"> </p>', '').replace('<p><span style="font-size:15.4px;"><br/></span></p>', '').replace('<p><span style="font-size:15.4px;"><br/></span><br/></p>', '').replace('<p><span style="font-size:15.6px;"><br/></span><br/></p>', '').replace('<div><br/></div>', '').replace('<p><span style="color:rgb(17,17,17);"><br/></span></p>', '').replace('<span><br/></span>', '').replace('<p> <br/></p>', '').replace('<h4><br/></h4>', '').replace('<p style="color:rgb(0,0,0);"><br/></p>', '').replace('<p><br/><br/><br/></p>', '').replace("<p><span style=\"font-family:'微軟正黑體';\"><br/></span><br/></p>", '').replace("<p style=\"font-family:'微軟正黑體';font-size:12pt;\"><span style=\"font-weight:bold;color:rgb(91,155,213);\"><br/></span></p>", '').replace('<p><span style="color:rgb(85,85,85);"><br/></span></p>', '').replace('<p><br/></p>', '').replace('<p><span style="color:rgb(80,78,78);"><br/></span></p>', '').replace('<p><span style="color:rgb(80,78,78);background-color:rgb(247,247,247);"><br/></span><br/></p>', '').replace('<span style="color:rgb(34,34,34);"><br/></span>', '').replace('<p><font color="#222222"><br/></font></p>', '').replace('<br/><br/>', '<br/>').replace('<p><font><font></font><br/></font><br/></p>', '').replace('<p><span><br/></span><br/></p>', '').replace('<p><span style="color:rgb(255,0,0);font-size:16px;"><br/></span></p>', '').replace('<p><span style="font-size:12pt;"><br/></span></p>', '').replace('<p><font style="background-color:rgb(255,255,0);"><br/></font><br/></p>', '').replace('<p><span style="font-size:20px;"><br/></span><br/></p>', '').replace('<p style="background-color:rgb(252,253,253);"><span style="background-color:rgb(255,255,255);"><br/></span></p>', '').replace('<br/><span style="background-color:rgb(255,253,247);"> </span><br/>', '')
+                '<p style="color:rgb(34,34,34);"><br/></p>', '').replace('<p><font color="#3152a9"><span style="background-color:rgb(255,255,255);font-size:11.7px;"><br/></span></font></p>', '').replace('<p><span style="color:rgb(34,34,34);"><br/></span></p>', '').replace('<p><spastyle><br/><br/></spastyle></p>', '').replace('<p><font><br/></font></p>', '').replace('<p><span style="font-size:20px;"><br/></span></p>', '').replace('<p style="color:rgb(68,68,68);"><br/></p>', '').replace('<p><span style="color:rgb(68,68,68);"><br/></span></p>', '').replace('<p><span style="font-size:1.1em;"><br/></span></p>', '').replace('<p><span style="color:rgb(51,51,51);font-size:14pt;"><br/></span></p>', '').replace('<span style="font-size:1.1em;"><br/></span>', '').replace('<span style="font-size:16.94px;"><br/></span>', '').replace('<p><b><span style="font-size:14px;"><br/></span></b></p>', '').replace('<p style="font-size:12pt;"> </p>', '').replace('<p><span style="font-size:15.4px;"><br/></span></p>', '').replace('<p><span style="font-size:15.4px;"><br/></span><br/></p>', '').replace('<p><span style="font-size:15.6px;"><br/></span><br/></p>', '').replace('<div><br/></div>', '').replace('<p><span style="color:rgb(17,17,17);"><br/></span></p>', '').replace('<span><br/></span>', '').replace('<p> <br/></p>', '').replace('<h4><br/></h4>', '').replace('<p style="color:rgb(0,0,0);"><br/></p>', '').replace('<p><br/><br/><br/></p>', '').replace("<p><span style=\"font-family:'微軟正黑體';\"><br/></span><br/></p>", '').replace("<p style=\"font-family:'微軟正黑體';font-size:12pt;\"><span style=\"font-weight:bold;color:rgb(91,155,213);\"><br/></span></p>", '').replace('<p><span style="color:rgb(85,85,85);"><br/></span></p>', '').replace('<p><br/></p>', '').replace('<p><span style="color:rgb(80,78,78);"><br/></span></p>', '').replace('<p><span style="color:rgb(80,78,78);background-color:rgb(247,247,247);"><br/></span><br/></p>', '').replace('<span style="color:rgb(34,34,34);"><br/></span>', '').replace('<p><font color="#222222"><br/></font></p>', '').replace('<br/><br/>', '<br/>').replace('<p><font><font></font><br/></font><br/></p>', '').replace('<p><span><br/></span><br/></p>', '').replace('<p><span style="color:rgb(255,0,0);font-size:16px;"><br/></span></p>', '').replace('<p><span style="font-size:12pt;"><br/></span></p>', '').replace('<p><font style="background-color:rgb(255,255,0);"><br/></font><br/></p>', '').replace('<p><span style="font-size:20px;"><br/></span><br/></p>', '').replace('<p style="background-color:rgb(252,253,253);"><span style="background-color:rgb(255,255,255);"><br/></span></p>', '').replace('<br/><span style="background-color:rgb(255,253,247);"> </span><br/>', '').replace('<p><span style="font-weight:700;"><br/></span></p>', '').replace('<p><span style="color:rgb(0,0,255);font-weight:700;"><br/></span></p>', '')
 
             space_free_html = " ".join(bad_string_free_html.split())
             f.seek(0)
@@ -477,6 +550,6 @@ def RemoveRedundantString(html_soup_path):
             f"===========\nRemove Redundant String \"{filename}\" Complete.\n===========")
 
 
-# quick_generator('/home/eric/文件/json_soup', '/home/eric/文件/html_combined_soup')
-# RemoveRedundantTag('/home/eric/文件/html_combined_soup')
-RemoveRedundantString('/home/eric/文件/html_combined_soup')
+quick_generator('/home/eric/文件/json_soup', '/home/eric/文件/html_combined_soup')
+RemoveRedundantTag('/home/eric/文件/html_combined_soup')
+# RemoveRedundantString('/home/eric/文件/html_combined_soup')
