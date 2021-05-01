@@ -272,17 +272,17 @@ def generator(single_json_path):
       margin-bottom: 0.2cm;
     }
 
-    @page{
-      size: A4 portrait;
-      margin: 2cm;
-      widows:2;
-      orphans:4;
-    }
 
     @media print{
-      header nav, footer, video, audio, object, embed {
-        display: none;
+      @page{
+      widows:2;
+      orphans:4;
       }
+
+      header, nav, footer, video, audio, object, embed{
+        display: none !important;
+      }
+
       body{
         -webkit-print-color-adjust: economy;
         background-color: #fff !important;
@@ -293,6 +293,8 @@ def generator(single_json_path):
         line-height: 1.3;
         font-size: 12pt;
         font-family:serif;
+        padding-top: 72px;
+        padding-bottom: 72px;
       }
 
       a.head_contents{
@@ -370,6 +372,7 @@ def generator(single_json_path):
 
       table, blockquote{
         page-break-before: avoid;
+        -webkit-box-decoration-break: clone;
       }
 
       table.ans_block{

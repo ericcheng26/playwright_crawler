@@ -21,13 +21,15 @@ parser.add_argument('--pdfpath', type=str, default='',
                     help='The pdf directory')
 parser.add_argument('--papersize', type=str, default='A4',
                     help='paper format: A4,B5...')
-parser.add_argument('--convertmode', type=str, default='screen',
+parser.add_argument('--convertmode', type=str, default='print',
                     help="mode: screen, print; Print mode: Using the style of CSS '@media print'. Screen mode: Using what's showing on the screen ")
 parser.add_argument('--schemecolor', type=str, default='dark',
                     help="Default = 'dark'[ 'light', 'no-preference'] | None")
+parser.add_argument('--hdfr', type=str, default='True',
+                    help="Default = 'True' (Only with page-number and total number)| False")
 
 
-async def main():
+async def html_to_pdf():
     args = parser.parse_args()
     _pw = await async_playwright().start()
     # pdf creation only work in chromium headless mode
@@ -44,21 +46,23 @@ async def main():
 
         await page.emulate_media(media=f"{args.convertmode}", color_scheme=f"{args.schemecolor}")
         await page.pdf(
+            display_header_footer=f'{args.hdfr}',
             path=f"{args.pdfpath}/{filename.split('.')[0]}.pdf",
             format=f'{args.papersize}',
-            print_background=True
+            print_background=False,
+            footer_template='<div style="color: lightgray; border-top: solid lightgray 1px; font-size: 10px; text-align: center; width: 100%;"><span class="title"></span> [ <span calss="pageNumber"></span> - <span class="totalPages"> ] </span></div>',
+            margin={
+                bottom: '2cm',
+                left: '2cm',
+                right: '2cm',
+                top: '2cm',
+            }
         )
         print(f"===========\nThe Pdf of {filename} is done...\n===========")
 
-# margin = {
-#     top: "20px",
-#     left: "20px",
-#     right: "20px",
-#     bottom: "20px"
-# }
 # ---------------------
     await page.close()
     await _context.close()
     await _browser.close()
 
-asyncio.run(main())
+asyncio.run(html_to_pdf())
