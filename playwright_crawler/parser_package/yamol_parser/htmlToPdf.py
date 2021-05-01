@@ -25,12 +25,16 @@ parser.add_argument('--convertmode', type=str, default='print',
                     help="mode: screen, print; Print mode: Using the style of CSS '@media print'. Screen mode: Using what's showing on the screen ")
 parser.add_argument('--schemecolor', type=str, default='dark',
                     help="Default = 'dark'[ 'light', 'no-preference'] | None")
-parser.add_argument('--hdfr', type=str, default='True',
-                    help="Default = 'True' (Only with page-number and total number)| False")
+parser.add_argument('--hdfr', type=bool, default=True,
+                    help="Default = True (Only with page-number and total number)| False")
 
 
 async def html_to_pdf():
     args = parser.parse_args()
+    if args.convertmode == 'screen':
+        bool_background = True
+    else:
+        bool_background = False
     _pw = await async_playwright().start()
     # pdf creation only work in chromium headless mode
     _browser = await _pw.chromium.launch(headless=True)
@@ -46,10 +50,10 @@ async def html_to_pdf():
 
         await page.emulate_media(media=f"{args.convertmode}", color_scheme=f"{args.schemecolor}")
         await page.pdf(
-            display_header_footer=f'{args.hdfr}',
+            display_header_footer=args.hdfr,
             path=f"{args.pdfpath}/{filename.split('.')[0]}.pdf",
             format=f'{args.papersize}',
-            print_background=False,
+            print_background=bool_background,
             footer_template='<div style="color: lightgray; border-top: solid lightgray 1px; font-size: 10px; text-align: center; width: 100%;"><span class="title"></span> [ <span calss="pageNumber"></span> - <span class="totalPages"> ] </span></div>',
             margin={
                 bottom: '2cm',
