@@ -195,23 +195,6 @@ def generator(single_json_path):
       width: -webkit-fill-available;
       font-family: serif;
       font-size: 12pt;
-      border: 1px solid rgb(232 232 232);
-      border-top-color: rgb(232, 232, 232);
-      border-top-style: solid;
-      border-right-color: rgb(232, 232, 232);
-      border-right-style: solid;
-      border-right-width: 1px;
-      border-bottom-color: rgb(232, 232, 232);
-      border-bottom-style: solid;
-      border-bottom-width: 1px;
-      border-left-color: rgb(232, 232, 232);
-      border-left-style: solid;
-      border-left-width: 1px;
-      border-image-source: initial;
-      border-image-slice: initial;
-      border-image-width: initial;
-      border-image-outset: initial;
-      border-image-repeat: initial;
     }
 
     table {
@@ -266,7 +249,7 @@ def generator(single_json_path):
 
     table.ans_block{
       border-radius: 20px;
-      background-color:LightGray;
+      border-color: darkslategrey;
       margin:0.1cm 0 0.3cm 0;
       width:100%;
     }
@@ -276,16 +259,12 @@ def generator(single_json_path):
     }
 
     td.ans_head{
-      
       font-weight: bold;
-      border:hidden;
       text-align: center;
     }
 
     td.ans_val{
-      
-      text-align: left;
-      border:hidden;
+      text-align: center;
     }
 
     div.note_and_discussion{
@@ -295,20 +274,27 @@ def generator(single_json_path):
 
     @page{
       size: A4 portrait;
-      margin: 0.3cm;
-      widows:1;
-      orphans:3;
+      margin: 2cm;
+      widows:2;
+      orphans:4;
     }
 
     @media print{
-
       header nav, footer, video, audio, object, embed {
         display: none;
       }
-      *{
-        background-color: #fff ;
-
+      body{
+        -webkit-print-color-adjust: economy;
+        background-color: #fff !important;
+        color: #000;
+        width: 100%;
+        margin: 0;
+        float: none;
+        line-height: 1.3;
+        font-size: 12pt;
+        font-family:serif;
       }
+
       a.head_contents{
         display:none;
       }
@@ -317,31 +303,15 @@ def generator(single_json_path):
         display:none;
       }
 
-      h2.qid{
-        background-color:LightGray !important;
-      }
-
-      body{
+      div{
         background-color: #fff;
-        width: 100%;
-        margin: 0;
-        float: none;
-        line-height: 1.5;
-        font-size: 12pt;
-        font-family:serif;
-      }
-
-      div,div.*{
-        background-color: #fff;
-        border-color: #000000;
         -webkit-box-decoration-break: clone;
-      }
-      table.mainblock{
-        background-color: LightGray !important;
       }
 
       table.ans_block{
-        background-color: LightGray !important;
+        border: 1px solid;
+        border-color: #000000;
+        border-radius: 20px;
       }
 
       h1.main_head{
@@ -365,16 +335,13 @@ def generator(single_json_path):
 
       a:link, a:visited, a {
         background: transparent;
-        color: #222;
+        color: #520;
         font-weight: bold;
         text-decoration: underline;
         text-align: left;
         word-wrap: break-word; /*避免網址過長超出頁面*/
       }
 
-      a[href^="http://"]:after, a[href^="https://"]:after {
-        content: " (" attr(href) ") ";
-      }
 
       thead{
         display: table-header-group; /* 表格即使分頁也會顯示表頭 */
@@ -405,6 +372,18 @@ def generator(single_json_path):
         page-break-before: avoid;
       }
 
+      table.ans_block{
+        page-break-inside: avoid;
+      }
+
+      table.main_block{
+        page-break-inside: avoid;
+      }
+      
+      td.q_and_c{
+        page-break-inside: avoid;
+      }
+
       ul, ol, dl {
         page-break-before:avoid;
       }
@@ -413,8 +392,6 @@ def generator(single_json_path):
         page-break-before: auto;
         -webkit-box-decoration-break: clone;
       }
-
-
     }
   </style>
 
