@@ -66,7 +66,7 @@ def d_part_generator(d_tag_list=None, n_tag_list=None):
 # 給定單獨的json路徑
 def generator(single_json_path):
 
-    title = basename(single_json_path).replace('.json', '')
+    title = basename(single_json_path).replace('_note.json', '')
     dir_path = dirname(single_json_path)
     static_path = join(dir_path, 'static')
     discussion_path = join(static_path, 'discussion.html')
@@ -85,6 +85,7 @@ def generator(single_json_path):
         n_soup = None
 # 生成html內head和body區塊
     result = '''\
+    <title>我是標題</title>
     <style>
     body {
       margin: 0;

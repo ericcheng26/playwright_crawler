@@ -54,12 +54,13 @@ async def html_to_pdf():
             path=f"{args.pdfpath}/{filename.split('.')[0]}.pdf",
             format=f'{args.papersize}',
             print_background=bool_background,
-            footer_template='<div style="color: lightgray; border-top: solid lightgray 1px; font-size: 10px; text-align: center; width: 100%;"><span class="title"></span> [ <span calss="pageNumber"></span> - <span class="totalPages"> ] </span></div>',
+            header_template='<div style="color: lightgray; border-top: solid lightgray 1px; font-size: 10px; text-align: center; width: 100%;"><span class="date" style="display:none"> </span>',
+            footer_template='<div style="color: lightgray; border-top: solid lightgray 1px; font-size: 10px; text-align: center; width: 100%;"><span class="title"> </span> [ <span class="pageNumber"> </span> - <span class="totalPages"> </span> ] </div>',
             margin={
-                bottom: '2cm',
-                left: '2cm',
-                right: '2cm',
-                top: '2cm',
+                'bottom': '2cm',
+                'left': '2cm',
+                'right': '2cm',
+                'top': '2cm',
             }
         )
         print(f"===========\nThe Pdf of {filename} is done...\n===========")
