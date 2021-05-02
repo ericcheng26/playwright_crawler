@@ -151,8 +151,7 @@ def generator(single_json_path):
     }
 
     div.q_block{
-      margin: 0.5cm 0 0 0;
-      border-top: 5px solid black;
+      margin: 0.3cm 0 0 0;
       border-bottom: 5px double black;
       padding:0cm;
     }
@@ -193,9 +192,10 @@ def generator(single_json_path):
     .alert {
       display: table;
       table-layout: fixed;
-      width: -webkit-fill-available;
+      width: 100%;
       font-family: serif;
       font-size: 12pt;
+      word-wrap: break-word;
     }
 
     table {
@@ -303,6 +303,10 @@ def generator(single_json_path):
       }
 
       td.inner_contents{
+        display:none;
+      }
+
+      h2.qid{
         display:none;
       }
 
@@ -527,10 +531,14 @@ def RemoveRedundantString(html_soup_path):
             f.seek(0)
             f.write(space_free_html)
             f.truncate()
-        print(
-            f"===========\nRemove Redundant String \"{filename}\" Complete.\n===========")
+        # print(
+        #     f"===========\nRemove Redundant String \"{filename}\" Complete.\n===========")
 
 
-# quick_generator('/home/eric/文件/json_soup', '/home/eric/文件/html_combined_soup')
-# RemoveRedundantTag('/home/eric/文件/html_combined_soup')
-RemoveRedundantString('/home/eric/文件/html_combined_soup')
+quick_generator('/home/eric/文件/json_soup', '/home/eric/文件/html_combined_soup')
+RemoveRedundantTag('/home/eric/文件/html_combined_soup')
+
+# 移除多餘的字串
+for i in range(1, 4):
+    print(f'RemoveRedundantString 第{i}次！')
+    RemoveRedundantString('/home/eric/文件/html_combined_soup')

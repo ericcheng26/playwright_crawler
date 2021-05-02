@@ -236,11 +236,15 @@ class Vet_yamol_parser():
             f.write(img_size_control)
 
         for i, e in enumerate(note_list):
+            if len(note_list) == 1:
+                qid_name = f'{qid}'
+            else:
+                qid_name = f'{qid}-{i+1}'
             try:
                 re_result = re.search(re_pattern, str(e), re.DOTALL)
                 target = re_result.group(1)
                 result = div_open.replace('<class>', str(
-                    qid) + '-' + str(i+1)) + f'<h1 class="d_number">{qid}-{i+1}</h1>' + target + '</div>'*2
+                    qid) + '-' + str(i+1)) + f'<h1 class="d_number">{qid_name}</h1>' + target + '</div>'*2
             except:
                 print(f'分析 note 第 {str(qid)}-{str(i+1)} 出問題')
 
@@ -276,8 +280,13 @@ class Vet_yamol_parser():
                 re_result = re.search(re_pattern, str(e), re.DOTALL)
                 target = re_result.group(1).replace(addition_filter, '')
 
+            if len(discussion_list) == 1:
+                qid_name = f'{qid}'
+            else:
+                qid_name = f'{qid}-{i+1}'
+
             result = div_open.replace('<class>', str(
-                qid) + '-' + str(i+1)) + f'<h1 class="d_number">{qid}-{i+1}</h1>' + target + '</div>'*2
+                qid) + '-' + str(i+1)) + f'<h1 class="d_number">{qid_name}</h1>' + target + '</div>'*2
 
             with open(doc_path, 'a', encoding='UTF-8') as f:
                 f.write(result)
