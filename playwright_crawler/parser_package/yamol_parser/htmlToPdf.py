@@ -31,10 +31,13 @@ parser.add_argument('--hdfr', type=bool, default=True,
 
 async def html_to_pdf():
     args = parser.parse_args()
+
+    # 如果是screen模式，顯示背景色; 除外，不顯示背景色
     if args.convertmode == 'screen':
         bool_background = True
     else:
         bool_background = False
+
     _pw = await async_playwright().start()
     # pdf creation only work in chromium headless mode
     _browser = await _pw.chromium.launch(headless=True)
@@ -46,7 +49,7 @@ async def html_to_pdf():
         print(
             f"======================\n開始轉換{filename}爲Pdf\n======================")
 
-        await page.goto(f'file://{join(dir_path, filename)}', timeout=240000)
+        await page.goto(f'file://{join(dir_path, filename)}', timeout=2400000)
 
         await page.emulate_media(media=f"{args.convertmode}", color_scheme=f"{args.schemecolor}")
         await page.pdf(
