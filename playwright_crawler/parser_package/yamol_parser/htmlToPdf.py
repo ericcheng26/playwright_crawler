@@ -26,7 +26,7 @@ parser.add_argument('--convertmode', type=str, default='print',
 parser.add_argument('--schemecolor', type=str, default='dark',
                     help="Default = 'dark'[ 'light', 'no-preference'] | None")
 parser.add_argument('--hdfr', type=bool, default=True,
-                    help="Default = True (Only with page-number and total number)| False")
+                    help="Whether or not yo show the footer. Default = True (Only show page-number and total number)| False")
 
 
 async def html_to_pdf():
