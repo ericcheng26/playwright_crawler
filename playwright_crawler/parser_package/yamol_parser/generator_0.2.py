@@ -10,14 +10,14 @@ import base64
 def url_to_base64(url):
     raw = requests.get(
         'http://www.chemspider.com/ImagesHandler.ashx?id=8894&w=250&h=250').content
-    b64data = base64.b64encode(raw)[2:-1]
+    b64data = base64.b64encode(raw).decode()
     return '<img src="data:image/jpeg;base64, ' + b64data + '>'
 
 
 def img_to_base64(img_path):
     with open(img_path, 'rb') as f:
         raw = f.read()
-    b64data = str(base64.b64encode(raw)[2:-1])
+    b64data = base64.b64encode(raw).decode()
     return '<img src="data:image/jpeg;base64, ' + b64data + '">'
 
 
@@ -29,9 +29,6 @@ def q_part_generator(q_list):
 
     for c in q_list[1]:
         result += ('<br>' + c)
-
-    result += '</td>'
-
     try:
         for img_path in q_list[3]:
             image = img_to_base64(img_path)
@@ -42,6 +39,8 @@ def q_part_generator(q_list):
         print('TypeError--Something going wrong!FIX ME!')
     except:
         print(img_path, '--Something going wrong!FIX ME!')
+
+    result += '</td>'
 
     result += '</tr></table>'
 
@@ -238,6 +237,9 @@ def generator(single_json_path):
       border-collapse:collapse;
       border: 1px solid;
       border-color: darkslategrey;
+    }
+    td.q_image {
+      border: hidden;
     }
 
     tr{
