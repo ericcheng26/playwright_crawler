@@ -526,13 +526,11 @@ def RemoveRedundantString(html_soup_path):
         #     f"===========\nRemove Redundant String \"{filename}\" Complete.\n===========")
 
 
-# quick_generator('/home/eric/文件/json_soup', '/home/eric/文件/html_combined_soup')
-# RemoveRedundantTag('/home/eric/文件/html_combined_soup')
-# print('RemoveRedundantString Starting ！')
-# RemoveRedundantString('/home/eric/文件/html_combined_soup')
-# print('RemoveRedundantString Complete ！')
-
+quick_generator('/home/eric/文件/json_soup', '/home/eric/文件/html_combined_soup')
 # 移除多餘的字串
+RemoveRedundantTag('/home/eric/文件/html_combined_soup')
+print('RemoveRedundantString Starting ！')
 for i in range(1, 4):
     print(f'RemoveRedundantString 第{i}次！')
     RemoveRedundantString('/home/eric/文件/html_combined_soup')
+print('RemoveRedundantString Complete ！')
