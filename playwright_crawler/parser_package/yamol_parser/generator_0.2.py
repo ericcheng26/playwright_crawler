@@ -17,7 +17,7 @@ def url_to_base64(url):
 def img_to_base64(img_path):
     with open(img_path, 'rb') as f:
         raw = f.read()
-    b64data = base64.b64encode(raw)[2:-1]
+    b64data = str(base64.b64encode(raw)[2:-1])
     return '<img src="data:image/jpeg;base64, ' + b64data + '">'
 
 
@@ -83,7 +83,7 @@ def generator(single_json_path):
             n_soup = BS(f.read(), 'lxml')
     else:
         n_soup = None
-# 生成html內head和body區塊
+# 生成html內head和body
     result = '''\
     <title>我是標題</title>
     <style>
@@ -98,17 +98,17 @@ def generator(single_json_path):
       margin: auto;
       background-color: #f7f7e6;
       width: 21.5cm;
-      padding: 1cm;
+      padding: 0.8cm;
     }
 
     h1.d_number {
       display: inline-block;
       font-family: serif;
       font-style: italic;
-      font-size: 14pt;
+      font-size: 13pt;
       border-radius: 18px;
       background-color: LightGray;
-      padding: 0.2cm;
+      padding: 0.1cm;
       margin-block-start: 0em;
       margin-block-end: 0.1em;
       margin-inline-start: 0px;
@@ -118,7 +118,7 @@ def generator(single_json_path):
     h1.main_head{
       display: block;
       background-color: cyan;
-      padding: 0.5cm;
+      padding: 0.2cm;
       border-style: double;
       border-width: 0.25cm;
       text-align: center;
@@ -130,7 +130,7 @@ def generator(single_json_path):
       }
 
     a.head_contents{
-      font-size:0.7cm;
+      font-size:13px;
       border-radius: 18px;
       background-color:LightGray;
       display: flex;
@@ -177,7 +177,7 @@ def generator(single_json_path):
 
     h2.d_n_title {
       display: block;
-      font-size: 15pt;
+      font-size: 13pt;
       text-align-last: center;
     }
 
@@ -186,7 +186,7 @@ def generator(single_json_path):
       background-color: LightGray;
       margin: 0cm 0 0.1cm 0;
       text-align-last: center;
-      font-size: xx-large;
+      font-size: 13pt;
     }
 
     .alert {
@@ -294,8 +294,8 @@ def generator(single_json_path):
         line-height: 1.3;
         font-size: 12pt;
         font-family:serif;
-        padding-top: 72px;
-        padding-bottom: 72px;
+        padding-top: 68px;
+        padding-bottom: 68px;
       }
 
       a.head_contents{
@@ -415,7 +415,7 @@ def generator(single_json_path):
     <table class=contents >
     <tr>\
   '''.replace('我是標題', title)
-# 生成html內目錄區塊
+# 生成html內目錄
     for i in range(1, 81):
 
         result += '<td class=inner_contents><a href=#%d>%d</a></td>' % (i, i)
@@ -430,7 +430,7 @@ def generator(single_json_path):
       </tr>
     </table>
       '''
-# 生成詳解討論和筆記區塊
+# 生成題目、詳解討論和筆記
     with open(single_json_path, 'r', encoding='utf-8') as f:
         json_dict = load(f)
 
@@ -460,18 +460,7 @@ def generator(single_json_path):
     result = result.replace('<p></p>', '').replace('<p><span></span></p>', '').replace('<p><b></b></p>', '').replace(
         '<p><span><br/></span><br/></p>', '').replace('<p><span><br/></span></p>', '').replace('&nbsp;', '').strip()
     return result, title
-# <p><span style="font-size:20px;"><br></span></p>
-# <p><font><br></font></p>
-# <p><font color="#222222"><b><br></b></font></p>
-# <p><span style="color:rgb(80,78,78);"><br></span></p>
-# <p><font color="#3152a9"><span style="background-color:rgb(255,255,255);font-size:11.7px;"><br></span></font></p>
-# <p></p>
-# <p><span style="color:rgb(34,34,34);"><br></span></p>
-# <p><span></span></p>
-# <p><b></b></p>
-# <p><spastyle><br><br></spastyle></p>
-# <p><span><br/></span><br/></p>
-# <p><span><br/></span></p>
+
 # 批量把str儲存成html檔
 
 
@@ -526,7 +515,8 @@ def RemoveRedundantString(html_soup_path):
                 '<p><span style="color:rgb(34,34,34);"><br/></span><br/></p>', '').replace(
                 '<p><span style="color:rgb(51,51,51);"><br/></span></p>', '').replace(
                 '<p style="color:rgb(34,34,34);"><br/></p>', '').replace('<p><font color="#3152a9"><span style="background-color:rgb(255,255,255);font-size:11.7px;"><br/></span></font></p>', '').replace('<p><span style="color:rgb(34,34,34);"><br/></span></p>', '').replace('<p><spastyle><br/><br/></spastyle></p>', '').replace('<p><font><br/></font></p>', '').replace('<p><span style="font-size:20px;"><br/></span></p>', '').replace('<p style="color:rgb(68,68,68);"><br/></p>', '').replace('<p><span style="color:rgb(68,68,68);"><br/></span></p>', '').replace('<p><span style="font-size:1.1em;"><br/></span></p>', '').replace('<p><span style="color:rgb(51,51,51);font-size:14pt;"><br/></span></p>', '').replace('<span style="font-size:1.1em;"><br/></span>', '').replace('<span style="font-size:16.94px;"><br/></span>', '').replace('<p><b><span style="font-size:14px;"><br/></span></b></p>', '').replace('<p style="font-size:12pt;"> </p>', '').replace('<p><span style="font-size:15.4px;"><br/></span></p>', '').replace('<p><span style="font-size:15.4px;"><br/></span><br/></p>', '').replace('<p><span style="font-size:15.6px;"><br/></span><br/></p>', '').replace('<div><br/></div>', '').replace('<p><span style="color:rgb(17,17,17);"><br/></span></p>', '').replace('<span><br/></span>', '').replace('<p> <br/></p>', '').replace('<h4><br/></h4>', '').replace('<p style="color:rgb(0,0,0);"><br/></p>', '').replace('<p><br/><br/><br/></p>', '').replace("<p><span style=\"font-family:'微軟正黑體';\"><br/></span><br/></p>", '').replace("<p style=\"font-family:'微軟正黑體';font-size:12pt;\"><span style=\"font-weight:bold;color:rgb(91,155,213);\"><br/></span></p>", '').replace('<p><span style="color:rgb(85,85,85);"><br/></span></p>', '').replace('<p><br/></p>', '').replace('<p><span style="color:rgb(80,78,78);"><br/></span></p>', '').replace('<p><span style="color:rgb(80,78,78);background-color:rgb(247,247,247);"><br/></span><br/></p>', '').replace('<span style="color:rgb(34,34,34);"><br/></span>', '').replace('<p><font color="#222222"><br/></font></p>', '').replace('<br/><br/>', '<br/>').replace('<p><font><font></font><br/></font><br/></p>', '').replace('<p><span><br/></span><br/></p>', '').replace('<p><span style="color:rgb(255,0,0);font-size:16px;"><br/></span></p>', '').replace('<p><span style="font-size:12pt;"><br/></span></p>', '').replace('<p><font style="background-color:rgb(255,255,0);"><br/></font><br/></p>', '').replace('<p><span style="font-size:20px;"><br/></span><br/></p>', '').replace('<p style="background-color:rgb(252,253,253);"><span style="background-color:rgb(255,255,255);"><br/></span></p>', '').replace('<br/><span style="background-color:rgb(255,253,247);"> </span><br/>', '').replace('<p><span style="font-weight:700;"><br/></span></p>', '').replace('<p><span style="color:rgb(0,0,255);font-weight:700;"><br/></span></p>', '').replace('<p><font color="#222222"><b><br/></b></font><br/></p>', '')
-
+            bad_string_free_html = bad_string_free_html.replace(
+                '<br/>(', '+++').replace('<br/>', '').replace('+++', '<br/>(')
             space_free_html = " ".join(bad_string_free_html.split())
             f.seek(0)
             f.write(space_free_html)
@@ -535,8 +525,11 @@ def RemoveRedundantString(html_soup_path):
         #     f"===========\nRemove Redundant String \"{filename}\" Complete.\n===========")
 
 
-quick_generator('/home/eric/文件/json_soup', '/home/eric/文件/html_combined_soup')
-RemoveRedundantTag('/home/eric/文件/html_combined_soup')
+# quick_generator('/home/eric/文件/json_soup', '/home/eric/文件/html_combined_soup')
+# RemoveRedundantTag('/home/eric/文件/html_combined_soup')
+# print('RemoveRedundantString Starting ！')
+# RemoveRedundantString('/home/eric/文件/html_combined_soup')
+# print('RemoveRedundantString Complete ！')
 
 # 移除多餘的字串
 for i in range(1, 4):

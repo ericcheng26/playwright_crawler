@@ -60,10 +60,10 @@ async def html_to_pdf():
             header_template='<div style="color: lightgray; border-top: solid lightgray 1px; font-size: 10px; text-align: center; width: 100%;"><span class="date" style="display:none"> </span>',
             footer_template='<div style="color: lightgray; border-top: solid lightgray 1px; font-size: 10px; text-align: center; width: 100%;"><span class="title"> </span> [ <span class="pageNumber"> </span> - <span class="totalPages"> </span> ] </div>',
             margin={
-                'bottom': '2cm',
-                'left': '2cm',
-                'right': '2cm',
-                'top': '2cm',
+                'bottom': '1.5cm',
+                'left': '1.5cm',
+                'right': '1.5cm',
+                'top': '1.5cm',
             }
         )
         print(f"===========\nThe Pdf of {filename} is done...\n===========")

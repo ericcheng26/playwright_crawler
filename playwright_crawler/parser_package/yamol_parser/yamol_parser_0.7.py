@@ -153,7 +153,7 @@ class Vet_yamol_parser():
                 img_path_list.append(img_path)
             return img_path_list
 
-    def _todict(self, number, question, choices, answer, image_path=None, solution=None, ):
+    def _todict(self, number, question, choices, answer, image_path=None, solution=None):
 
         if isinstance(number, int) or isinstance(number, float):
             number = str(int(number))
