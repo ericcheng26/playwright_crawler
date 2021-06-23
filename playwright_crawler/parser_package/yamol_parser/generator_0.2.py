@@ -37,6 +37,7 @@ def q_part_generator(q_list):
             image = img_to_base64(img_path)
             result += ('<td class="q_image">' + image + '</td>')
     except:
+        print('Question image Error!')
         pass
 
     result += '</tr></table>'
