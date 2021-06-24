@@ -253,6 +253,7 @@ def generator(single_json_path):
       min-width: -webkit-fill-available;
       max-width: 100%;
       height: auto;
+      word-wrap: break-word;
     }
 
     table.ans_block{
@@ -280,6 +281,9 @@ def generator(single_json_path):
       margin-bottom: 0.2cm;
     }
 
+    a{
+      word-wrap: break-word;
+    }
 
     @media print{
       @page{
