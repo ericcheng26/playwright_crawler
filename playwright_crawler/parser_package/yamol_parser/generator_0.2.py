@@ -29,6 +29,7 @@ def q_part_generator(q_list):
 
     for c in q_list[1]:
         result += ('<br>' + c)
+    result += '<table>'
     try:
         for img_path in q_list[3]:
             image = img_to_base64(img_path)
@@ -40,7 +41,7 @@ def q_part_generator(q_list):
     except:
         print(img_path, '--Something going wrong!FIX ME!')
 
-    result += '</td>'
+    result += '</table></td>'
 
     result += '</tr></table>'
 
