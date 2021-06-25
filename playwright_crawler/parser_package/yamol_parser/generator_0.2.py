@@ -169,6 +169,7 @@ def generator(single_json_path):
       margin-block-end: 5px;
       margin-inline-start: 0px;
       margin-inline-end: 0px;
+      word-wrap: break-word;
     }
 
     hr{
