@@ -98,6 +98,10 @@ def generator(single_json_path):
       font-family: arial,"Microsoft JhengHei","微軟正黑體",sans-serif !important;
     }
 
+    div{
+      background-color: #fff !important;
+    }
+
     div.block{
       margin: auto;
       background-color: #f7f7e6;
@@ -305,7 +309,7 @@ def generator(single_json_path):
       body{
         -webkit-print-color-adjust: economy;
         background-color: #fff !important;
-        color: #000;
+        color: #000000;
         width: 100%;
         margin: 0;
         float: none;
@@ -316,6 +320,11 @@ def generator(single_json_path):
         padding-bottom: 68px;
       }
 
+      span{
+        color: #000000 !important;
+      }
+
+
       a.head_contents{
         display:none;
       }
@@ -323,14 +332,20 @@ def generator(single_json_path):
       td.inner_contents{
         display:none;
       }
+      td.q_and_c{
+        background-color: #fff;
+      }
 
       h2.qid{
         display:none;
       }
 
       div{
-        background-color: #fff;
+        background-color: #fff !important;
         -webkit-box-decoration-break: clone;
+      }
+      div.block{
+        background-color: #fff;
       }
 
       table.ans_block{
@@ -340,6 +355,7 @@ def generator(single_json_path):
       }
 
       h1.main_head{
+        background-color: LightGray !important;
         padding: 0cm;
         text-align: center;
         font-weight: bold;
@@ -405,7 +421,7 @@ def generator(single_json_path):
       table.main_block{
         page-break-inside: avoid;
       }
-      
+
       td.q_and_c{
         page-break-inside: avoid;
       }
@@ -532,7 +548,8 @@ def RemoveRedundantString(html_soup_path):
                 '<p><span style="background-color:rgb(245,245,245);"><br/></span></p>', '').replace(
                 '<p><span style="color:rgb(34,34,34);"><br/></span><br/></p>', '').replace(
                 '<p><span style="color:rgb(51,51,51);"><br/></span></p>', '').replace(
-                '<p style="color:rgb(34,34,34);"><br/></p>', '').replace('<p><font color="#3152a9"><span style="background-color:rgb(255,255,255);font-size:11.7px;"><br/></span></font></p>', '').replace('<p><span style="color:rgb(34,34,34);"><br/></span></p>', '').replace('<p><spastyle><br/><br/></spastyle></p>', '').replace('<p><font><br/></font></p>', '').replace('<p><span style="font-size:20px;"><br/></span></p>', '').replace('<p style="color:rgb(68,68,68);"><br/></p>', '').replace('<p><span style="color:rgb(68,68,68);"><br/></span></p>', '').replace('<p><span style="font-size:1.1em;"><br/></span></p>', '').replace('<p><span style="color:rgb(51,51,51);font-size:14pt;"><br/></span></p>', '').replace('<span style="font-size:1.1em;"><br/></span>', '').replace('<span style="font-size:16.94px;"><br/></span>', '').replace('<p><b><span style="font-size:14px;"><br/></span></b></p>', '').replace('<p style="font-size:12pt;"> </p>', '').replace('<p><span style="font-size:15.4px;"><br/></span></p>', '').replace('<p><span style="font-size:15.4px;"><br/></span><br/></p>', '').replace('<p><span style="font-size:15.6px;"><br/></span><br/></p>', '').replace('<div><br/></div>', '').replace('<p><span style="color:rgb(17,17,17);"><br/></span></p>', '').replace('<span><br/></span>', '').replace('<p> <br/></p>', '').replace('<h4><br/></h4>', '').replace('<p style="color:rgb(0,0,0);"><br/></p>', '').replace('<p><br/><br/><br/></p>', '').replace("<p><span style=\"font-family:'微軟正黑體';\"><br/></span><br/></p>", '').replace("<p style=\"font-family:'微軟正黑體';font-size:12pt;\"><span style=\"font-weight:bold;color:rgb(91,155,213);\"><br/></span></p>", '').replace('<p><span style="color:rgb(85,85,85);"><br/></span></p>', '').replace('<p><br/></p>', '').replace('<p><span style="color:rgb(80,78,78);"><br/></span></p>', '').replace('<p><span style="color:rgb(80,78,78);background-color:rgb(247,247,247);"><br/></span><br/></p>', '').replace('<span style="color:rgb(34,34,34);"><br/></span>', '').replace('<p><font color="#222222"><br/></font></p>', '').replace('<br/><br/>', '<br/>').replace('<p><font><font></font><br/></font><br/></p>', '').replace('<p><span><br/></span><br/></p>', '').replace('<p><span style="color:rgb(255,0,0);font-size:16px;"><br/></span></p>', '').replace('<p><span style="font-size:12pt;"><br/></span></p>', '').replace('<p><font style="background-color:rgb(255,255,0);"><br/></font><br/></p>', '').replace('<p><span style="font-size:20px;"><br/></span><br/></p>', '').replace('<p style="background-color:rgb(252,253,253);"><span style="background-color:rgb(255,255,255);"><br/></span></p>', '').replace('<br/><span style="background-color:rgb(255,253,247);"> </span><br/>', '').replace('<p><span style="font-weight:700;"><br/></span></p>', '').replace('<p><span style="color:rgb(0,0,255);font-weight:700;"><br/></span></p>', '').replace('<p><font color="#222222"><b><br/></b></font><br/></p>', '')
+                '<p style="color:rgb(34,34,34);"><br/></p>', '').replace('<p><font color="#3152a9"><span style="background-color:rgb(255,255,255);font-size:11.7px;"><br/></span></font></p>', '').replace('<p><span style="color:rgb(34,34,34);"><br/></span></p>', '').replace('<p><spastyle><br/><br/></spastyle></p>', '').replace('<p><font><br/></font></p>', '').replace('<p><span style="font-size:20px;"><br/></span></p>', '').replace('<p style="color:rgb(68,68,68);"><br/></p>', '').replace('<p><span style="color:rgb(68,68,68);"><br/></span></p>', '').replace('<p><span style="font-size:1.1em;"><br/></span></p>', '').replace('<p><span style="color:rgb(51,51,51);font-size:14pt;"><br/></span></p>', '').replace('<span style="font-size:1.1em;"><br/></span>', '').replace('<span style="font-size:16.94px;"><br/></span>', '').replace('<p><b><span style="font-size:14px;"><br/></span></b></p>', '').replace('<p style="font-size:12pt;"> </p>', '').replace('<p><span style="font-size:15.4px;"><br/></span></p>', '').replace('<p><span style="font-size:15.4px;"><br/></span><br/></p>', '').replace('<p><span style="font-size:15.6px;"><br/></span><br/></p>', '').replace('<div><br/></div>', '').replace('<p><span style="color:rgb(17,17,17);"><br/></span></p>', '').replace('<span><br/></span>', '').replace('<p> <br/></p>', '').replace('<h4><br/></h4>', '').replace('<p style="color:rgb(0,0,0);"><br/></p>', '').replace('<p><br/><br/><br/></p>', '').replace("<p><span style=\"font-family:'微軟正黑體';\"><br/></span><br/></p>", '').replace("<p style=\"font-family:'微軟正黑體';font-size:12pt;\"><span style=\"font-weight:bold;color:rgb(91,155,213);\"><br/></span></p>", '').replace('<p><span style="color:rgb(85,85,85);"><br/></span></p>', '').replace('<p><br/></p>', '').replace('<p><span style="color:rgb(80,78,78);"><br/></span></p>', '').replace('<p><span style="color:rgb(80,78,78);background-color:rgb(247,247,247);"><br/></span><br/></p>', '').replace('<span style="color:rgb(34,34,34);"><br/></span>', '').replace('<p><font color="#222222"><br/></font></p>', '').replace('<br/><br/>', '<br/>').replace('<p><font><font></font><br/></font><br/></p>', '').replace('<p><span><br/></span><br/></p>', '').replace('<p><span style="color:rgb(255,0,0);font-size:16px;"><br/></span></p>', '').replace('<p><span style="font-size:12pt;"><br/></span></p>', '').replace('<p><font style="background-color:rgb(255,255,0);"><br/></font><br/></p>', '').replace('<p><span style="font-size:20px;"><br/></span><br/></p>', '').replace('<p style="background-color:rgb(252,253,253);"><span style="background-color:rgb(255,255,255);"><br/></span></p>', '').replace('<br/><span style="background-color:rgb(255,253,247);"> </span><br/>', '').replace('<p><span style="font-weight:700;"><br/></span></p>', '').replace('<p><span style="color:rgb(0,0,255);font-weight:700;"><br/></span></p>', '').replace('<p><font color="#222222"><b><br/></b></font><br/></p>', '').replace('<span style="background-color:rgb(206,231,247);', '<span style="background-color:#bdbdbd94;').replace('<span style="background-color:rgb(206,222,231);', '<span style="background-color:#bdbdbd94;').replace('<span style="background-color:rgb(214,214,231);', '<span style="background-color:#bdbdbd94;').replace('<span style="background-color:rgb(255,255,0);', '<span style="background-color:#bdbdbd94;').replace('<span style="background-color:rgb(0,255,255);', '<span style="background-color:#bdbdbd94;').replace('<span style="background-color:rgb(214,239,214);', '<span style="background-color:#bdbdbd94;').replace('<span style="background-color:rgb(74,123,140);', '<span style="background-color:#bdbdbd94;').replace('<span style="background-color:rgb(67,109,134);', '<span style="background-color:#bdbdbd94;').replace('<span style="background-color:rgb(228,246,246);', '<span style="background-color:#bdbdbd94;').replace('<span style="background-color:rgb(255,156,0);', '<span style="background-color:#bdbdbd94;').replace('<span style="background-color:rgb(255,231,206);', '<span style="background-color:#bdbdbd94;').replace('<span style="background-color:rgb(255,239,198);', '<span style="background-color:#bdbdbd94;').replace('<span style="background-color:rgb(252,248,227);', '<span style="background-color:#bdbdbd94;').replace('<span style="background-color:rgb(247,198,206);', '<span style="background-color:#bdbdbd94;').replace('<span style="background-color:rgb(231,214,222);', '<span style="background-color:#bdbdbd94;').replace('<span style="background-color:rgb(0,0,255);', '<span style="background-color:#bdbdbd94;').replace('</span></h6>', '</span></h4>').replace('<h6><span>', '<h4><span>')
+
             bad_string_free_html = bad_string_free_html.replace(
                 '<br/>(', '@*@*').replace('<br/>', '').replace('@*@*', '<br/>(')
             space_free_html = " ".join(bad_string_free_html.split())

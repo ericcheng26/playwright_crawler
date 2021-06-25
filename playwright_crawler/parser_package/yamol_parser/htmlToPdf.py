@@ -31,18 +31,13 @@ parser.add_argument('--hdfr', type=bool, default=True,
 
 async def html_to_pdf():
     args = parser.parse_args()
-
-    # 如果是screen模式，顯示背景色; 除外，不顯示背景色
-    if args.convertmode == 'screen':
-        bool_background = True
-    else:
-        bool_background = False
-
     _pw = await async_playwright().start()
+
     # pdf creation only work in chromium headless mode
     _browser = await _pw.chromium.launch(headless=True)
     _context = await _browser.new_context(color_scheme=f"{args.schemecolor}")
     page = await _context.new_page()
+
     # 對資料夾內的檔案，讀取檔名，用瀏覽器開啟檔案後產生pdf
     dir_path, _, filenames = next(walk(args.htmlpath))
     for filename in filenames:
@@ -56,14 +51,14 @@ async def html_to_pdf():
             display_header_footer=args.hdfr,
             path=f"{args.pdfpath}/{filename.split('.')[0]}.pdf",
             format=f'{args.papersize}',
-            print_background=bool_background,
+            print_background=True,
             header_template='<div style="color: lightgray; border-top: solid lightgray 1px; font-size: 10px; text-align: center; width: 100%;"><span class="date" style="display:none"> </span>',
             footer_template='<div style="color: lightgray; border-top: solid lightgray 1px; font-size: 10px; text-align: center; width: 100%;"><span class="title"> </span> [ <span class="pageNumber"> </span> - <span class="totalPages"> </span> ] </div>',
             margin={
-                'bottom': '1.5cm',
-                'left': '1.5cm',
-                'right': '1.5cm',
-                'top': '1.5cm',
+                'bottom': '1cm',
+                'left': '0cm',
+                'right': '0cm',
+                'top': '1cm',
             }
         )
         print(f"===========\nThe Pdf of {filename} is done...\n===========")
