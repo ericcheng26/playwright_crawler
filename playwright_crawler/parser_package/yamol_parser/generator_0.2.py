@@ -159,6 +159,13 @@ def generator(single_json_path):
       border-bottom: 5px double black;
       padding:0cm;
     }
+    p{
+      display: block;
+      margin-block-start: auto;
+      margin-block-end: 5px;
+      margin-inline-start: 0px;
+      margin-inline-end: 0px;
+    }
 
     hr{
       display: table-cell;
@@ -527,7 +534,7 @@ def RemoveRedundantString(html_soup_path):
                 '<p><span style="color:rgb(51,51,51);"><br/></span></p>', '').replace(
                 '<p style="color:rgb(34,34,34);"><br/></p>', '').replace('<p><font color="#3152a9"><span style="background-color:rgb(255,255,255);font-size:11.7px;"><br/></span></font></p>', '').replace('<p><span style="color:rgb(34,34,34);"><br/></span></p>', '').replace('<p><spastyle><br/><br/></spastyle></p>', '').replace('<p><font><br/></font></p>', '').replace('<p><span style="font-size:20px;"><br/></span></p>', '').replace('<p style="color:rgb(68,68,68);"><br/></p>', '').replace('<p><span style="color:rgb(68,68,68);"><br/></span></p>', '').replace('<p><span style="font-size:1.1em;"><br/></span></p>', '').replace('<p><span style="color:rgb(51,51,51);font-size:14pt;"><br/></span></p>', '').replace('<span style="font-size:1.1em;"><br/></span>', '').replace('<span style="font-size:16.94px;"><br/></span>', '').replace('<p><b><span style="font-size:14px;"><br/></span></b></p>', '').replace('<p style="font-size:12pt;"> </p>', '').replace('<p><span style="font-size:15.4px;"><br/></span></p>', '').replace('<p><span style="font-size:15.4px;"><br/></span><br/></p>', '').replace('<p><span style="font-size:15.6px;"><br/></span><br/></p>', '').replace('<div><br/></div>', '').replace('<p><span style="color:rgb(17,17,17);"><br/></span></p>', '').replace('<span><br/></span>', '').replace('<p> <br/></p>', '').replace('<h4><br/></h4>', '').replace('<p style="color:rgb(0,0,0);"><br/></p>', '').replace('<p><br/><br/><br/></p>', '').replace("<p><span style=\"font-family:'微軟正黑體';\"><br/></span><br/></p>", '').replace("<p style=\"font-family:'微軟正黑體';font-size:12pt;\"><span style=\"font-weight:bold;color:rgb(91,155,213);\"><br/></span></p>", '').replace('<p><span style="color:rgb(85,85,85);"><br/></span></p>', '').replace('<p><br/></p>', '').replace('<p><span style="color:rgb(80,78,78);"><br/></span></p>', '').replace('<p><span style="color:rgb(80,78,78);background-color:rgb(247,247,247);"><br/></span><br/></p>', '').replace('<span style="color:rgb(34,34,34);"><br/></span>', '').replace('<p><font color="#222222"><br/></font></p>', '').replace('<br/><br/>', '<br/>').replace('<p><font><font></font><br/></font><br/></p>', '').replace('<p><span><br/></span><br/></p>', '').replace('<p><span style="color:rgb(255,0,0);font-size:16px;"><br/></span></p>', '').replace('<p><span style="font-size:12pt;"><br/></span></p>', '').replace('<p><font style="background-color:rgb(255,255,0);"><br/></font><br/></p>', '').replace('<p><span style="font-size:20px;"><br/></span><br/></p>', '').replace('<p style="background-color:rgb(252,253,253);"><span style="background-color:rgb(255,255,255);"><br/></span></p>', '').replace('<br/><span style="background-color:rgb(255,253,247);"> </span><br/>', '').replace('<p><span style="font-weight:700;"><br/></span></p>', '').replace('<p><span style="color:rgb(0,0,255);font-weight:700;"><br/></span></p>', '').replace('<p><font color="#222222"><b><br/></b></font><br/></p>', '')
             bad_string_free_html = bad_string_free_html.replace(
-                '<br/>(', '+++').replace('<br/>', '').replace('+++', '<br/>(')
+                '<br/>(', '@*@*').replace('<br/>', '').replace('@*@*', '<br/>(')
             space_free_html = " ".join(bad_string_free_html.split())
             f.seek(0)
             f.write(space_free_html)
