@@ -1,5 +1,6 @@
 import asyncio
 from playwright.async_api import async_playwright
+import time
 
 
 async def main(playwright):
@@ -30,52 +31,46 @@ async def main(playwright):
     # Fill [placeholder="Password"]
     await page.frame(name="LBR_Body").fill(
         "[placeholder=\"Password\"]", "HACKER26")
+    # Press Tab
+    await page.frame(name="LBR_Body").press("[placeholder=\"Password\"]", "Tab")
 
-    # Check [placeholder="Password tabindex="]
-    await page.frame(name="LBR_Body").check(
-        "[placeholder=\"Password tabindex=\"]")
+    Verification_word = input('請輸入驗證碼')
+    await page.frame(name="LBR_Body").fill("[placeholder=\"請在此輸入驗證碼\"]", f"{Verification_word}")
 
     # Click input:has-text("登入")
     await page.frame(name="LBR_Body").click("input:has-text(\"登入\")")
 
-    # Click text=分類瀏覽
-    await page.frame(name="LBR_Body").click("text=分類瀏覽")
     # 每次先選擇不同類別，再做相同行爲
     # 行爲=抓取所有"出處xxxx"的element，然後將文字取出
-    # 嘗試：取出文字後下一頁，並執行"行爲"，直到
+    # 嘗試：取出文字後下一頁，並執行"行爲"，直到沒有目標
+    # 分類號碼從44~97
     for x in range(44, 98):
+        # Click text=分類瀏覽
+        await page.frame(name="LBR_Body").click("text=分類瀏覽")
+
         await page.frame(name="LBR_Body").select_option("select[name=\"s_Question_Subject\"]", f"SUB-0{x}")
+
         await page.frame(name="LBR_Body").click("text=送出")
-    # 找出含有"出處: 民國xxxxx" 的element並用list裝起來
+        print('wait 18sec, cause server too bird')
+        time.sleep(18)
+        # 找出含有"出處: 民國xxxxx" 的element並用list裝起來
         list_lv0element_handle = page.frame(name="LBR_Body").query_selector_all(
             'text=/出處: 民國 \d{2,3} 年-寒?暑?期 獸醫[\u4e00-\u9fa5]*學 第 \d{1,2} 題/')
         # 從element list 逐個取出element內部文字
         # 並存進json
-        for x in list_lv0element_handle:
-            str_lv0element = x.text_content()
-            json_container.join()
-        # 返回分類瀏覽
-        await page.frame(name="LBR_Body").click("img")
+        try:
+            while True:
+                await page.frame(name="LBR_Body").click("text=下一頁")
+                print('wait 18sec, cause server too bird')
+                time.sleep(18)
+                list_lv1element_handle = page.frame(name="LBR_Body").query_selector_all(
+                    'text=/出處: 民國 \d{2,3} 年-寒?暑?期 獸醫[\u4e00-\u9fa5]*學 第 \d{1,2} 題/')
+                list_lv0element_handle = list_lv0element_handle+list_lv1element_handle
+        except:
+            pass
 
-    # Select SUB-045
-    await page.frame(name="LBR_Body").select_option(
-        "select[name=\"s_Question_Subject\"]", "SUB-045")
-
-    # Click text=送出
-    await page.frame(name="LBR_Body").click("text=送出")
-
-    # Click img
-    await page.frame(name="LBR_Body").click("img")
-
-    # Select SUB-097
-    await page.frame(name="LBR_Body").select_option(
-        "select[name=\"s_Question_Subject\"]", "SUB-097")
-
-    # Click text=送出
-    await page.frame(name="LBR_Body").click("text=送出")
-
-    # Click img
-    await page.frame(name="LBR_Body").click("img")
+        # Click text=作答平台
+        page.frame(name="LBR_Banner").click("text=作答平台")
 
     # Close page
     await page.close()
