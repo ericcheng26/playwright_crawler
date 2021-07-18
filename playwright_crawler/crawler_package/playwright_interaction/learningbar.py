@@ -56,8 +56,8 @@ async def main(playwright):
         # 找出含有"出處: 民國xxxxx" 的element並用list裝起來
         list_lv0element_handle = page.frame(name="LBR_Body").query_selector_all(
             'text=/出處: 民國 \d{2,3} 年-寒?暑?期 獸醫[\u4e00-\u9fa5]*學 第 \d{1,2} 題/')
-        # 從element list 逐個取出element內部文字
-        # 並存進json
+        # 一個分類，儲存一個檔案
+        # 每個分類未必擁有"下一頁"按鈕
         try:
             while True:
                 await page.frame(name="LBR_Body").click("text=下一頁")
@@ -66,8 +66,12 @@ async def main(playwright):
                 list_lv1element_handle = page.frame(name="LBR_Body").query_selector_all(
                     'text=/出處: 民國 \d{2,3} 年-寒?暑?期 獸醫[\u4e00-\u9fa5]*學 第 \d{1,2} 題/')
                 list_lv0element_handle = list_lv0element_handle+list_lv1element_handle
+            # TODO 存成txt
+            list_lv0element_handle
         except:
-            pass
+            print("No 'Next Page to click'")
+            # TODO 存成txt
+            list_lv0element_handle
 
         # Click text=作答平台
         page.frame(name="LBR_Banner").click("text=作答平台")
